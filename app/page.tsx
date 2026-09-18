@@ -50,6 +50,7 @@ import { Logo } from '@/components/ui/Logo';
 import { Button } from '@/components/ui/button';
 
 import { ResponsiveShowcase } from '@/components/landing/ResponsiveShowcase';
+import { HeroInteractiveStage } from '@/components/landing/HeroInteractiveStage';
 //
 import { AtmosphericCanvas } from '@/components/landing/AtmosphericCanvas';
 import { LuminousDivider } from '@/components/landing/LuminousDivider';
@@ -627,77 +628,12 @@ export default function BeatFlowLandingPage() {
             </div>
           </div>
 
-          {/* Right Column: High-End 3D Motion Core */}
-          <div className="hidden lg:flex w-[46%] flex-col items-center justify-center relative z-20 [perspective:1200px]">
-            {/* Volumetric ambient glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-[#8A3FFC]/30 via-[#00D1FF]/20 to-transparent blur-[100px] pointer-events-none -z-10 rounded-full" />
-            
-            <div className="relative w-[440px] h-[440px] flex items-center justify-center [transform-style:preserve-3d]">
-              
-              {/* Core Sphere */}
-              <motion.div 
-                animate={{ scale: [1, 1.05, 1], rotateY: [0, 360] }}
-                transition={{ 
-                  scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-                  rotateY: { duration: 25, repeat: Infinity, ease: "linear" }
-                }}
-                className="absolute z-10 w-32 h-32 rounded-full bg-gradient-to-tr from-[#8A3FFC] to-[#00D1FF] shadow-[0_0_80px_rgba(138,63,252,0.8)] flex items-center justify-center overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-white/20 mix-blend-overlay backdrop-blur-md" />
-                <Disc3 className="w-12 h-12 text-white animate-[spin_10s_linear_infinite]" />
-              </motion.div>
-
-              {/* Orbital Ring 1 (Cyan) */}
-              <motion.div 
-                animate={{ rotateX: [60, 60], rotateY: [0, 360], rotateZ: [0, 360] }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-4 rounded-full border-[1px] border-[#00D1FF]/40 shadow-[inset_0_0_20px_rgba(0,209,255,0.1)]"
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#00D1FF] rounded-full shadow-[0_0_20px_#00D1FF]" />
-              </motion.div>
-
-              {/* Orbital Ring 2 (Purple) */}
-              <motion.div 
-                animate={{ rotateX: [75, 75], rotateY: [360, 0], rotateZ: [0, -360] }}
-                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-12 rounded-full border-[2px] border-[#8A3FFC]/30 shadow-[0_0_30px_rgba(138,63,252,0.15)]"
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#8A3FFC] rounded-full shadow-[0_0_15px_#8A3FFC]" />
-              </motion.div>
-
-              {/* Data Node: Agenda Sync */}
-              <motion.div 
-                animate={{ y: [-15, 15, -15], rotateY: [-10, 10, -10] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -right-4 top-16 p-3.5 rounded-2xl bg-[#0A0C14]/80 border border-white/10 backdrop-blur-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] flex items-center gap-3 z-30"
-              >
-                <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                  <Calendar className="w-5 h-5 text-emerald-400" />
-                </div>
-                <div className="pr-2">
-                  <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-0.5">Live Sync</p>
-                  <p className="text-sm font-bold text-white">Agenda Conectada</p>
-                </div>
-              </motion.div>
-
-              {/* Data Node: Contract */}
-              <motion.div 
-                animate={{ y: [15, -15, 15], rotateY: [10, -10, 10] }}
-                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -left-12 bottom-24 p-3.5 rounded-2xl bg-[#0A0C14]/80 border border-white/10 backdrop-blur-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] flex items-center gap-3 z-30"
-              >
-                <div className="w-10 h-10 rounded-full bg-[#00D1FF]/20 flex items-center justify-center">
-                  <FileText className="w-5 h-5 text-[#00D1FF]" />
-                </div>
-                <div className="pr-2">
-                  <p className="text-[10px] font-bold text-[#00D1FF] uppercase tracking-widest mb-0.5">Automated</p>
-                  <p className="text-sm font-bold text-white">Rider & Contratos</p>
-                </div>
-              </motion.div>
-              
-            </div>
+          {/* Right Column: Interactive 3D Phone & Live DJ Stage Simulator */}
+          <div className="w-full lg:w-[46%] flex flex-col items-center justify-center relative z-20 pt-8 lg:pt-0">
+            <HeroInteractiveStage 
+              djHandle={djHandleInput} 
+              onClaim={handleClaimSlug} 
+            />
           </div>
 
         </div>
