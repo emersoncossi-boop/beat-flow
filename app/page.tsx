@@ -1056,7 +1056,7 @@ export default function BeatFlowLandingPage() {
             </div>
 
             {/* Direita: Benefícios (6 listados na doc) */}
-            <div className="w-full lg:w-1/2 flex sm:grid sm:grid-cols-2 gap-4 sm:gap-6 overflow-x-auto sm:overflow-visible pb-6 sm:pb-0 snap-x snap-mandatory hide-scrollbar -mx-5 px-5 sm:mx-0 sm:px-0">
+            <div className="w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               {[
                 {
                   title: "PRESENÇA PROFISSIONAL",
@@ -1102,7 +1102,7 @@ export default function BeatFlowLandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="min-w-[85vw] sm:min-w-0 snap-center p-6 rounded-[20px] bg-[#0A0D14]/90 border border-white/5 hover:border-white/20 transition-all duration-300 relative group overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:shadow-[0_15px_40px_rgba(138,63,252,0.15)]"
+                  className="w-full p-6 rounded-[20px] bg-[#0A0D14]/90 border border-white/5 hover:border-white/20 transition-all duration-300 relative group overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:shadow-[0_15px_40px_rgba(138,63,252,0.15)]"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/5 blur-2xl group-hover:bg-white/10 transition-colors duration-500 pointer-events-none" />
@@ -1174,7 +1174,7 @@ export default function BeatFlowLandingPage() {
               />
             </div>
 
-            <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 overflow-x-auto md:overflow-visible pb-8 md:pb-0 snap-x snap-mandatory hide-scrollbar relative z-10 -mx-5 px-5 sm:mx-0 sm:px-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 relative z-10">
               {workflowSteps.map((stepItem, idx) => {
                 const StepIcon = stepItem.icon;
                 const stepTags = [
@@ -1188,7 +1188,7 @@ export default function BeatFlowLandingPage() {
                     key={idx}
                     whileHover={{ y: -8, scale: 1.02 }}
                     transition={{ duration: 0.3 }}
-                    className="min-w-[85vw] md:min-w-0 snap-center p-8 rounded-[24px] bg-[#10111E]/90 border border-white/10 hover:border-[#8A3FFC]/50 transition-all duration-300 relative group flex flex-col justify-between backdrop-blur-2xl shadow-[0_15px_35px_rgba(0,0,0,0.5)] hover:shadow-[0_25px_50px_rgba(138,63,252,0.2)] overflow-hidden"
+                    className="w-full p-8 rounded-[24px] bg-[#10111E]/90 border border-white/10 hover:border-[#8A3FFC]/50 transition-all duration-300 relative group flex flex-col justify-between backdrop-blur-2xl shadow-[0_15px_35px_rgba(0,0,0,0.5)] hover:shadow-[0_25px_50px_rgba(138,63,252,0.2)] overflow-hidden"
                   >
                     {/* Top ambient highlight line */}
                     <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#8A3FFC]/40 to-transparent group-hover:via-[#00D1FF] transition-all" />
@@ -1270,7 +1270,7 @@ export default function BeatFlowLandingPage() {
           </motion.div>
 
           {/* 3 Executive Segment Cards */}
-          <div className="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible pb-8 md:pb-0 snap-x snap-mandatory hide-scrollbar -mx-5 px-5 sm:mx-0 sm:px-0">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {djSegments.map((segment, i) => {
               return (
                 <motion.div 
@@ -1279,7 +1279,7 @@ export default function BeatFlowLandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="min-w-[88vw] sm:min-w-[460px] lg:min-w-0 snap-center rounded-2xl bg-[#0B0F17] border border-[#1C2536] hover:border-zinc-600/70 transition-all duration-300 group flex flex-col justify-between shadow-xl relative overflow-hidden text-left"
+                  className="w-full rounded-2xl bg-[#0B0F17] border border-[#1C2536] hover:border-zinc-600/70 transition-all duration-300 group flex flex-col justify-between shadow-xl relative overflow-hidden text-left"
                 >
                   <div className="relative z-10 flex flex-col h-full">
                     {/* Header bar */}
