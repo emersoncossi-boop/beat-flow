@@ -146,11 +146,11 @@ export default function BeatFlowLandingPage() {
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleKeyDown);
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "";
     }
 
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [selectedDetailSegment]);
@@ -168,18 +168,16 @@ export default function BeatFlowLandingPage() {
   };
 
   const handleFieldChange = (index: number, field: "date" | "venue" | "contact" | "soundcloudUrl", value: string) => {
-    setQuickBookData(prev => ({
-      ...prev,
-      [index]: {
-        ...prev[index],
-        date: field === "date" ? value : (prev[index]?.date || ""),
-        venue: field === "venue" ? value : (prev[index]?.venue || ""),
-        contact: field === "contact" ? value : (prev[index]?.contact || ""),
-        soundcloudUrl: field === "soundcloudUrl" ? value : (prev[index]?.soundcloudUrl || ""),
-        submitted: prev[index]?.submitted || false,
-        submitting: false
-      }
-    }));
+    setQuickBookData(prev => {
+      const current = prev[index] || { date: "", venue: "", contact: "", soundcloudUrl: "", submitted: false, submitting: false };
+      return {
+        ...prev,
+        [index]: {
+          ...current,
+          [field]: value
+        }
+      };
+    });
   };
 
   const handleSubmitQuickBook = (index: number) => {
@@ -427,18 +425,15 @@ export default function BeatFlowLandingPage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] animate-pulse" />
                 <span>Atmosferas</span>
               </a>
-              <a href="#tudo-em-um-so-lugar" className="hover:text-white transition-colors">
-                Eventos
-              </a>
               <a href="#como-funciona" className="hover:text-white transition-colors">
-                Oportunidades
+                Como Funciona
+              </a>
+              <a href="#booking-command-center" className="hover:text-white transition-colors">
+                Contratar DJ
               </a>
               <a href="#para-quem-e" className="hover:text-white transition-colors">
-                Preços
+                Para quem é
               </a>
-              <Link href="/explorar" className="hover:text-white transition-colors">
-                Blog
-              </Link>
             </nav>
           </div>
 
@@ -481,14 +476,17 @@ export default function BeatFlowLandingPage() {
             <Link href="/explorar" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-white py-2">
               Artistas
             </Link>
-            <a href="#tudo-em-um-so-lugar" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-white py-2">
-              Eventos
+            <a href="#atmosferas-e-universos" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-white py-2">
+              Atmosferas
             </a>
             <a href="#como-funciona" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-white py-2">
-              Oportunidades
+              Como Funciona
+            </a>
+            <a href="#booking-command-center" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-white py-2">
+              Contratar DJ
             </a>
             <a href="#para-quem-e" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-white py-2">
-              Preços
+              Para quem é
             </a>
             <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
               <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
