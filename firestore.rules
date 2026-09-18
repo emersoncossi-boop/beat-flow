@@ -2,40 +2,68 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Helper function to check if user is authenticated
+    // Helper functions
     function isAuthenticated() {
       return request.auth != null;
     }
     
-    // Helper to check if user is owner of document
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
-    // User profile: public read for discovery, owner write
-    match /users/{userId}/profile {
-      allow read: if true;
-      allow write: if isOwner(userId) || !isAuthenticated();
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == "admin@beatflow.me" ||
+        request.auth.token.role == "superadmin" ||
+        request.auth.token.admin == true
+      );
     }
 
-    // Bookings collection: 
-    // - Visitors can create new bookings without logging in (Visitor never logs in requirement)
-    // - DJs can read and update their bookings
-    // - Anyone with bookingId can access for private room discussion
-    match /bookings/{bookingId} {
-      allow read, create, update: if true;
-      allow delete: if isAuthenticated();
+    // 1. User / DJ Profile (Public read for discovery, owner write, admin all)
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'isSuperAdmin', 'subscriptionPlan'])) || isAdmin();
+      allow delete: if isOwner(userId) || isAdmin();
 
-      // Messages in private room
-      match /messages/{messageId} {
-        allow read, create, update: if true;
-        allow delete: if isAuthenticated();
+      match /profile/{docId} {
+        allow read: if true;
+        allow write: if isOwner(userId) || isAdmin();
+      }
+
+      match /tracks/{trackId} {
+        allow read: if true;
+        allow write: if isOwner(userId) || isAdmin();
+      }
+
+      match /tourDates/{dateId} {
+        allow read: if true;
+        allow write: if isOwner(userId) || isAdmin();
       }
     }
 
-    // Default fallback
+    // 2. Proposals / Bookings (Contractor create, Owner & Contractor read, Owner update status)
+    match /proposals/{proposalId} {
+      allow create: if true; // Public contractors can submit booking proposals
+      allow read: if isAuthenticated() && (resource.data.djId == request.auth.uid || resource.data.contractorUid == request.auth.uid || isAdmin());
+      allow update: if isAuthenticated() && (resource.data.djId == request.auth.uid || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // 3. Subscriptions & Payments (Strict: Admin & System only write)
+    match /subscriptions/{subId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    // 4. Admin Audit Logs & Analytics
+    match /admin_metrics/{docId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Default deny for unhandled paths
     match /{document=**} {
-      allow read, write: if true;
+      allow read, write: if isAdmin();
     }
   }
 }
