@@ -1,33 +1,35 @@
-'use client';
-
 import React from 'react';
-import { useParams } from 'next/navigation';
-import { databaseService } from '@/lib/database-service';
+import { notFound } from 'next/navigation';
 import { ArtistExperience } from '@/components/artist-experience/ArtistExperience';
+import { getArtistProfile } from '@/lib/artist-universe';
 
-export default function PublicPressKit() {
-  const params = useParams();
-  const slug = (params?.slug as string) || 'luna-martins';
+interface PageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
 
-  // Fetch profile from database or fall back to default
-  const dbProfile = databaseService.getProfileBySlug(slug);
+export async function generateMetadata({ params }: PageProps) {
+  const { slug } = await params;
+  const profile = getArtistProfile(slug);
 
-  const initialDjData = {
-    name: dbProfile?.artistic_name || (slug === 'djskyline' ? 'DJ Skyline' : 'Luna Martins'),
-    location: dbProfile?.city_base || 'São Paulo - SP',
-    genres: dbProfile?.genres?.length ? dbProfile.genres : ['Melodic Techno', 'Tech House', 'Deep House'],
-    bio: dbProfile?.bio_text,
-    minFee: dbProfile?.fee_range_min || 3500,
-    avatarUrl: dbProfile?.live_photos_urls?.[0] || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop',
-    coverUrl: dbProfile?.live_photos_urls?.[1] || '/assets/landing/hero-dj-stage.jpg',
+  return {
+    title: `${profile.name} — Perfil Oficial Beat Flow`,
+    description: `${profile.name} (${profile.tagline}). Press Kit Oficial, Música, Agenda e Pedidos de Booking em ${profile.location}.`,
+    openGraph: {
+      title: `${profile.name} — Perfil Oficial`,
+      description: profile.bioShort,
+      images: [{ url: profile.heroImage }],
+    },
   };
+}
+
+export default async function ArtistSlugPage({ params }: PageProps) {
+  const { slug } = await params;
 
   return (
-    <main className="min-h-screen bg-[#05070B]">
-      <ArtistExperience 
-        djSlug={slug}
-        initialDjData={initialDjData}
-      />
+    <main className="min-h-screen bg-[#05060A]">
+      <ArtistExperience djSlug={slug} />
     </main>
   );
 }
