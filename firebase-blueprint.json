@@ -1,0 +1,93 @@
+{
+  "entities": {
+    "userProfile": {
+      "title": "User / DJ Profile",
+      "description": "Perfil profissional do DJ ou usuário autenticado na plataforma Beat Flow",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "ID do usuário" },
+        "email": { "type": "string", "format": "email", "description": "E-mail do DJ" },
+        "artisticName": { "type": "string", "description": "Nome artístico" },
+        "slug": { "type": "string", "description": "Slug de URL pública do perfil" },
+        "role": { "type": "string", "description": "Cargo ou ocupação (ex: DJ • PRODUTORA)" },
+        "bio": { "type": "string", "description": "Biografia artística" },
+        "city": { "type": "string", "description": "Cidade e estado de atuação" },
+        "tours": { "type": "string", "description": "Abrangência de apresentações" },
+        "genres": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Gêneros musicais"
+        },
+        "followersCount": { "type": "number", "description": "Contagem de seguidores" },
+        "eventsCount": { "type": "number", "description": "Eventos realizados" },
+        "rating": { "type": "number", "description": "Avaliação média" },
+        "avatarUrl": { "type": "string", "description": "URL do avatar" },
+        "coverUrl": { "type": "string", "description": "URL da capa" },
+        "availability": { "type": "string", "description": "Status de disponibilidade" },
+        "rateRange": { "type": "string", "description": "Faixa de cachê" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Data de criação" }
+      },
+      "required": ["id", "email", "artisticName", "slug"]
+    },
+    "bookingRequest": {
+      "title": "Booking Request",
+      "description": "Solicitação de proposta e contratação de DJ",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "ID do pedido" },
+        "djSlug": { "type": "string", "description": "Slug do DJ destinatário" },
+        "djName": { "type": "string", "description": "Nome do DJ" },
+        "visitorName": { "type": "string", "description": "Nome do contratante" },
+        "visitorContact": { "type": "string", "description": "Contato do contratante" },
+        "eventType": { "type": "string", "description": "Tipo de evento (Festa privada, Corporativo, etc.)" },
+        "eventDate": { "type": "string", "description": "Data prevista do evento" },
+        "eventLocation": { "type": "string", "description": "Local / Cidade do evento" },
+        "budgetRange": { "type": "string", "description": "Orçamento estimado" },
+        "notes": { "type": "string", "description": "Rider técnico e observações" },
+        "status": {
+          "type": "string",
+          "enum": ["novo", "em_negociacao", "proposta_enviada", "confirmado", "recusado"],
+          "description": "Status do pedido"
+        },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Data de criação" }
+      },
+      "required": ["id", "djSlug", "eventType", "eventDate", "eventLocation"]
+    },
+    "privateMessage": {
+      "title": "Private Room Message",
+      "description": "Mensagem trocada na sala privada entre DJ e contratante",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "ID da mensagem" },
+        "bookingId": { "type": "string", "description": "ID do pedido / sala" },
+        "sender": { "type": "string", "enum": ["dj", "visitor", "bot"], "description": "Remetente da mensagem" },
+        "text": { "type": "string", "description": "Conteúdo da mensagem" },
+        "time": { "type": "string", "description": "Horário formatado" },
+        "isCustomProposal": { "type": "boolean", "description": "Se inclui proposta formal" },
+        "proposalData": {
+          "type": "object",
+          "properties": {
+            "value": { "type": "string" },
+            "description": { "type": "string" }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp" }
+      },
+      "required": ["id", "bookingId", "sender", "text"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/profile": {
+      "schema": "userProfile",
+      "description": "Perfil individual do usuário DJ"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "bookingRequest",
+      "description": "Coleção global de pedidos e propostas de shows"
+    },
+    "/bookings/{bookingId}/messages/{messageId}": {
+      "schema": "privateMessage",
+      "description": "Subcoleção de mensagens da sala privada do pedido"
+    }
+  }
+}

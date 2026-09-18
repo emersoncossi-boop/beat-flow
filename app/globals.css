@@ -1,0 +1,154 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../public/assets/beatflow/BF_design-system.css";
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
+  --color-background: #08080F;
+  --color-background-elevated: #10111E;
+  --color-surface: rgba(18, 18, 32, 0.72);
+  --color-border: rgba(255, 255, 255, 0.10);
+  --color-primary: #8A3FFC;
+  --color-violet: #A855F7;
+  --color-blue: #3B82F6;
+  --color-cyan: #00D1FF;
+  --color-magenta: #FF4DDB;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: rgba(255, 255, 255, 0.72);
+  --color-text-muted: rgba(255, 255, 255, 0.48);
+}
+
+:root {
+  background-color: #080B0F;
+  color: #FFFFFF;
+  font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
+
+  /* Official Beat Flow Design Tokens */
+  --bf-bg-primary: #080B0F;
+  --bf-bg-secondary: #0D111A;
+  --bf-surface: #111827;
+  --bf-surface-elevated: #151B2A;
+  --bf-purple: #8A3FFC;
+  --bf-violet: #A855F7;
+  --bf-cyan: #00D1FF;
+  --bf-pink: #FF4DB8;
+  --bf-blue: #0066FF;
+  --bf-text: #F4F4F7;
+  --bf-text-secondary: #A7ADC0;
+  --bf-text-muted: #71788E;
+  --bf-success: #19D3A2;
+  --bf-warning: #F59E0B;
+  --bf-error: #F43F5E;
+  --bf-info: #38BDF8;
+  --bf-border: #303B51;
+  --bf-border-subtle: #202A3A;
+  --bf-border-active: #8A3FFC;
+  --bf-gradient-flow: linear-gradient(120deg, #00D1FF 0%, #8A3FFC 45%, #FF4DB8 100%);
+  --bf-gradient-deep: linear-gradient(180deg, #111827 0%, #080B0F 100%);
+  --bf-font: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bf-r-sm: 6px;
+  --bf-r-md: 10px;
+  --bf-r-lg: 16px;
+  --bf-r-xl: 24px;
+  --bf-r-pill: 999px;
+  --bf-shadow-card: 0 12px 36px rgba(0,0,0,.35);
+  --bf-glow: 0 0 24px rgba(138,63,252,.55);
+  --bf-glow-strong: 0 0 16px rgba(138,63,252,.9), 0 0 40px rgba(0,209,255,.25);
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
+  background-color: #080B0F;
+  color: #FFFFFF;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------------------------------------------------- */
+/* CUSTOM DARK / INVISIBLE SCROLLBAR - UX AUDIT FIX     */
+/* ---------------------------------------------------- */
+html, body, * {
+  scrollbar-width: thin;
+  scrollbar-color: #333333 transparent;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 9999px;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Utility to completely hide scrollbar while keeping scroll functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* RESPONSIVE BASELINE */
+.bf-container {
+  width: min(100% - 32px, 1440px);
+  margin-inline: auto;
+}
+.bf-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+@media (max-width: 1023px) {
+  .bf-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+@media (max-width: 767px) {
+  .bf-container {
+    width: calc(100% - 24px);
+  }
+  .bf-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+/* Official Gradient Text Utility */
+@utility text-gradient-flow {
+  background: linear-gradient(120deg, #00D1FF 0%, #8A3FFC 45%, #FF4DB8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Official Gradient Text Utility */
+@utility text-gradient-primary {
+  background: linear-gradient(135deg, #A855F7, #3B82F6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility text-gradient-neon {
+  background: linear-gradient(135deg, #C084FC, #A855F7, #38BDF8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

@@ -1,0 +1,15 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="halo-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="halo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D1FF" />
+      <stop offset="50%" stop-color="#8A3FFC" />
+      <stop offset="100%" stop-color="#FF4DB8" />
+    </linearGradient>
+  </defs>
+  <circle cx="128" cy="128" r="96" stroke="url(#halo-grad)" stroke-width="12" filter="url(#halo-glow)" opacity="0.95" />
+  <circle cx="128" cy="128" r="96" stroke="#FFFFFF" stroke-width="2" opacity="0.8" />
+</svg>

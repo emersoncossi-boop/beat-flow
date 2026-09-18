@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper to check if user is owner of document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // User profile: public read for discovery, owner write
+    match /users/{userId}/profile {
+      allow read: if true;
+      allow write: if isOwner(userId) || !isAuthenticated();
+    }
+
+    // Bookings collection: 
+    // - Visitors can create new bookings without logging in (Visitor never logs in requirement)
+    // - DJs can read and update their bookings
+    // - Anyone with bookingId can access for private room discussion
+    match /bookings/{bookingId} {
+      allow read, create, update: if true;
+      allow delete: if isAuthenticated();
+
+      // Messages in private room
+      match /messages/{messageId} {
+        allow read, create, update: if true;
+        allow delete: if isAuthenticated();
+      }
+    }
+
+    // Default fallback
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

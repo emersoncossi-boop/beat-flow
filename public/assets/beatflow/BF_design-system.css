@@ -1,0 +1,185 @@
+/* ==========================================================================
+   BEAT FLOW DESIGN SYSTEM — PRODUCTION CSS SPECIFICATION
+   Generated from BF_tokens.json & Production Assets
+   ========================================================================== */
+
+:root {
+  /* Color Palette - Backgrounds */
+  --bf-bg-primary: #080B0F;
+  --bf-bg-secondary: #0D111A;
+  --bf-surface: #111827;
+  --bf-surface-elevated: #151B2A;
+
+  /* Color Palette - Brand */
+  --bf-purple: #8A3FFC;
+  --bf-violet: #A855F7;
+  --bf-cyan: #00D1FF;
+  --bf-pink: #FF4DB8;
+  --bf-blue: #0066FF;
+
+  /* Color Palette - Typography */
+  --bf-text-primary: #F4F4F7;
+  --bf-text-secondary: #A7ADC0;
+  --bf-text-muted: #71788E;
+
+  /* Color Palette - Semantic */
+  --bf-semantic-success: #19D3A2;
+  --bf-semantic-warning: #F59E0B;
+  --bf-semantic-error: #F43F5E;
+  --bf-semantic-info: #38BDF8;
+
+  /* Borders */
+  --bf-border-subtle: #202A3A;
+  --bf-border-default: #303B51;
+  --bf-border-active: #8A3FFC;
+
+  /* Gradients */
+  --bf-gradient-flow: linear-gradient(120deg, #00D1FF 0%, #8A3FFC 45%, #FF4DB8 100%);
+  --bf-gradient-aurora: linear-gradient(135deg, #8A3FFC 0%, #FF4DB8 52%, #00D1FF 100%);
+  --bf-gradient-deep: linear-gradient(180deg, #111827 0%, #080B0F 100%);
+  --bf-gradient-frame: linear-gradient(135deg, #00D1FF 0%, #8A3FFC 50%, #FF4DB8 100%);
+  --bf-gradient-wave: linear-gradient(90deg, #FF4DB8 0%, #8A3FFC 50%, #00D1FF 100%);
+
+  /* Typography */
+  --bf-font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Spacing Scale */
+  --bf-space-1: 4px;
+  --bf-space-2: 8px;
+  --bf-space-3: 12px;
+  --bf-space-4: 16px;
+  --bf-space-5: 20px;
+  --bf-space-6: 24px;
+  --bf-space-8: 32px;
+  --bf-space-10: 40px;
+  --bf-space-12: 48px;
+  --bf-space-16: 64px;
+
+  /* Corner Radii */
+  --bf-radius-sm: 6px;
+  --bf-radius-md: 10px;
+  --bf-radius-lg: 16px;
+  --bf-radius-xl: 24px;
+  --bf-radius-pill: 999px;
+
+  /* Shadows & Glows */
+  --bf-shadow-card: 0 12px 36px rgba(0, 0, 0, 0.35);
+  --bf-shadow-glow: 0 0 24px rgba(138, 63, 252, 0.55);
+  --bf-shadow-glow-strong: 0 0 16px rgba(138, 63, 252, 0.9), 0 0 40px rgba(0, 209, 255, 0.25);
+  --bf-shadow-cyan-glow: 0 0 24px rgba(0, 209, 255, 0.45);
+  --bf-shadow-pink-glow: 0 0 24px rgba(255, 77, 184, 0.45);
+
+  /* Transitions */
+  --bf-motion-fast: 120ms;
+  --bf-motion-normal: 220ms;
+  --bf-motion-slow: 360ms;
+  --bf-motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ==========================================================================
+   UTILITY CLASSES & GRAPHIC ASSET INTEGRATIONS
+   ========================================================================== */
+
+/* BF Gradient Text */
+.bf-text-gradient-flow {
+  background: var(--bf-gradient-flow);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bf-text-gradient-aurora {
+  background: var(--bf-gradient-aurora);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Neon Graphic Frame (from BF_graphic-frame-neon.svg) */
+.bf-graphic-frame-neon {
+  position: relative;
+  border-radius: var(--bf-radius-xl);
+  background: var(--bf-surface);
+  border: 1px solid transparent;
+}
+.bf-graphic-frame-neon::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: var(--bf-gradient-frame);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Graphic Glow Orb (from BF_graphic-glow-orb.svg) */
+.bf-graphic-glow-orb {
+  background: radial-gradient(circle at 50% 50%, rgba(138, 63, 252, 0.8) 0%, rgba(168, 85, 247, 0.3) 50%, rgba(8, 11, 15, 0) 100%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* Graphic Halo Ring (from BF_graphic-halo-ring.svg) */
+.bf-graphic-halo-ring {
+  filter: drop-shadow(0 0 24px rgba(138, 63, 252, 0.8)) drop-shadow(0 0 45px rgba(0, 209, 255, 0.35));
+}
+
+/* Graphic Divider Gradient (from BF_graphic-divider-gradient.svg) */
+.bf-graphic-divider-gradient {
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 209, 255, 0.8) 25%, rgba(138, 63, 252, 1) 50%, rgba(255, 77, 184, 0.8) 75%, transparent 100%);
+}
+
+/* Brand Button: Primary (with official glow) */
+.bf-btn-primary {
+  background: linear-gradient(135deg, #7C3AED 0%, #8A3FFC 50%, #9333EA 100%);
+  color: #FFFFFF;
+  font-weight: 700;
+  border-radius: var(--bf-radius-lg);
+  box-shadow: var(--bf-shadow-glow);
+  transition: all var(--bf-motion-normal) var(--bf-motion-ease);
+}
+.bf-btn-primary:hover {
+  box-shadow: var(--bf-shadow-glow-strong);
+  transform: translateY(-1px);
+}
+
+/* Brand Button: Secondary */
+.bf-btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bf-border-default);
+  color: var(--bf-text-primary);
+  border-radius: var(--bf-radius-lg);
+  backdrop-filter: blur(12px);
+  transition: all var(--bf-motion-normal) var(--bf-motion-ease);
+}
+.bf-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--bf-border-active);
+}
+
+/* Card Surface */
+.bf-card {
+  background-color: var(--bf-bg-secondary);
+  border: 1px solid var(--bf-border-subtle);
+  border-radius: var(--bf-radius-xl);
+  box-shadow: var(--bf-shadow-card);
+}
+
+/* Neon Light-Leak Hover Utilities (Atmospheric Depth) */
+.bf-light-leak-purple {
+  background: radial-gradient(600px circle at 85% 10%, rgba(138, 63, 252, 0.32), rgba(168, 85, 247, 0.14) 38%, transparent 72%),
+              radial-gradient(400px circle at 10% 90%, rgba(0, 209, 255, 0.15), transparent 65%);
+}
+
+.bf-light-leak-cyan {
+  background: radial-gradient(600px circle at 85% 10%, rgba(0, 209, 255, 0.32), rgba(0, 102, 255, 0.14) 38%, transparent 72%),
+              radial-gradient(400px circle at 10% 90%, rgba(138, 63, 252, 0.15), transparent 65%);
+}
+
+.bf-light-leak-pink {
+  background: radial-gradient(600px circle at 85% 10%, rgba(255, 77, 184, 0.32), rgba(138, 63, 252, 0.14) 38%, transparent 72%),
+              radial-gradient(400px circle at 10% 90%, rgba(0, 209, 255, 0.15), transparent 65%);
+}

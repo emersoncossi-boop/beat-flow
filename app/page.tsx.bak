@@ -1,0 +1,1729 @@
+"use client";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import Image from "next/image";
+import Link from 'next/link';
+import { 
+  Play, 
+  Pause,
+  ArrowRight, 
+  Users, 
+  User,
+  Calendar, 
+  Send, 
+  Heart,
+  Share2, 
+  TrendingUp, 
+  X, 
+  Disc3,
+  Sparkles,
+  Sliders,
+  Menu,
+  CheckCircle2,
+  Headphones,
+  FileText,
+  Volume2,
+  Maximize2,
+  Zap,
+  Info,
+  Layers,
+  Radio,
+  Music,
+  ChevronDown
+} from 'lucide-react';
+import { Logo } from '@/components/ui/Logo';
+import { Button } from '@/components/ui/button';
+
+import { ResponsiveShowcase } from '@/components/landing/ResponsiveShowcase';
+import { FloatingPlayer } from '@/components/landing/FloatingPlayer';
+import { AtmosphericCanvas } from '@/components/landing/AtmosphericCanvas';
+import { LuminousDivider } from '@/components/landing/LuminousDivider';
+
+export default function BeatFlowLandingPage() {
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isPlayingPreview, setIsPlayingPreview] = useState(false);
+  const [djHandleInput, setDjHandleInput] = useState("");
+  const [openQuickBookIndex, setOpenQuickBookIndex] = useState<number | null>(null);
+  const [expandedBioIndices, setExpandedBioIndices] = useState<Record<number, boolean>>({});
+  const [quickBookData, setQuickBookData] = useState<Record<number, { date: string; venue: string; soundcloudUrl?: string; contact: string; submitted: boolean; submitting: boolean }>>({});
+  const [selectedDetailSegment, setSelectedDetailSegment] = useState<{
+    title: string;
+    subtitle: string;
+    description: string;
+    badge: string;
+    bio: string;
+    genre: string;
+    experience: string;
+    performanceFormat: string;
+    rider: {
+      players: string;
+      mixer: string;
+      booth: string;
+      power: string;
+      mic: string;
+      connections: string;
+      stageNotes: string;
+    };
+    highlights: string[];
+    tagText: string;
+    accentColor: string;
+    gradientClass: string;
+  } | null>(null);
+
+  // Close detail modal on Escape key and lock body scroll
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedDetailSegment(null);
+      }
+    };
+
+    if (selectedDetailSegment) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedDetailSegment]);
+
+  const handleToggleQuickBook = (index: number) => {
+    setOpenQuickBookIndex(prev => prev === index ? null : index);
+  };
+
+  const handleToggleBio = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedBioIndices(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }));
+  };
+
+  const handleFieldChange = (index: number, field: "date" | "venue" | "contact" | "soundcloudUrl", value: string) => {
+    setQuickBookData(prev => ({
+      ...prev,
+      [index]: {
+        ...prev[index],
+        date: field === "date" ? value : (prev[index]?.date || ""),
+        venue: field === "venue" ? value : (prev[index]?.venue || ""),
+        contact: field === "contact" ? value : (prev[index]?.contact || ""),
+        soundcloudUrl: field === "soundcloudUrl" ? value : (prev[index]?.soundcloudUrl || ""),
+        submitted: prev[index]?.submitted || false,
+        submitting: false
+      }
+    }));
+  };
+
+  const handleSubmitQuickBook = (index: number) => {
+    setQuickBookData(prev => ({
+      ...prev,
+      [index]: {
+        ...prev[index],
+        submitting: true
+      }
+    }));
+
+    setTimeout(() => {
+      setQuickBookData(prev => ({
+        ...prev,
+        [index]: {
+          ...prev[index],
+          submitting: false,
+          submitted: true
+        }
+      }));
+    }, 600);
+  };
+
+  const handleResetQuickBook = (index: number) => {
+    setQuickBookData(prev => ({
+      ...prev,
+      [index]: {
+        date: "",
+        venue: "",
+        contact: "",
+        soundcloudUrl: "",
+        submitted: false,
+        submitting: false
+      }
+    }));
+  };
+
+  // Configurable statistics array (Placeholders as specified in prompt)
+  const stats = [
+    { value: "12K+", label: "DJs no Beat Flow" },
+    { value: "280K+", label: "Conexões criadas" },
+    { value: "1.2K+", label: "Eventos e oportunidades" }
+  ];
+
+  // 4 Core Value Cards ("Tudo o que um DJ precisa em um só lugar")
+  const coreFeatures = [
+    {
+      id: "perfil-completo",
+      mod: "MOD.01",
+      tag: "DISCOGRAFIA & BIO",
+      icon: Disc3,
+      title: "Seu perfil completo",
+      description: "Música, bio, redes e mais.",
+      color: "text-[#C084FC]",
+      accentGlow: "rgba(138,63,252,0.35)",
+      borderColor: "hover:border-[#8A3FFC]/50",
+      glowColor: "group-hover:bg-[#8A3FFC]/10"
+    },
+    {
+      id: "novas-oportunidades",
+      mod: "MOD.02",
+      tag: "SMART CALENDAR",
+      icon: Calendar,
+      title: "Novas oportunidades",
+      description: "Eventos, gigs e collabs.",
+      color: "text-[#FF4DDB]",
+      accentGlow: "rgba(255,77,219,0.35)",
+      borderColor: "hover:border-[#FF4DDB]/50",
+      glowColor: "group-hover:bg-[#FF4DDB]/10"
+    },
+    {
+      id: "conexao-real",
+      mod: "MOD.03",
+      tag: "P2P NETWORKING",
+      icon: Users,
+      title: "Conexão real",
+      description: "Com pessoas que vivem música.",
+      color: "text-[#00D1FF]",
+      accentGlow: "rgba(0,209,255,0.35)",
+      borderColor: "hover:border-[#00D1FF]/50",
+      glowColor: "group-hover:bg-[#00D1FF]/10"
+    },
+    {
+      id: "mais-alcance",
+      mod: "MOD.04",
+      tag: "GLOBAL INDEX",
+      icon: TrendingUp,
+      title: "Mais alcance",
+      description: "Sua presença para o mundo todo.",
+      color: "text-emerald-400",
+      accentGlow: "rgba(52,211,153,0.35)",
+      borderColor: "hover:border-emerald-400/50",
+      glowColor: "group-hover:bg-emerald-400/10"
+    }
+  ];
+
+  // 4 Steps ("Como funciona")
+  const workflowSteps = [
+    {
+      step: "01",
+      title: "Monte sua presença",
+      description: "Adicione bio, música, imagens, agenda e informações profissionais.",
+      icon: Disc3
+    },
+    {
+      step: "02",
+      title: "Compartilhe um único link",
+      description: "Use no Instagram, WhatsApp, mídia kit ou onde seu público já está.",
+      icon: Share2
+    },
+    {
+      step: "03",
+      title: "Transforme interesse em pedido",
+      description: "Quem acessa encontra contexto suficiente para avançar.",
+      icon: Send
+    },
+    {
+      step: "04",
+      title: "Negocie e organize o booking",
+      description: "Propostas, mensagens e datas continuam conectadas até a confirmação.",
+      icon: Sliders
+    }
+  ];
+
+  // DJ Segments Section: "Feito para DJs que querem presença profissional"
+  const djSegments = [
+    {
+      title: "Clubs & Festas",
+      subtitle: "Residentes, Open Format & Eletrônica",
+      description: "Apresente seus vídeos ao vivo, estatísticas de público e receba propostas estruturadas com data e local.",
+      badge: "Pista & Clubbing",
+      tagText: "CDJ-3000 / DJM-A9",
+      accentColor: "#8A3FFC",
+      gradientClass: "from-[#8A3FFC] to-[#00D1FF]",
+      bio: "Focado em comandar a pista e garantir a energia até o final. Seja em uma residência noturna, num set open format frenético ou em uma jornada hipnótica de techno. A música fala mais alto e o rider técnico é essencial para entregar a melhor performance.",
+      genre: "Eletrônica, Open Format, House, Techno",
+      experience: "Organize sua agenda e datas livres",
+      performanceFormat: "Set Solo, B2B, Residência",
+      rider: {
+        players: "3x Pioneer CDJ-3000 com firmware atualizado",
+        mixer: "1x Pioneer DJM-A9 ou Allen & Heath Xone:96",
+        booth: "2x Monitores de cabine com controle individual de ganho",
+        power: "2x Linhas elétricas estabilizadas",
+        mic: "1x Microfone sem fio (quando aplicável)",
+        connections: "Cabos RCA e cabo Cat6 para link",
+        stageNotes: "Mesa rígida sem oscilação na altura de 1,00m."
+      },
+      highlights: [
+        "Sets focados em condução de pista",
+        "Rider claro para garantir performance de alta qualidade",
+        "Mostre onde você toca para aumentar sua base"
+      ]
+    },
+    {
+      title: "Eventos & Experiências",
+      subtitle: "Casamentos, Eventos Premium & Corporativo",
+      description: "Filtre pedidos por estilo musical, horário de pista e garanta briefings detalhados antes de enviar o orçamento.",
+      badge: "Premium & Social",
+      tagText: "PREMIUM PA / WIRELESS",
+      accentColor: "#00D1FF",
+      gradientClass: "from-[#00D1FF] to-[#8A3FFC]",
+      bio: "Especialista em criar a atmosfera certa para os momentos mais importantes. Casamentos, eventos corporativos de alto luxo e lançamentos de marca. O nível de exigência do cliente pede uma apresentação profissional e um processo de contratação sem ruídos.",
+      genre: "Open Format Sofisticado, Pop Clássico, Nu-Disco, Lounge",
+      experience: "Briefings detalhados e propostas alinhadas",
+      performanceFormat: "Cerimônia, Recepção e Pista de Dança",
+      rider: {
+        players: "Sistema integrado Pioneer XDJ-XZ ou OPUS-QUAD",
+        mixer: "Mixer digital com controle independente",
+        booth: "Caixas ativas de alta fidelidade",
+        power: "Ponto de energia estabilizado",
+        mic: "Sistemas sem fio com receptor digital para cerimônias/palestras",
+        connections: "Saídas balanceadas XLR estéreo",
+        stageNotes: "Cabine com acabamento visual impecável, fiação oculta."
+      },
+      highlights: [
+        "Repertório customizado para o briefing",
+        "Postura profissional e alinhamento visual",
+        "Orçamentos justificados por equipamentos premium"
+      ]
+    },
+    {
+      title: "Produtores & Artistas",
+      subtitle: "Produtores, Live Acts & Projetos Autorais",
+      description: "O contratante e curador ouve suas tracks autorais e assina gigs sabendo exatamente a sua identidade sonora.",
+      badge: "Autoral & Live",
+      tagText: "LIVE ACT / ABLETON",
+      accentColor: "#FF4DB8",
+      gradientClass: "from-[#FF4DB8] to-[#00D1FF]",
+      bio: "Foco 100% na identidade sonora. Como artista autoral e produtor, seus lançamentos e números importam para os contratantes. O Beat Flow é o seu canvas para expor lançamentos do Spotify, sets autorais no SoundCloud e garantir que o palco tenha o setup exato para o seu Live Act.",
+      genre: "Música Autoral, Indie Dance, Melodic House",
+      experience: "Foco em apresentações que destacam sua própria arte",
+      performanceFormat: "DJ Set Autoral ou Live Act Híbrido",
+      rider: {
+        players: "2x Pioneer CDJ-3000 + Sampler ou Ableton Push",
+        mixer: "Mixer 6 canais com suporte a conexões USB",
+        booth: "Monitores profissionais de campo próximo",
+        power: "Pontos extras para laptop, sintetizador e pads",
+        mic: "Microfone para processamento vocal ao vivo",
+        connections: "Conexões MIDI DIN e direct boxes balanceadas",
+        stageNotes: "Espaço ampliado na mesa para sintetizador e periféricos."
+      },
+      highlights: [
+        "Venda gigs baseadas nas suas próprias músicas",
+        "Setup para performances híbridas (Live + DJ)",
+        "Engajamento direcionado para sua fanbase"
+      ]
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#08080F] text-white selection:bg-[#8A3FFC] selection:text-white relative overflow-x-hidden font-sans">
+      
+      {/* Dynamic Atmospheric Canvas (Filmic Stage Haze, Lasers, Volumetric Meshes) */}
+      <AtmosphericCanvas />
+
+      {/* Main Sticky Header (Height 88px to 96px, dark transparent with subtle blur) */}
+      <header className="h-[88px] sm:h-[96px] border-b border-white/[0.08] bg-[#08080F]/85 backdrop-blur-xl sticky top-0 z-40 px-5 sm:px-8 md:px-12 lg:px-16 transition-all">
+        <div className="max-w-[1440px] mx-auto h-full flex items-center justify-between">
+          
+          {/* Official Beat Flow Logo */}
+          <div className="flex items-center gap-12">
+            <Logo size="md" />
+
+            {/* Desktop Navigation Menu */}
+            <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-[rgba(255,255,255,0.72)]">
+              <Link href="/explorar" className="hover:text-white transition-colors">
+                Artistas
+              </Link>
+              <a href="#tudo-em-um-so-lugar" className="hover:text-white transition-colors">
+                Eventos
+              </a>
+              <a href="#como-funciona" className="hover:text-white transition-colors">
+                Oportunidades
+              </a>
+              <a href="#para-quem-e" className="hover:text-white transition-colors">
+                Preços
+              </a>
+              <Link href="/explorar" className="hover:text-white transition-colors">
+                Blog
+              </Link>
+            </nav>
+          </div>
+
+          {/* Right Action CTAs */}
+          <div className="hidden sm:flex items-center gap-3.5">
+            <Link href="/login">
+              <button className="text-sm font-medium text-white px-5 py-2 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/40 transition-all cursor-pointer">
+                Entrar
+              </button>
+            </Link>
+
+            <Link href="/login?mode=signup">
+              <button className="h-10 sm:h-11 px-6 rounded-xl bg-gradient-to-r from-[#7C3AED] via-[#8A3FFC] to-[#9333EA] hover:opacity-95 text-white text-sm font-bold shadow-[0_0_22px_rgba(138,63,252,0.6)] hover:shadow-[0_0_34px_rgba(138,63,252,0.9)] transition-all flex items-center justify-center cursor-pointer">
+                <span>Criar meu perfil</span>
+              </button>
+            </Link>
+          </div>
+
+          {/* Mobile Hamburger Menu Toggle */}
+          <div className="flex sm:hidden items-center gap-3">
+            <Link href="/login?mode=signup">
+              <button className="px-3.5 py-1.5 rounded-full bg-[#8A3FFC] text-white text-xs font-bold shadow-md">
+                Criar perfil
+              </button>
+            </Link>
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 text-white hover:bg-white/10 rounded-lg transition"
+              aria-label="Abrir Menu"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+
+        </div>
+
+        {/* Mobile Dropdown Menu */}
+        {isMobileMenuOpen && (
+          <div className="sm:hidden absolute top-[80px] left-0 w-full bg-[#0d0c1a] border-b border-white/10 p-6 flex flex-col gap-4 shadow-2xl animate-in slide-in-from-top-2">
+            <Link href="/explorar" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-white py-2">
+              Artistas
+            </Link>
+            <a href="#tudo-em-um-so-lugar" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-white py-2">
+              Eventos
+            </a>
+            <a href="#como-funciona" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-white py-2">
+              Oportunidades
+            </a>
+            <a href="#para-quem-e" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-white py-2">
+              Preços
+            </a>
+            <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
+              <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                <button className="w-full py-2.5 rounded-xl border border-white/15 text-white text-sm font-medium">
+                  Entrar
+                </button>
+              </Link>
+              <Link href="/login?mode=signup" onClick={() => setIsMobileMenuOpen(false)}>
+                <button className="w-full py-3 rounded-xl bg-gradient-to-r from-[#7C3AED] via-[#8A3FFC] to-[#00D1FF] text-white text-sm font-bold shadow-lg shadow-[#8A3FFC]/40">
+                  Criar meu perfil gratuito
+                </button>
+              </Link>
+            </div>
+          </div>
+        )}
+
+        <LuminousDivider glow={false} className="absolute bottom-0 left-0 right-0" />
+      </header>
+
+      {/* ---------------------------------------------------- */}
+      {/* HERO SECTION (FULL SCREEN CINEMATIC — 100% BF ASSET FIDELITY) */}
+      {/* ---------------------------------------------------- */}
+      <section className="relative min-h-[92vh] lg:min-h-[890px] w-full flex items-center pt-16 sm:pt-20 lg:pt-24 pb-16 sm:pb-20 overflow-hidden bg-[#080B0F]">
+        
+        {/* Production Background Graphic Assets Layer: BF_background-deep-flow.svg & BF_background-aurora.svg */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
+          {/* Deep Flow Base Layer */}
+          <div className="absolute inset-0 opacity-45 mix-blend-screen">
+            <Image 
+              src="/assets/beatflow/BF_background-deep-flow.svg" 
+              alt="Beat Flow Deep Flow Background" 
+              fill 
+              className="object-cover object-center" 
+              priority 
+            />
+          </div>
+
+          {/* Aurora Glow Atmosphere Layer */}
+          <div className="absolute inset-0 opacity-35 mix-blend-screen">
+            <Image 
+              src="/assets/beatflow/BF_background-aurora.svg" 
+              alt="Beat Flow Aurora Atmosphere" 
+              fill 
+              className="object-cover object-center" 
+              priority 
+            />
+          </div>
+
+          {/* Real DJ on Stage in Arena */}
+          <Image 
+            src="/assets/landing/hero-dj-stage.jpg"
+            alt="DJ no palco"
+            fill
+            priority
+            className="object-cover object-center lg:object-[66%_26%] opacity-55 sm:opacity-70 lg:opacity-85 scale-105"
+          />
+
+          {/* Production Asset: BF_graphic-glow-orb.svg behind Left Column */}
+          <div className="absolute -top-16 -left-16 w-[560px] h-[560px] pointer-events-none -z-10 opacity-70">
+            <Image 
+              src="/assets/beatflow/BF_graphic-glow-orb.svg" 
+              alt="" 
+              width={560} 
+              height={560} 
+              className="w-full h-full object-contain" 
+            />
+          </div>
+
+          {/* Production Asset: BF_graphic-glow-orb.svg behind Stage DJ & Player */}
+          <div className="absolute top-1/4 right-[4%] w-[520px] h-[520px] pointer-events-none -z-10 opacity-60">
+            <Image 
+              src="/assets/beatflow/BF_graphic-glow-orb.svg" 
+              alt="" 
+              width={520} 
+              height={520} 
+              className="w-full h-full object-contain" 
+            />
+          </div>
+
+          {/* Theme Vignette Gradients (Dark left for high text legibility, clear center-right for DJ and stage) */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#080B0F] via-[#080B0F]/90 via-40% to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#080B0F] via-[#080B0F]/20 to-transparent" />
+        </div>
+
+        {/* Volumetric Stage Spotlight Beam cutting from stage rig down towards the DJ */}
+        <div 
+          className="hidden lg:block absolute -top-16 left-[74%] xl:left-[76%] -translate-x-1/2 w-[480px] h-[780px] pointer-events-none opacity-40 mix-blend-screen z-0"
+          style={{
+            background: 'conic-gradient(from 180deg at 50% 0%, transparent 162deg, rgba(138,63,252,0.25) 174deg, rgba(0,209,255,0.32) 180deg, rgba(255,77,219,0.25) 186deg, transparent 198deg)',
+            filter: 'blur(32px)',
+          }}
+        />
+
+        {/* Subtle Ambient Light Motes drifting in the stage beam */}
+        <div className="hidden lg:block absolute top-[24%] left-[72%] xl:left-[75%] -translate-x-1/2 w-[280px] h-[320px] pointer-events-none z-10 opacity-70">
+          <div className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] shadow-[0_0_12px_#00D1FF] absolute top-10 left-12 animate-pulse" />
+          <div className="w-2 h-2 rounded-full bg-[#C084FC] shadow-[0_0_15px_#C084FC] absolute top-28 right-8 animate-ping opacity-60" style={{ animationDuration: '4s' }} />
+          <div className="w-1 h-1 rounded-full bg-white shadow-[0_0_8px_white] absolute bottom-16 left-24 animate-pulse" />
+        </div>
+
+        {/* 3D Motion Neon Halo Ring — 100% Fidelity to BF_graphic-halo-ring.svg */}
+        <div className="hidden lg:block absolute top-[18%] xl:top-[20%] left-[74%] xl:left-[76%] -translate-x-1/2 w-[340px] h-[160px] pointer-events-none z-10">
+          <motion.div
+            animate={{
+              y: [0, -8, 0],
+              rotateX: [68, 71, 68],
+              rotateZ: [-6, -4, -6],
+              scale: [1, 1.03, 1]
+            }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="relative w-full h-full flex items-center justify-center"
+            style={{ perspective: 800, transformStyle: "preserve-3d" }}
+          >
+            {/* Ambient radial flare */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FF4DB8]/35 via-[#8A3FFC]/45 to-[#00D1FF]/35 blur-[45px] rounded-full scale-125" />
+            
+            {/* Exact SVG definition from BF_graphic-halo-ring.svg */}
+            <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[280px] h-[280px] drop-shadow-[0_0_35px_rgba(255,77,184,0.85)]">
+              <defs>
+                <filter id="heroHaloGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="8" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+                <linearGradient id="heroHaloGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#00D1FF" />
+                  <stop offset="50%" stopColor="#8A3FFC" />
+                  <stop offset="100%" stopColor="#FF4DB8" />
+                </linearGradient>
+              </defs>
+              <circle cx="128" cy="128" r="96" stroke="url(#heroHaloGrad)" strokeWidth="12" filter="url(#heroHaloGlow)" opacity="0.95" />
+              <circle cx="128" cy="128" r="96" stroke="#FFFFFF" strokeWidth="2.5" opacity="0.85" />
+              {/* Internal stage illumination disc */}
+              <circle cx="128" cy="128" r="88" fill="url(#heroHaloGrad)" opacity="0.14" />
+            </svg>
+          </motion.div>
+        </div>
+
+        <div className="max-w-[1440px] w-full mx-auto px-5 sm:px-8 md:px-12 lg:px-16 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
+          
+          {/* Left Column: Text, CTAs, Waveform, Stats, Logos */}
+          <div className="w-full lg:w-[56%] flex flex-col justify-center text-left pt-6 sm:pt-10 lg:pt-0">
+            {/* Eyebrow Label & Live Stage Badge */}
+            <div className="mb-4 sm:mb-6 flex flex-wrap items-center gap-3 justify-center lg:justify-start">
+              <span className="text-[12px] sm:text-[14px] lg:text-[15px] font-bold tracking-[0.24em] text-[var(--bf-text-secondary,#A7ADC0)] uppercase flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#00D1FF] shadow-[0_0_8px_#00D1FF] animate-pulse" />
+                PRESS KIT OFICIAL PARA DJS
+              </span>
+            </div>
+
+            {/* Headline with 100% BF_tokens Gradient Flow */}
+            <h1 className="text-[42px] sm:text-[56px] lg:text-[68px] xl:text-[80px] font-black tracking-[-0.04em] text-white leading-[1.02] mb-6 text-center lg:text-left">
+              Seu som abre a porta.<br />
+              O Beat Flow transforma interesse em{' '}
+              <span className="bg-gradient-to-r from-[#00D1FF] via-[#8A3FFC] to-[#FF4DB8] bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(138,63,252,0.55)]">
+                contratação.
+              </span>
+            </h1>
+
+            {/* Subheadline matching BF_tokens typography */}
+            <p className="text-[16px] sm:text-[18px] lg:text-[20px] text-[var(--bf-text-secondary,#A7ADC0)] font-normal max-w-[580px] mb-8 sm:mb-9 leading-[1.6] text-center lg:text-left mx-auto lg:mx-0">
+              Música, identidade, agenda, rider e pedidos de booking em um único perfil profissional. Compartilhe seu link e deixe contratantes entenderem seu trabalho e avançarem sem transformar cada oportunidade em uma sequência interminável de mensagens.
+            </p>
+
+            {/* CTAs with BF_tokens Button Styling */}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-9">
+              <Link href="/login?mode=signup" className="w-full sm:w-auto">
+                <button className="w-full sm:w-auto h-13 sm:h-14 px-8 rounded-2xl bg-gradient-to-r from-[#7C3AED] via-[#8A3FFC] to-[#9333EA] hover:opacity-95 text-white font-bold text-[15px] tracking-[-0.01em] shadow-[0_0_24px_rgba(138,63,252,0.65)] hover:shadow-[0_0_16px_rgba(138,63,252,0.9),0_0_40px_rgba(0,209,255,0.35)] flex items-center justify-center gap-2.5 transition-all transform hover:-translate-y-0.5 cursor-pointer">
+                  <span>Criar meu Press Kit grátis</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </Link>
+              <Link href="/explorar" className="w-full sm:w-auto">
+                <button className="w-full sm:w-auto h-13 sm:h-14 px-7 rounded-2xl border border-[#303B51] hover:border-[#8A3FFC] bg-white/5 hover:bg-white/10 backdrop-blur-md text-white font-medium text-[15px] tracking-[-0.01em] flex items-center justify-center gap-3 transition-colors cursor-pointer">
+                  <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+                    <Play className="w-3 h-3 fill-white text-white ml-0.5" />
+                  </div>
+                  <span>Ver perfil ao vivo</span>
+                </button>
+              </Link>
+            </div>
+
+            {/* Mobile-Only Floating Player Preview */}
+            <div className="lg:hidden w-full max-w-sm mx-auto mb-9">
+              <FloatingPlayer
+                isPlaying={isPlayingPreview}
+                onTogglePlay={() => setIsPlayingPreview(!isPlayingPreview)}
+              />
+            </div>
+
+            {/* Product Proofs instead of fake stats */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-5 sm:gap-8 pb-8 border-b border-[#202A3A] mb-8">
+              <div className="flex items-center gap-2 text-sm font-medium text-[var(--bf-text-secondary,#A7ADC0)]">
+                <CheckCircle2 className="w-4 h-4 text-[#8A3FFC]" />
+                <span>Perfil profissional</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm font-medium text-[var(--bf-text-secondary,#A7ADC0)]">
+                <CheckCircle2 className="w-4 h-4 text-[#8A3FFC]" />
+                <span>Link próprio</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm font-medium text-[var(--bf-text-secondary,#A7ADC0)]">
+                <CheckCircle2 className="w-4 h-4 text-[#8A3FFC]" />
+                <span>Feito para contratação</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Floating Glass Audio Player with Neon Frame from BF_graphic-frame-neon.svg */}
+          <div className="hidden lg:flex w-[44%] flex-col items-end justify-end min-h-[580px] relative z-20 pb-4">
+            {/* Volumetric suspension light beam */}
+            <div className="absolute top-1/4 right-[12%] w-[380px] h-[340px] bg-gradient-to-b from-[#8A3FFC]/25 via-[#00D1FF]/15 to-transparent blur-[70px] pointer-events-none -z-10" />
+
+            {/* Floating Player container */}
+            <div className="relative w-full max-w-[420px]">
+              <FloatingPlayer
+                isPlaying={isPlayingPreview}
+                onTogglePlay={() => setIsPlayingPreview(!isPlayingPreview)}
+              />
+            </div>
+
+            {/* Stage reflection shadow on console */}
+            <div className="w-[380px] h-3 bg-gradient-to-r from-transparent via-[#8A3FFC]/30 to-transparent blur-md mt-2.5 mr-6 pointer-events-none" />
+          </div>
+        </div>
+      </section>
+
+      {/* Luminous Light Beam Divider — 100% Fidelity to BF_graphic-divider-gradient.svg */}
+      <LuminousDivider glow={true} />
+
+      {/* ---------------------------------------------------- */}
+      {/* SEÇÃO DA DOR & SOLUÇÃO */}
+      {/* ---------------------------------------------------- */}
+      <section id="problema" className="py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#0c0b18]/70 relative overflow-hidden text-center">
+        {/* Subtle background audio waveform horizon */}
+        <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-64 opacity-5 pointer-events-none select-none overflow-hidden">
+          <Image 
+            src="/assets/beatflow/BF_graphic-waveform.svg" 
+            alt="Audio waveform atmosphere" 
+            fill 
+            className="object-cover" 
+          />
+        </div>
+
+        <div className="max-w-3xl mx-auto relative z-10">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-6">
+            Seu talento não deveria perder oportunidades por causa de um perfil improvisado.
+          </h2>
+          <p className="text-lg text-[rgba(255,255,255,0.72)] leading-relaxed mb-10">
+            O contratante quer ouvir seu som, entender seu estilo, conferir informações importantes e saber como avançar. 
+            Quando tudo está espalhado entre Instagram, WhatsApp, SoundCloud, fotos, arquivos e mensagens antigas, a contratação ganha atrito.
+          </p>
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-[#8A3FFC]/10 border border-[#8A3FFC]/30 text-[#C084FC] font-semibold text-sm sm:text-base">
+            <Sparkles className="w-5 h-5" />
+            <span>Beat Flow reúne tudo em um único caminho.</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Luminous Light Beam Divider */}
+      <LuminousDivider glow={true} />
+
+      {/* ---------------------------------------------------- */}
+      {/* PRODUTO COMO PROVA & BENEFÍCIOS */}
+      {/* ---------------------------------------------------- */}
+      <section id="produto-como-prova" className="py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#08080F] relative">
+        <div className="max-w-[1440px] mx-auto relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-4">
+              Não é uma bio com links.<br/>
+              <span className="text-[#00D1FF]">É uma presença pronta para booking.</span>
+            </h2>
+            <p className="text-base sm:text-lg text-[rgba(255,255,255,0.72)] leading-relaxed">
+              O Beat Flow conecta descoberta, música, identidade, disponibilidade e contratação na mesma experiência.
+            </p>
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center justify-between mb-20">
+            {/* Esquerda: Mockup com hotspots */}
+            <div className="w-full lg:w-1/2 relative">
+              <div className="relative aspect-[3/4] sm:aspect-square lg:aspect-[4/5] max-w-md mx-auto bg-[#10111E] rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+                <Image 
+                  src="/assets/landing/hero-dj-stage.jpg"
+                  alt="Perfil Beat Flow"
+                  fill
+                  className="object-cover opacity-40 blur-sm"
+                />
+                
+                {/* Labels estilizados */}
+                <div className="absolute inset-0 flex flex-col justify-center gap-6 px-8">
+                  <div className="bg-black/60 backdrop-blur-md border border-white/20 p-4 rounded-xl flex items-center gap-4 text-white shadow-lg ml-0 mr-12 hover:border-[#00D1FF]/50 transition-colors">
+                    <Headphones className="w-6 h-6 text-[#00D1FF]" />
+                    <span className="font-bold text-sm">OUVIR O SET</span>
+                  </div>
+                  <div className="bg-black/60 backdrop-blur-md border border-white/20 p-4 rounded-xl flex items-center gap-4 text-white shadow-lg ml-6 mr-6 hover:border-[#8A3FFC]/50 transition-colors">
+                    <User className="w-6 h-6 text-[#8A3FFC]" />
+                    <span className="font-bold text-sm">CONHECER O ARTISTA</span>
+                  </div>
+                  <div className="bg-black/60 backdrop-blur-md border border-white/20 p-4 rounded-xl flex items-center gap-4 text-white shadow-lg ml-12 mr-0 hover:border-[#FF4DB8]/50 transition-colors">
+                    <Sliders className="w-6 h-6 text-[#FF4DB8]" />
+                    <span className="font-bold text-sm">CONFERIR RIDER</span>
+                  </div>
+                  <div className="bg-[#8A3FFC] border border-white/20 p-4 rounded-xl flex items-center gap-4 text-white shadow-lg ml-0 mr-12 hover:bg-[#8A3FFC]/90 transition-colors">
+                    <Calendar className="w-6 h-6 text-white" />
+                    <span className="font-bold text-sm">PEDIR CONTRATAÇÃO</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Direita: Benefícios (6 listados na doc) */}
+            <div className="w-full lg:w-1/2 flex sm:grid sm:grid-cols-2 gap-4 sm:gap-6 overflow-x-auto sm:overflow-visible pb-6 sm:pb-0 snap-x snap-mandatory hide-scrollbar -mx-5 px-5 sm:mx-0 sm:px-0">
+              {[
+                {
+                  title: "PRESENÇA PROFISSIONAL",
+                  desc: "Seu trabalho apresentado de forma consistente em um único endereço.",
+                  icon: Disc3,
+                  color: "text-[#00D1FF]"
+                },
+                {
+                  title: "SEU SOM EM PRIMEIRO",
+                  desc: "O contratante pode ouvir antes mesmo da primeira conversa.",
+                  icon: Headphones,
+                  color: "text-[#8A3FFC]"
+                },
+                {
+                  title: "MENOS ATRITO",
+                  desc: "As informações importantes já estão organizadas.",
+                  icon: CheckCircle2,
+                  color: "text-[#FF4DB8]"
+                },
+                {
+                  title: "MAIS CONTEXTO",
+                  desc: "Bio, estilos, mídia, agenda, setup e contato no lugar certo.",
+                  icon: FileText,
+                  color: "text-emerald-400"
+                },
+                {
+                  title: "CAMINHO DE CONTRATAÇÃO",
+                  desc: "O interesse pode evoluir para pedido e negociação.",
+                  icon: Calendar,
+                  color: "text-[#00D1FF]"
+                },
+                {
+                  title: "GESTÃO CONECTADA",
+                  desc: "Propostas, mensagens e datas não ficam espalhadas.",
+                  icon: Layers,
+                  color: "text-[#8A3FFC]"
+                }
+              ].map((b, i) => (
+                <motion.div 
+                  key={i} 
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  className="min-w-[85vw] sm:min-w-0 snap-center p-6 rounded-[20px] bg-[#0A0D14]/90 border border-white/5 hover:border-white/20 transition-all duration-300 relative group overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:shadow-[0_15px_40px_rgba(138,63,252,0.15)]"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/5 blur-2xl group-hover:bg-white/10 transition-colors duration-500 pointer-events-none" />
+                  <div className="relative z-10">
+                    <b.icon className={`w-7 h-7 mb-4 ${b.color} group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]`} />
+                    <h3 className="text-[13px] font-black text-white mb-2 uppercase tracking-wider">{b.title}</h3>
+                    <p className="text-xs text-white/60 leading-relaxed font-medium">{b.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="text-center mt-12">
+            <Link href="/login?mode=signup">
+              <Button size="sm" className="bg-[#8A3FFC] hover:bg-[#8A3FFC]/90 text-white font-bold text-sm px-8 py-3 h-12 rounded-full cursor-pointer shadow-[0_0_20px_rgba(138,63,252,0.4)]">
+                Criar meu Press Kit grátis
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Luminous Light Beam Divider */}
+      <LuminousDivider glow={true} />
+
+      {/* ---------------------------------------------------- */}
+      {/* RESPONSIVE DEVICES SHOWCASE (DESKTOP, TABLET, MOBILE) */}
+      {/* ---------------------------------------------------- */}
+      <ResponsiveShowcase />
+
+      {/* Luminous Light Beam Divider */}
+      <LuminousDivider glow={true} />
+
+      {/* ---------------------------------------------------- */}
+      {/* SECTION: "COMO FUNCIONA" (4 ETAPAS NUMERADAS) */}
+      {/* ---------------------------------------------------- */}
+      <section id="como-funciona" className="py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#08080F]/90 relative">
+        <div className="max-w-[1440px] mx-auto">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#00D1FF] font-bold mb-3 block">
+              FLUXO DIRETO E PROFISSIONAL
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-4">
+              Como funciona
+            </h2>
+            <p className="text-base sm:text-lg text-[rgba(255,255,255,0.72)] leading-relaxed">
+              Crie seu perfil, compartilhe seu link e receba pedidos qualificados sem complicação.
+            </p>
+          </div>
+
+          {/* 4 Step Cards with Exact Mandated Text & 3D Motion Data Conduit */}
+          <div className="relative">
+            {/* 3D Motion Data Conduit connecting the steps on desktop */}
+            <div className="hidden lg:block absolute top-[75px] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-[#8A3FFC] via-[#00D1FF] to-[#FF4DDB] opacity-30 z-0">
+              <motion.div 
+                animate={{ left: ['-10%', '100%'] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: 'linear' }}
+                className="absolute top-1/2 -translate-y-1/2 w-20 h-1 rounded-full bg-gradient-to-r from-transparent via-[#00D1FF] to-white shadow-[0_0_15px_#00D1FF]"
+              />
+            </div>
+
+            <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 overflow-x-auto md:overflow-visible pb-8 md:pb-0 snap-x snap-mandatory hide-scrollbar relative z-10 -mx-5 px-5 sm:mx-0 sm:px-0">
+              {workflowSteps.map((stepItem, idx) => {
+                const StepIcon = stepItem.icon;
+                const stepTags = [
+                  "CONFIGURAÇÃO SIMPLES",
+                  "SEU LINK OFICIAL",
+                  "CENTRAL DE PROPOSTAS",
+                  "CONTRATO & FECHAMENTO"
+                ];
+                return (
+                  <motion.div 
+                    key={idx}
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
+                    className="min-w-[85vw] md:min-w-0 snap-center p-8 rounded-[24px] bg-[#10111E]/90 border border-white/10 hover:border-[#8A3FFC]/50 transition-all duration-300 relative group flex flex-col justify-between backdrop-blur-2xl shadow-[0_15px_35px_rgba(0,0,0,0.5)] hover:shadow-[0_25px_50px_rgba(138,63,252,0.2)] overflow-hidden"
+                  >
+                    {/* Top ambient highlight line */}
+                    <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#8A3FFC]/40 to-transparent group-hover:via-[#00D1FF] transition-all" />
+
+                    <div>
+                      {/* Step Number & Icon */}
+                      <div className="flex items-center justify-between mb-6">
+                        <span className="font-mono text-3xl sm:text-4xl font-black bg-gradient-to-br from-white/50 to-white/10 bg-clip-text text-transparent group-hover:from-[#C084FC] group-hover:to-[#00D1FF] transition-all">
+                          {stepItem.step}
+                        </span>
+                        <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#8A3FFC] group-hover:text-[#00D1FF] group-hover:scale-110 transition-all shadow-inner">
+                          <StepIcon className="w-5 h-5" />
+                        </div>
+                      </div>
+
+                      <div className="text-[10px] font-mono tracking-widest text-[#00D1FF] uppercase mb-1">
+                        {stepTags[idx]}
+                      </div>
+
+                      <h3 className="text-xl font-extrabold text-white mb-3 group-hover:text-white transition-colors">
+                        {stepItem.title}
+                      </h3>
+                      <p className="text-sm text-[rgba(255,255,255,0.72)] leading-relaxed">
+                        {stepItem.description}
+                      </p>
+                    </div>
+
+                    <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-semibold text-[#C084FC]">
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                        <span>Etapa essencial</span>
+                      </span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform text-[#00D1FF]" />
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Luminous Light Beam Divider */}
+      <LuminousDivider glow={true} />
+
+      {/* ---------------------------------------------------- */}
+      {/* SECTION: "FEITO PARA DJS QUE QUEREM PRESENÇA PROFISSIONAL" */}
+      {/* ---------------------------------------------------- */}
+      <section id="para-quem-e" className="py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#080B0F] relative overflow-hidden">
+        {/* Subtle Ambient Glow Orb from BF_graphic-glow-orb.svg */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] pointer-events-none opacity-20 -z-0">
+          <Image 
+            src="/assets/beatflow/BF_graphic-glow-orb.svg" 
+            alt="" 
+            fill 
+            className="object-contain" 
+          />
+        </div>
+
+        <div className="max-w-[1440px] mx-auto relative z-10">
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
+            <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FF4DB8] font-bold mb-3 block animate-pulse">
+              FEITO EXCLUSIVAMENTE PARA DJS
+            </span>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-5 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+              Feito para DJs que querem <br className="hidden sm:block" /> <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/60">presença profissional</span>
+            </h2>
+            <p className="text-base sm:text-lg text-white/60 leading-relaxed font-medium">
+              Não importa a cena, pista ou estilo. O Beat Flow centraliza sua autoridade e facilita a sua contratação.
+            </p>
+          </motion.div>
+
+          <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible pb-8 md:pb-0 snap-x snap-mandatory hide-scrollbar -mx-5 px-5 sm:mx-0 sm:px-0">
+            {djSegments.map((segment, i) => {
+              const segmentStyles = [
+                {
+                  borderHover: "hover:border-[#8A3FFC]",
+                  shadowHover: "hover:shadow-[0_25px_50px_rgba(138,63,252,0.25)]",
+                  lineGlow: "group-hover:via-[#8A3FFC]",
+                  badgeColor: "text-[#C084FC] bg-[#8A3FFC]/15 border-[#8A3FFC]/30",
+                  dotColor: "bg-[#8A3FFC]",
+                  tagText: "CDJ-3000 / DJM-A9",
+                  leakClass: "bf-light-leak-purple",
+                  leakGlow: "rgba(138, 63, 252, 0.45)",
+                  leakGradient: "radial-gradient(550px circle at 85% 12%, rgba(138, 63, 252, 0.28), rgba(168, 85, 247, 0.12) 36%, transparent 72%), radial-gradient(350px circle at 15% 90%, rgba(0, 209, 255, 0.14), transparent 65%)"
+                },
+                {
+                  borderHover: "hover:border-[#00D1FF]",
+                  shadowHover: "hover:shadow-[0_25px_50px_rgba(0,209,255,0.25)]",
+                  lineGlow: "group-hover:via-[#00D1FF]",
+                  badgeColor: "text-[#00D1FF] bg-[#00D1FF]/15 border-[#00D1FF]/30",
+                  dotColor: "bg-[#00D1FF]",
+                  tagText: "PREMIUM PA / WIRELESS",
+                  leakClass: "bf-light-leak-cyan",
+                  leakGlow: "rgba(0, 209, 255, 0.45)",
+                  leakGradient: "radial-gradient(550px circle at 85% 12%, rgba(0, 209, 255, 0.28), rgba(0, 102, 255, 0.12) 36%, transparent 72%), radial-gradient(350px circle at 15% 90%, rgba(138, 63, 252, 0.14), transparent 65%)"
+                },
+                {
+                  borderHover: "hover:border-[#FF4DB8]",
+                  shadowHover: "hover:shadow-[0_25px_50px_rgba(255,77,184,0.25)]",
+                  lineGlow: "group-hover:via-[#FF4DB8]",
+                  badgeColor: "text-[#FF4DB8] bg-[#FF4DB8]/15 border-[#FF4DB8]/30",
+                  dotColor: "bg-[#FF4DB8]",
+                  tagText: "SYNTHS / LIVE ACT",
+                  leakClass: "bf-light-leak-pink",
+                  leakGlow: "rgba(255, 77, 184, 0.45)",
+                  leakGradient: "radial-gradient(550px circle at 85% 12%, rgba(255, 77, 184, 0.28), rgba(138, 63, 252, 0.12) 36%, transparent 72%), radial-gradient(350px circle at 15% 90%, rgba(0, 209, 255, 0.14), transparent 65%)"
+                }
+              ];
+              const style = segmentStyles[i % segmentStyles.length];
+
+              return (
+                <motion.div 
+                  key={i}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                  onClick={() => setSelectedDetailSegment(segment)}
+                  className={`min-w-[85vw] md:min-w-0 snap-center p-8 rounded-[24px] bg-[#0D111A]/95 border border-[#202A3A] ${style.borderHover} transition-all duration-300 group flex flex-col justify-between backdrop-blur-2xl shadow-[0_15px_35px_rgba(0,0,0,0.5)] ${style.shadowHover} relative overflow-hidden cursor-pointer`}
+                >
+                  {/* Subtle Neon Light-Leak Effect (CSS Radial Gradient simulating light interacting with the background assets) */}
+                  <div 
+                    className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out z-0 mix-blend-screen"
+                    style={{
+                      background: style.leakGradient
+                    }}
+                  />
+
+                  {/* Corner Atmospheric Neon Prismatic Flare */}
+                  <div 
+                    className="absolute -top-10 -right-10 w-44 h-44 rounded-full pointer-events-none opacity-0 group-hover:opacity-60 blur-2xl transition-all duration-500 ease-out transform group-hover:scale-125 z-0"
+                    style={{
+                      background: style.leakGlow
+                    }}
+                  />
+
+                  {/* Top ambient highlight line */}
+                  <div className={`absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#8A3FFC]/40 to-transparent ${style.lineGlow} transition-all z-10`} />
+
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between gap-2 mb-4">
+                      <span className={`px-3 py-1 rounded-lg border text-[11px] font-mono font-bold uppercase tracking-wider ${style.badgeColor}`}>
+                        {segment.badge}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className={`w-2 h-2 rounded-full ${style.dotColor} animate-pulse`} />
+                        <span className="text-[10px] font-mono text-[var(--bf-text-muted,#71788E)]">STAGE VERIFIED</span>
+                        <div className="p-1 rounded-md bg-white/5 border border-white/10 text-white/40 group-hover:text-white group-hover:bg-white/15 transition-all" title="Clique para abrir Bio & Rider Técnico">
+                          <Maximize2 className="w-3 h-3" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <h3 className="text-2xl font-extrabold text-white mb-1.5 group-hover:text-white transition-colors">
+                      {segment.title}
+                    </h3>
+                    <div className="text-xs text-[#00D1FF] font-semibold mb-4 tracking-wide">
+                      {segment.subtitle}
+                    </div>
+                    {/* Description & Expandable Full Biography */}
+                    <div className="mb-6">
+                      <p className="text-sm text-[var(--bf-text-secondary,#A7ADC0)] leading-relaxed">
+                        {segment.description}
+                      </p>
+
+                      {/* Smooth expandable biography container */}
+                      <motion.div
+                        initial={false}
+                        animate={{ 
+                          height: expandedBioIndices[i] ? "auto" : 0,
+                          opacity: expandedBioIndices[i] ? 1 : 0
+                        }}
+                        transition={{ 
+                          duration: 0.35, 
+                          ease: [0.16, 1, 0.3, 1] 
+                        }}
+                        className="overflow-hidden"
+                      >
+                        <div id={`artist-bio-${i}`} className="pt-3 pb-1 border-t border-white/10 mt-3">
+                          <div className="text-[11px] font-mono uppercase tracking-wider text-[#00D1FF] font-semibold mb-1 flex items-center gap-1.5">
+                            <FileText className="w-3 h-3 text-[#00D1FF]" />
+                            <span>Biografia Completa</span>
+                          </div>
+                          <p className="text-xs text-white/85 leading-relaxed">
+                            {segment.bio}
+                          </p>
+                          {segment.genre && (
+                            <div className="mt-2.5 pt-2 border-t border-white/5 flex items-center gap-1.5 text-[11px] text-white/50">
+                              <Disc3 className="w-3 h-3 text-[#FF4DB8] shrink-0" />
+                              <span className="truncate">{segment.genre}</span>
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+
+                      {/* Show More / Show Less Toggle Button */}
+                      <button
+                        type="button"
+                        id={`toggle-bio-btn-${i}`}
+                        onClick={(e) => handleToggleBio(i, e)}
+                        className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-semibold text-[#00D1FF] hover:text-white transition-colors cursor-pointer group/toggle py-1 select-none"
+                        aria-expanded={Boolean(expandedBioIndices[i])}
+                        aria-controls={`artist-bio-${i}`}
+                      >
+                        <span>{expandedBioIndices[i] ? "Show Less" : "Show More"}</span>
+                        <motion.div
+                          animate={{ rotate: expandedBioIndices[i] ? 180 : 0 }}
+                          transition={{ duration: 0.25 }}
+                        >
+                          <ChevronDown className="w-3.5 h-3.5 text-[#00D1FF] group-hover/toggle:text-white transition-colors" />
+                        </motion.div>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="relative z-10">
+                    {/* Console specs tag - Clickable indicator */}
+                    <div className="bg-black/40 rounded-xl p-3 border border-[#202A3A] mb-4 flex items-center justify-between text-[11px] font-mono text-white/70 group-hover:border-[#00D1FF]/40 transition-colors">
+                      <div className="flex items-center gap-1.5">
+                        <Sliders className="w-3.5 h-3.5 text-[#00D1FF]" />
+                        <span className="text-[var(--bf-text-muted,#71788E)]">RIDER READY</span>
+                      </div>
+                      <span className="text-[#C084FC]">{style.tagText}</span>
+                    </div>
+
+                    <div className="pt-4 border-t border-[#202A3A] flex items-center justify-between text-xs text-white/50">
+                      <div className="flex items-center gap-1.5">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span>Propostas sem cadastro</span>
+                      </div>
+                      <div className="flex items-center gap-1 text-[11px] font-mono text-[#00D1FF] group-hover:text-white transition-colors">
+                        <span>Ver Bio & Rider</span>
+                        <ArrowRight className="w-3.5 h-3.5 text-[#00D1FF] group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+
+                    {/* Quick Book Trigger Button */}
+                    <button
+                      type="button"
+                      id={`quick-book-btn-${i}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleToggleQuickBook(i);
+                      }}
+                      className={`w-full mt-4 py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 border transition-all duration-300 cursor-pointer ${
+                        openQuickBookIndex === i
+                          ? "bg-white/10 border-white/25 text-white shadow-inner"
+                          : "bg-gradient-to-r from-white/5 to-white/10 hover:from-white/10 hover:to-white/15 border-white/10 hover:border-[#8A3FFC]/50 text-white shadow-[0_4px_16px_rgba(0,0,0,0.3)] hover:shadow-[0_0_20px_rgba(138,63,252,0.35)]"
+                      }`}
+                    >
+                      <Calendar className={`w-3.5 h-3.5 ${openQuickBookIndex === i ? "text-[#FF4DB8]" : "text-[#00D1FF]"}`} />
+                      <span>{openQuickBookIndex === i ? "Fechar Proposta" : "Quick Book · Sugerir Data"}</span>
+                    </button>
+
+                    {/* Inline Mini-Form for Instant Date Suggestion */}
+                    <AnimatePresence>
+                      {openQuickBookIndex === i && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                          animate={{ opacity: 1, height: "auto", marginTop: 14 }}
+                          exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <div className="p-4 rounded-2xl bg-black/80 border border-white/15 backdrop-blur-2xl shadow-[0_12px_32px_rgba(0,0,0,0.6)] text-left">
+                            {quickBookData[i]?.submitted ? (
+                              <div className="text-center py-2">
+                                <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto mb-2">
+                                  <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                                </div>
+                                <h4 className="text-sm font-bold text-white mb-1">
+                                  Data sugerida com sucesso!
+                                </h4>
+                                <p className="text-[11px] text-[var(--bf-text-secondary,#A7ADC0)] leading-relaxed mb-3">
+                                  Sua proposta para <strong>{segment.title}</strong> na data <strong>{quickBookData[i]?.date ? new Date(quickBookData[i].date + 'T12:00:00').toLocaleDateString('pt-BR') : 'selecionada'}</strong> foi enviada diretamente para a agenda do artista.
+                                </p>
+                                {quickBookData[i]?.soundcloudUrl && (
+                                  <div className="mb-3 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-[11px] flex items-center gap-2">
+                                    <Music className="w-3.5 h-3.5 text-[#FF5500] shrink-0" />
+                                    <span className="text-white/60 truncate">
+                                      SoundCloud: <span className="text-[#00D1FF]">{quickBookData[i].soundcloudUrl}</span>
+                                    </span>
+                                  </div>
+                                )}
+                                <div className="flex items-center justify-center gap-3">
+                                  <button
+                                    type="button"
+                                    onClick={() => handleResetQuickBook(i)}
+                                    className="text-[11px] font-semibold text-[#00D1FF] hover:underline cursor-pointer"
+                                  >
+                                    Sugerir outra data
+                                  </button>
+                                  <span className="text-white/20">·</span>
+                                  <button
+                                    type="button"
+                                    onClick={() => setOpenQuickBookIndex(null)}
+                                    className="text-[11px] font-semibold text-white/50 hover:text-white cursor-pointer"
+                                  >
+                                    Fechar
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <form
+                                onSubmit={(e) => {
+                                  e.preventDefault();
+                                  handleSubmitQuickBook(i);
+                                }}
+                                className="space-y-3"
+                              >
+                                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                                  <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#00D1FF]">
+                                    <Sparkles className="w-3.5 h-3.5 text-[#C084FC]" />
+                                    <span>Sugerir Data de Gig</span>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => setOpenQuickBookIndex(null)}
+                                    className="text-white/40 hover:text-white transition-colors cursor-pointer p-0.5"
+                                    title="Fechar"
+                                  >
+                                    <X className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+
+                                <div>
+                                  <label className="block text-[11px] font-medium text-white/80 mb-1">
+                                    Data Pretendida <span className="text-rose-400">*</span>
+                                  </label>
+                                  <input
+                                    type="date"
+                                    required
+                                    min={new Date().toISOString().split("T")[0]}
+                                    value={quickBookData[i]?.date || ""}
+                                    onChange={(e) => handleFieldChange(i, "date", e.target.value)}
+                                    className="w-full bg-[#080B0F]/90 border border-white/15 focus:border-[#8A3FFC] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#8A3FFC] transition-all [color-scheme:dark]"
+                                  />
+                                </div>
+
+                                <div>
+                                  <label className="block text-[11px] font-medium text-white/80 mb-1">
+                                    Local ou Formato do Evento
+                                  </label>
+                                  <input
+                                    type="text"
+                                    placeholder="Ex: Club, Festival, Sunset, Casamento..."
+                                    value={quickBookData[i]?.venue || ""}
+                                    onChange={(e) => handleFieldChange(i, "venue", e.target.value)}
+                                    className="w-full bg-[#080B0F]/90 border border-white/15 focus:border-[#8A3FFC] rounded-xl px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-[#8A3FFC] transition-all"
+                                  />
+                                </div>
+
+                                <div>
+                                  <label className="block text-[11px] font-medium text-white/80 mb-1 flex items-center justify-between">
+                                    <span className="flex items-center gap-1.5">
+                                      <Music className="w-3 h-3 text-[#FF5500]" />
+                                      <span>Link do SoundCloud (Set / Referência)</span>
+                                    </span>
+                                    <span className="text-[10px] text-white/40 font-normal">Opcional</span>
+                                  </label>
+                                  <input
+                                    type="url"
+                                    id={`quick-book-soundcloud-${i}`}
+                                    placeholder="https://soundcloud.com/seu-perfil/set"
+                                    value={quickBookData[i]?.soundcloudUrl || ""}
+                                    onChange={(e) => handleFieldChange(i, "soundcloudUrl", e.target.value)}
+                                    className="w-full bg-[#080B0F]/90 border border-white/15 focus:border-[#FF5500]/70 rounded-xl px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-[#FF5500]/70 transition-all"
+                                  />
+                                </div>
+
+                                <div>
+                                  <label className="block text-[11px] font-medium text-white/80 mb-1">
+                                    Seu Contato (WhatsApp / E-mail) <span className="text-rose-400">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    required
+                                    placeholder="Para receber confirmação de disponibilidade"
+                                    value={quickBookData[i]?.contact || ""}
+                                    onChange={(e) => handleFieldChange(i, "contact", e.target.value)}
+                                    className="w-full bg-[#080B0F]/90 border border-white/15 focus:border-[#8A3FFC] rounded-xl px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-[#8A3FFC] transition-all"
+                                  />
+                                </div>
+
+                                <div className="pt-1">
+                                  <button
+                                    type="submit"
+                                    disabled={quickBookData[i]?.submitting}
+                                    className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#7C3AED] via-[#8A3FFC] to-[#9333EA] hover:opacity-95 text-white font-bold text-xs tracking-wide shadow-[0_0_16px_rgba(138,63,252,0.4)] flex items-center justify-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                                  >
+                                    {quickBookData[i]?.submitting ? (
+                                      <span className="inline-block animate-pulse">Enviando proposta de data...</span>
+                                    ) : (
+                                      <>
+                                        <Send className="w-3.5 h-3.5" />
+                                        <span>Confirmar Sugestão de Data</span>
+                                      </>
+                                    )}
+                                  </button>
+                                </div>
+                              </form>
+                            )}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Expandable Modal: Bio Completa & Rider Técnico */}
+          <AnimatePresence>
+            {selectedDetailSegment && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.22 }}
+                onClick={() => setSelectedDetailSegment(null)}
+                className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl flex items-center justify-center p-3 sm:p-5 md:p-8 overflow-y-auto"
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                  transition={{ duration: 0.28, ease: "easeOut" }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="relative w-full max-w-3xl max-h-[90vh] bg-[#0D111A] border border-[#202A3A] rounded-3xl shadow-[0_25px_80px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden text-left"
+                >
+                  {/* Background glow orb matching segment accent */}
+                  <div 
+                    className="absolute top-0 right-0 w-[450px] h-[350px] pointer-events-none opacity-20 blur-3xl -z-0"
+                    style={{
+                      background: `radial-gradient(circle, ${selectedDetailSegment.accentColor} 0%, transparent 70%)`
+                    }}
+                  />
+
+                  {/* Top ambient highlight line */}
+                  <div 
+                    className="absolute top-0 left-0 right-0 h-[2px]"
+                    style={{
+                      background: `linear-gradient(to right, transparent, ${selectedDetailSegment.accentColor}, transparent)`
+                    }}
+                  />
+
+                  {/* Modal Header */}
+                  <div className="p-6 sm:p-8 border-b border-[#202A3A]/80 relative z-10 flex items-start justify-between gap-4">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2.5 mb-3">
+                        <span className="px-3 py-1 rounded-lg border text-[11px] font-mono font-bold uppercase tracking-wider text-[#C084FC] bg-[#8A3FFC]/15 border-[#8A3FFC]/30">
+                          {selectedDetailSegment.badge}
+                        </span>
+                        <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-[10px] font-mono font-semibold text-[#00D1FF] flex items-center gap-1.5">
+                          <Sparkles className="w-3 h-3 text-[#00D1FF]" />
+                          PERFIL PROFISSIONAL VERIFICADO
+                        </span>
+                      </div>
+                      <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                        {selectedDetailSegment.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-[#00D1FF] font-medium mt-1">
+                        {selectedDetailSegment.subtitle}
+                      </p>
+                    </div>
+
+                    {/* Close Button with ESC label */}
+                    <div className="flex items-center gap-2">
+                      <span className="hidden sm:inline-block text-[10px] font-mono text-white/30 border border-white/10 rounded px-1.5 py-0.5">
+                        ESC
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedDetailSegment(null)}
+                        className="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all cursor-pointer"
+                        aria-label="Fechar modal"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Modal Scrollable Content */}
+                  <div className="p-6 sm:p-8 overflow-y-auto space-y-8 relative z-10 custom-scrollbar">
+                    {/* Quick meta badges: Gênero, Experiência, Formato */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div className="p-3.5 rounded-2xl bg-black/40 border border-white/10">
+                        <div className="flex items-center gap-1.5 text-[10px] font-mono text-[var(--bf-text-muted,#71788E)] uppercase mb-1">
+                          <Headphones className="w-3.5 h-3.5 text-[#C084FC]" />
+                          <span>Estilo Musical</span>
+                        </div>
+                        <div className="text-xs font-semibold text-white">
+                          {selectedDetailSegment.genre}
+                        </div>
+                      </div>
+
+                      <div className="p-3.5 rounded-2xl bg-black/40 border border-white/10">
+                        <div className="flex items-center gap-1.5 text-[10px] font-mono text-[var(--bf-text-muted,#71788E)] uppercase mb-1">
+                          <Radio className="w-3.5 h-3.5 text-[#00D1FF]" />
+                          <span>Trajetória</span>
+                        </div>
+                        <div className="text-xs font-semibold text-white">
+                          {selectedDetailSegment.experience}
+                        </div>
+                      </div>
+
+                      <div className="p-3.5 rounded-2xl bg-black/40 border border-white/10">
+                        <div className="flex items-center gap-1.5 text-[10px] font-mono text-[var(--bf-text-muted,#71788E)] uppercase mb-1">
+                          <Zap className="w-3.5 h-3.5 text-[#FF4DB8]" />
+                          <span>Formato do Set</span>
+                        </div>
+                        <div className="text-xs font-semibold text-white">
+                          {selectedDetailSegment.performanceFormat}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* SECTION 1: Bio Artística Completa */}
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-7 h-7 rounded-lg bg-[#8A3FFC]/15 border border-[#8A3FFC]/30 flex items-center justify-center text-[#C084FC]">
+                          <FileText className="w-4 h-4" />
+                        </div>
+                        <h4 className="text-base font-bold text-white tracking-wide">
+                          Biografia & Trajetória Artística
+                        </h4>
+                      </div>
+                      <div className="p-5 rounded-2xl bg-white/[0.03] border border-[#202A3A] text-sm text-[rgba(255,255,255,0.82)] leading-relaxed space-y-3">
+                        <p>{selectedDetailSegment.bio}</p>
+                        <p className="text-xs text-[var(--bf-text-muted,#71788E)] font-mono">
+                          Perfil estruturado no Beat Flow com sincronização de métricas e discografia conectada.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* SECTION 2: Rider Técnico Oficial */}
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-7 h-7 rounded-lg bg-[#00D1FF]/15 border border-[#00D1FF]/30 flex items-center justify-center text-[#00D1FF]">
+                            <Sliders className="w-4 h-4" />
+                          </div>
+                          <h4 className="text-base font-bold text-white tracking-wide">
+                            Rider Técnico & Equipamentos Oficiais (Console Setup)
+                          </h4>
+                        </div>
+                        <span className="text-[11px] font-mono font-bold text-[#00D1FF] bg-[#00D1FF]/10 px-2.5 py-0.5 rounded-full border border-[#00D1FF]/20">
+                          {selectedDetailSegment.tagText}
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="p-4 rounded-2xl bg-black/50 border border-[#202A3A]">
+                          <div className="text-[10px] font-mono text-[var(--bf-text-muted,#71788E)] uppercase mb-1 flex items-center gap-1.5">
+                            <Disc3 className="w-3 h-3 text-[#C084FC]" />
+                            <span>Players / Decks</span>
+                          </div>
+                          <div className="text-xs text-white/90 font-mono leading-relaxed">
+                            {selectedDetailSegment.rider.players}
+                          </div>
+                        </div>
+
+                        <div className="p-4 rounded-2xl bg-black/50 border border-[#202A3A]">
+                          <div className="text-[10px] font-mono text-[var(--bf-text-muted,#71788E)] uppercase mb-1 flex items-center gap-1.5">
+                            <Sliders className="w-3 h-3 text-[#00D1FF]" />
+                            <span>Mixer & Áudio</span>
+                          </div>
+                          <div className="text-xs text-white/90 font-mono leading-relaxed">
+                            {selectedDetailSegment.rider.mixer}
+                          </div>
+                        </div>
+
+                        <div className="p-4 rounded-2xl bg-black/50 border border-[#202A3A]">
+                          <div className="text-[10px] font-mono text-[var(--bf-text-muted,#71788E)] uppercase mb-1 flex items-center gap-1.5">
+                            <Volume2 className="w-3 h-3 text-[#FF4DB8]" />
+                            <span>Monitoramento de Cabine (Booth)</span>
+                          </div>
+                          <div className="text-xs text-white/90 font-mono leading-relaxed">
+                            {selectedDetailSegment.rider.booth}
+                          </div>
+                        </div>
+
+                        <div className="p-4 rounded-2xl bg-black/50 border border-[#202A3A]">
+                          <div className="text-[10px] font-mono text-[var(--bf-text-muted,#71788E)] uppercase mb-1 flex items-center gap-1.5">
+                            <Zap className="w-3 h-3 text-amber-400" />
+                            <span>Alimentação Elétrica</span>
+                          </div>
+                          <div className="text-xs text-white/90 font-mono leading-relaxed">
+                            {selectedDetailSegment.rider.power}
+                          </div>
+                        </div>
+
+                        <div className="p-4 rounded-2xl bg-black/50 border border-[#202A3A]">
+                          <div className="text-[10px] font-mono text-[var(--bf-text-muted,#71788E)] uppercase mb-1 flex items-center gap-1.5">
+                            <Radio className="w-3 h-3 text-emerald-400" />
+                            <span>Microfonação & Voz</span>
+                          </div>
+                          <div className="text-xs text-white/90 font-mono leading-relaxed">
+                            {selectedDetailSegment.rider.mic}
+                          </div>
+                        </div>
+
+                        <div className="p-4 rounded-2xl bg-black/50 border border-[#202A3A]">
+                          <div className="text-[10px] font-mono text-[var(--bf-text-muted,#71788E)] uppercase mb-1 flex items-center gap-1.5">
+                            <Layers className="w-3 h-3 text-cyan-400" />
+                            <span>Cabeamento & Rede</span>
+                          </div>
+                          <div className="text-xs text-white/90 font-mono leading-relaxed">
+                            {selectedDetailSegment.rider.connections}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-3 p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200/90 leading-relaxed flex items-start gap-2.5">
+                        <span className="font-bold text-amber-400 font-mono shrink-0">CABINE:</span>
+                        <span>{selectedDetailSegment.rider.stageNotes}</span>
+                      </div>
+                    </div>
+
+                    {/* SECTION 3: Highlights & Diferenciais */}
+                    <div>
+                      <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--bf-text-muted,#71788E)] mb-3">
+                        Destaques de Performance & Garantias
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        {selectedDetailSegment.highlights.map((h, hIdx) => (
+                          <div key={hIdx} className="p-3 rounded-xl bg-white/[0.02] border border-white/10 flex items-start gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                            <span className="text-xs text-white/80">{h}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Modal Footer Actions */}
+                  <div className="p-5 sm:p-6 bg-black/60 border-t border-[#202A3A] relative z-10 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div className="text-xs text-[var(--bf-text-muted,#71788E)]">
+                      Pronto para incluir este formato na sua line-up ou evento?
+                    </div>
+                    <div className="flex items-center gap-3 w-full sm:w-auto">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const segIndex = djSegments.findIndex(s => s.title === selectedDetailSegment.title);
+                          setSelectedDetailSegment(null);
+                          if (segIndex !== -1) {
+                            setOpenQuickBookIndex(segIndex);
+                            const el = document.getElementById(`quick-book-btn-${segIndex}`);
+                            if (el) {
+                              setTimeout(() => {
+                                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                              }, 100);
+                            }
+                          }
+                        }}
+                        className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#7C3AED] via-[#8A3FFC] to-[#9333EA] hover:opacity-95 text-white font-bold text-xs tracking-wide shadow-[0_0_20px_rgba(138,63,252,0.4)] flex items-center justify-center gap-2 cursor-pointer transition-all"
+                      >
+                        <Calendar className="w-3.5 h-3.5 text-[#00D1FF]" />
+                        <span>Sugerir Data para este Formato</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedDetailSegment(null)}
+                        className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-white/70 hover:text-white cursor-pointer transition-all"
+                      >
+                        Fechar
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+        </div>
+      </section>
+
+      {/* Luminous Light Beam Divider */}
+      <LuminousDivider glow={true} />
+
+      {/* ---------------------------------------------------- */}
+      {/* FINAL HIGH-CONVERSION CTA BANNER */}
+      {/* ---------------------------------------------------- */}
+      <section className="py-28 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#05050a] relative overflow-hidden text-center">
+        
+        {/* Glow spotlights behind banner */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-gradient-to-r from-[#8A3FFC]/25 via-[#A855F7]/30 to-[#00D1FF]/20 blur-[180px] rounded-full pointer-events-none" />
+        
+        {/* Subtle grid background */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
+
+        <div className="max-w-4xl mx-auto relative z-10">
+          
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md">
+            <Sparkles className="w-4 h-4 text-[#C084FC]" />
+            <span className="text-xs font-mono uppercase tracking-widest text-white/80">GARANTA SEU LINK EXCLUSIVO</span>
+          </div>
+
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-6 leading-tight">
+            Seu próximo pedido pode começar pelo seu link.
+          </h2>
+
+          <p className="text-base sm:text-xl text-[rgba(255,255,255,0.72)] max-w-2xl mx-auto mb-10 leading-relaxed">
+            Crie seu perfil Beat Flow e transforme sua presença em oportunidades.
+          </p>
+
+          {/* Interactive DJ Handle Reservation Box (High-Conversion UX) */}
+          <div className="max-w-xl mx-auto mb-3 p-2 rounded-2xl bg-[#0e0c1c]/90 border border-[#8A3FFC]/40 backdrop-blur-2xl shadow-[0_0_45px_rgba(138,63,252,0.35)] flex flex-col sm:flex-row items-center gap-2">
+            <div className="flex-1 flex items-center px-4 py-2.5 w-full bg-black/40 rounded-xl border border-white/10">
+              <span className="text-white/40 font-mono text-sm sm:text-base select-none">beatflow.me/@</span>
+              <input 
+                type="text" 
+                placeholder="seunome" 
+                value={djHandleInput}
+                onChange={(e) => setDjHandleInput(e.target.value.toLowerCase().replace(/[^a-z0-9._]/g, ''))}
+                className="bg-transparent text-white font-mono text-sm sm:text-base focus:outline-none w-full placeholder:text-white/30 ml-0.5"
+              />
+            </div>
+            <Link 
+              href={`/login?mode=signup${djHandleInput ? `&handle=${encodeURIComponent(djHandleInput)}` : ''}`} 
+              className="w-full sm:w-auto"
+            >
+              <button className="w-full sm:w-auto h-12 px-7 rounded-xl bg-gradient-to-r from-[#7C3AED] via-[#8A3FFC] to-[#00D1FF] hover:brightness-110 text-white font-black text-sm shadow-[0_0_25px_rgba(138,63,252,0.6)] flex items-center justify-center gap-2 whitespace-nowrap transition-all cursor-pointer">
+                <span>Reservar link</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </Link>
+          </div>
+
+          {/* Live Availability Feedback Badge */}
+          <div className="mb-10 min-h-[24px]">
+            {djHandleInput.trim().length > 0 ? (
+              <motion.div 
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>beatflow.me/@{djHandleInput} está disponível para reserva imediata!</span>
+              </motion.div>
+            ) : (
+              <div className="inline-flex items-center gap-2 text-xs font-mono text-white/40 px-3 py-1">
+                <span>⚡ Digite o nome do seu projeto para verificar disponibilidade em tempo real</span>
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link href="/login?mode=signup">
+              <button className="h-15 px-10 rounded-full bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#3B82F6] hover:from-[#6D28D9] hover:to-[#2563EB] text-white font-black text-base shadow-[0_0_30px_rgba(138,63,252,0.5)] hover:shadow-[0_0_40px_rgba(138,63,252,0.8)] flex items-center gap-3 transition-all transform hover:-translate-y-1 cursor-pointer">
+                <span>Criar meu Press Kit grátis</span>
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </Link>
+
+            <Link href="/explorar">
+              <button className="h-15 px-8 rounded-full border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white font-semibold text-base transition-all cursor-pointer">
+                Ver perfil ao vivo
+              </button>
+            </Link>
+          </div>
+
+          {/* Trust Guarantees */}
+          <div className="flex flex-wrap items-center justify-center gap-6 mt-8 text-xs text-[rgba(255,255,255,0.6)]">
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Configuração em 2 minutos</span>
+            </span>
+            <span className="w-1 h-1 rounded-full bg-white/20" />
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Sem cartão de crédito</span>
+            </span>
+            <span className="w-1 h-1 rounded-full bg-white/20" />
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>100% responsivo em qualquer tela</span>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* Luminous Light Beam Divider */}
+      <LuminousDivider glow={false} />
+
+      {/* ---------------------------------------------------- */}
+      {/* OFFICIAL FOOTER */}
+      {/* ---------------------------------------------------- */}
+      <footer className="py-12 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#040308] text-xs text-[rgba(255,255,255,0.72)]">
+        <div className="max-w-[1440px] mx-auto">
+          
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 pb-10 border-b border-white/[0.06]">
+            <div>
+              <Logo size="md" />
+              <p className="text-[rgba(255,255,255,0.72)] text-xs mt-3 max-w-sm leading-relaxed">
+                A plataforma oficial de presença digital e contratação de DJs. Mais que um link, o seu próximo set.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-8 text-xs font-medium text-white/70">
+              <Link href="/explorar" className="hover:text-white transition">Sobre</Link>
+              <a href="#para-quem-e" className="hover:text-white transition">Preços</a>
+              <Link href="/login" className="hover:text-white transition">Entrar</Link>
+              <a href="#tudo-em-um-so-lugar" className="hover:text-white transition">Termos</a>
+              <a href="#tudo-em-um-so-lugar" className="hover:text-white transition">Privacidade</a>
+              <Link href="/login" className="hover:text-white transition">Contato</Link>
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 text-[11px]">
+            <div className="flex items-center gap-3">
+              <span className="font-bold text-white tracking-widest">BEAT FLOW</span>
+              <span className="text-white/20">•</span>
+              <span>O PRIMEIRO LINK PARA GRANDES OPORTUNIDADES</span>
+            </div>
+
+            <div className="text-center font-medium tracking-wider text-white/60">
+              Música conecta. Pessoas transformam.
+            </div>
+
+            <div className="flex items-center gap-3 font-mono text-[10px] tracking-widest text-[rgba(255,255,255,0.48)]">
+              <span>BEAT FLOW</span>
+              <span>/</span>
+              <span>CULTURA</span>
+              <span>/</span>
+              <span>SOM</span>
+              <span>/</span>
+              <span>PESSOAS</span>
+            </div>
+          </div>
+
+        </div>
+      </footer>
+
+      {/* Interactive Video Presentation Modal */}
+      {isVideoModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in-50">
+          <div className="relative w-full max-w-3xl bg-[#0e0c1a] border border-white/20 rounded-2xl overflow-hidden shadow-2xl p-6">
+            <button 
+              onClick={() => setIsVideoModalOpen(false)}
+              className="absolute top-4 right-4 text-text-secondary hover:text-white p-2 rounded-full bg-white/10 transition"
+              aria-label="Fechar vídeo"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+              <Play className="w-5 h-5 text-[#8A3FFC] fill-[#8A3FFC]" />
+              <span>Conheça a Experiência Beat Flow</span>
+            </h3>
+
+            <div className="relative aspect-video rounded-xl overflow-hidden bg-black/60 border border-white/10 flex flex-col items-center justify-center p-8 text-center">
+              <div className="w-16 h-16 rounded-full bg-[#8A3FFC]/20 border border-[#8A3FFC] flex items-center justify-center mb-4 text-[#8A3FFC] animate-pulse">
+                <Sparkles className="w-8 h-8" />
+              </div>
+              <h4 className="text-2xl font-black text-white mb-2">Vitrine e Sala Privada</h4>
+              <p className="text-sm text-[rgba(255,255,255,0.72)] max-w-md mb-6 leading-relaxed">
+                Veja como o DJ cria seu link profissional com tocador sonoro contínuo, recebe pré-propostas estruturadas e fecha contratos em salas criptografadas.
+              </p>
+              <Link href="/login?mode=signup" onClick={() => setIsVideoModalOpen(false)}>
+                <Button className="bg-[#8A3FFC] hover:bg-[#8A3FFC]/90 text-white font-bold text-sm px-7 py-3 rounded-xl shadow-lg shadow-[#8A3FFC]/30">
+                  Criar Perfil de Artista Grátis
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+}

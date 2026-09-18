@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "name": "Beat Flow Design Tokens",
+    "version": "1.0.0"
+  },
+  "color": {
+    "bg": {
+      "primary": "#080B0F",
+      "secondary": "#0D111A",
+      "surface": "#111827",
+      "surfaceElevated": "#151B2A"
+    },
+    "brand": {
+      "purple": "#8A3FFC",
+      "violet": "#A855F7",
+      "cyan": "#00D1FF",
+      "pink": "#FF4DB8",
+      "blue": "#0066FF"
+    },
+    "text": {
+      "primary": "#F4F4F7",
+      "secondary": "#A7ADC0",
+      "muted": "#71788E"
+    },
+    "semantic": {
+      "success": "#19D3A2",
+      "warning": "#F59E0B",
+      "error": "#F43F5E",
+      "info": "#38BDF8"
+    },
+    "border": {
+      "subtle": "#202A3A",
+      "default": "#303B51",
+      "active": "#8A3FFC"
+    }
+  },
+  "gradient": {
+    "flow": "linear-gradient(120deg,#00D1FF 0%,#8A3FFC 45%,#FF4DB8 100%)",
+    "aurora": "linear-gradient(135deg,#8A3FFC 0%,#FF4DB8 52%,#00D1FF 100%)",
+    "deep": "linear-gradient(180deg,#111827 0%,#080B0F 100%)"
+  },
+  "font": {
+    "family": {
+      "sans": "'Plus Jakarta Sans',system-ui,sans-serif"
+    },
+    "weight": {
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700,
+      "extrabold": 800
+    }
+  },
+  "space": {
+    "1": "4px",
+    "2": "8px",
+    "3": "12px",
+    "4": "16px",
+    "5": "20px",
+    "6": "24px",
+    "8": "32px",
+    "10": "40px",
+    "12": "48px",
+    "16": "64px"
+  },
+  "radius": {
+    "sm": "6px",
+    "md": "10px",
+    "lg": "16px",
+    "xl": "24px",
+    "pill": "999px"
+  },
+  "shadow": {
+    "card": "0 12px 36px rgba(0,0,0,.35)",
+    "glow": "0 0 24px rgba(138,63,252,.55)",
+    "glowStrong": "0 0 16px rgba(138,63,252,.9),0 0 40px rgba(0,209,255,.25)"
+  },
+  "breakpoint": {
+    "mobile": "320px",
+    "tablet": "768px",
+    "desktop": "1024px",
+    "wide": "1440px"
+  },
+  "motion": {
+    "fast": "120ms",
+    "normal": "220ms",
+    "slow": "360ms",
+    "ease": "cubic-bezier(.2,.8,.2,1)"
+  }
+}
