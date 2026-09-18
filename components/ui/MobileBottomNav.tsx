@@ -3,23 +3,19 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Search, Calendar, User } from 'lucide-react';
-import { WaveformIcon } from '@/components/ui/BeatFlowIcons';
+import { Home, Search, Calendar, User, PlusCircle } from 'lucide-react';
 
 export function MobileBottomNav() {
   const pathname = usePathname();
 
-  // Ocultar a barra inferior em rotas focadas que não devem ter distrações
-  // E também ocultar no perfil público (/[slug]) para não confundir contratantes.
-  const knownRoutes = ['/', '/dashboard', '/explorar', '/eventos', '/perfil'];
-  const isKnownRoute = knownRoutes.includes(pathname || '') || pathname?.startsWith('/dashboard') || pathname?.startsWith('/admin');
-  
-  if (!isKnownRoute) {
+  // Hide mobile bottom bar on dedicated full-screen artist stage (/[slug])
+  // to avoid distracting contractors while enjoying the artist experience
+  const isArtistSlug = pathname && pathname !== '/' && !pathname.startsWith('/dashboard') && !pathname.startsWith('/admin') && !pathname.startsWith('/explorar') && !pathname.startsWith('/login') && !pathname.startsWith('/onboarding') && pathname.split('/').length === 2;
+
+  if (isArtistSlug) {
     return null;
   }
 
-  // 01. NAVEGAÇÃO PRINCIPAL (CONFORME GUIA OFICIAL BEAT FLOW)
-  // Início, Explorar, Oportunidades (Waveform), Eventos (Calendar), Perfil (User)
   const navItems = [
     {
       label: 'Início',
@@ -31,60 +27,80 @@ export function MobileBottomNav() {
       label: 'Explorar',
       href: '/explorar',
       icon: Search,
-      isActive: pathname?.startsWith('/explorar') || pathname?.startsWith('/luna-martins'),
+      isActive: pathname?.startsWith('/explorar'),
     },
     {
-      label: 'Oportunidades',
-      href: '/dashboard/oportunidades',
-      icon: WaveformIcon,
-      isActive: pathname?.startsWith('/dashboard/oportunidades'),
+      label: 'Criar Link',
+      href: '/login?mode=signup',
+      icon: PlusCircle,
+      isActive: pathname?.startsWith('/login?mode=signup') || pathname?.startsWith('/onboarding'),
+      isHighlight: true,
     },
     {
-      label: 'Eventos',
+      label: 'Agenda',
       href: '/dashboard/agenda',
       icon: Calendar,
       isActive: pathname?.startsWith('/dashboard/agenda'),
     },
     {
-      label: 'Perfil',
+      label: 'Meu Painel',
       href: '/dashboard',
       icon: User,
-      isActive: pathname?.startsWith('/dashboard') && !pathname?.startsWith('/dashboard/agenda') && !pathname?.startsWith('/dashboard/oportunidades'),
+      isActive: pathname === '/dashboard' || pathname?.startsWith('/dashboard/profile'),
     },
   ];
 
   return (
-    <nav 
-      aria-label="Navegação mobile" 
-      className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#08080F]/90 backdrop-blur-xl border-t border-white/10 px-4 py-2 flex items-center justify-around shadow-[0_-10px_30px_rgba(0,0,0,0.8)]"
-    >
-      {navItems.map((item) => {
-        const Icon = item.icon;
-        const active = item.isActive;
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition-all ${
-              active 
-                ? 'text-[#8A3FFC] scale-105' 
-                : 'text-white/60 hover:text-white'
-            }`}
-          >
-            <div className={`relative p-1 rounded-xl transition-all ${
-              active ? 'bg-[#8A3FFC]/20 shadow-[0_0_12px_rgba(138,63,252,0.4)]' : ''
-            }`}>
-              <Icon className="w-5 h-5" strokeWidth={active ? 2.4 : 2} />
-              {active && (
-                <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#00D1FF]" />
-              )}
-            </div>
-            <span className={`text-[10px] font-semibold tracking-tight ${active ? 'text-white font-bold' : ''}`}>
-              {item.label}
-            </span>
-          </Link>
-        );
-      })}
-    </nav>
+    <div className="md:hidden fixed bottom-4 left-4 right-4 z-50 pointer-events-none flex justify-center pb-[env(safe-area-inset-bottom)]">
+      <nav 
+        aria-label="Navegação móvel" 
+        className="pointer-events-auto w-full max-w-md bg-zinc-950/90 backdrop-blur-2xl border border-white/15 rounded-full px-3 py-2 flex items-center justify-around shadow-[0_12px_40px_rgba(0,0,0,0.8)]"
+      >
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const active = item.isActive;
+          const highlight = item.isHighlight;
+
+          if (highlight) {
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex flex-col items-center justify-center -mt-5"
+              >
+                <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 text-white flex items-center justify-center shadow-[0_4px_20px_rgba(147,51,234,0.6)] border-2 border-zinc-950 active:scale-95 transition-transform">
+                  <Icon className="w-6 h-6" />
+                </div>
+                <span className="text-[10px] font-bold text-white tracking-tight mt-1">
+                  {item.label}
+                </span>
+              </Link>
+            );
+          }
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex flex-col items-center justify-center py-1 px-3 rounded-full transition-all active:scale-95 ${
+                active 
+                  ? 'text-purple-400 font-bold' 
+                  : 'text-zinc-400 hover:text-white'
+              }`}
+            >
+              <div className="relative">
+                <Icon className="w-5 h-5" strokeWidth={active ? 2.5 : 2} />
+                {active && (
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-purple-400 shadow-[0_0_8px_#C084FC]" />
+                )}
+              </div>
+              <span className={`text-[10px] tracking-tight mt-0.5 ${active ? 'text-white' : ''}`}>
+                {item.label}
+              </span>
+            </Link>
+          );
+        })}
+      </nav>
+    </div>
   );
 }
