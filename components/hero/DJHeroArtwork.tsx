@@ -111,7 +111,7 @@ export function DJHeroArtwork({ onOpenBooking }: DJHeroArtworkProps) {
         <Image 
           src="https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?q=80&w=2000&auto=format&fit=crop"
           alt="Concert Crowd & Stage Lasers"
-          fill
+          fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority
           referrerPolicy="no-referrer"
           className="object-cover object-center opacity-30 mix-blend-screen scale-105 group-hover:scale-100 transition-transform duration-1000"
@@ -383,7 +383,7 @@ export function DJHeroArtwork({ onOpenBooking }: DJHeroArtworkProps) {
             <Image 
               src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop"
               alt="Midnight Flow"
-              fill
+              fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               referrerPolicy="no-referrer"
               className="object-cover"
             />
