@@ -23,7 +23,14 @@ import {
   FileText,
   Volume2,
   VolumeX,
-  X
+  HelpCircle,
+  Maximize2,
+  Minimize2,
+  QrCode,
+  Info,
+  Check,
+  Flame,
+  Radio
 } from 'lucide-react';
 import { 
   getDJAtmosphere, 
@@ -45,17 +52,33 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(false);
-  const [trackProgress, setTrackProgress] = useState<number>(24);
+  const [trackProgress, setTrackProgress] = useState<number>(35);
+  const [currentCuePoint, setCurrentCuePoint] = useState<string>("Intro");
   const [isBookingModalOpen, setIsBookingModalOpen] = useState<boolean>(false);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
+  const [isStageMode, setIsStageMode] = useState<boolean>(false);
+  const [isQrModalOpen, setIsQrModalOpen] = useState<boolean>(false);
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
-  // Toggle Play
+  // Cue Points / Drop Markers for fast contractor evaluation
+  const cuePoints = [
+    { label: "Intro", progress: 10, time: "0:45", desc: "Ambientação & Textura" },
+    { label: "Build-up", progress: 40, time: "2:30", desc: "Crescimento de Tensão" },
+    { label: "Peak Drop", progress: 65, time: "4:15", desc: "Clímax da Pista (Drop Principal)" },
+    { label: "Outro", progress: 90, time: "5:50", desc: "Transição Suave" }
+  ];
+
+  const handleJumpToCue = (cue: typeof cuePoints[0]) => {
+    setTrackProgress(cue.progress);
+    setCurrentCuePoint(cue.label);
+    setIsPlaying(true);
+  };
+
   const togglePlay = () => {
     setIsPlaying(prev => !prev);
   };
 
-  // Share profile
   const handleShare = () => {
     if (typeof navigator !== 'undefined') {
       navigator.clipboard.writeText(window.location.href);
@@ -64,43 +87,114 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
     }
   };
 
-  // Scroll to section
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <div 
-      className={`min-h-screen text-white relative overflow-x-hidden ${atmosphere.themeClass}`}
+      className={`min-h-screen text-white relative overflow-x-hidden ${atmosphere.themeClass} ${
+        isStageMode ? 'fixed inset-0 z-50 overflow-hidden' : ''
+      }`}
       style={{ backgroundColor: atmosphere.background.baseColor }}
     >
-      {/* 1. ATMOSPHERIC CINEMATIC CANVAS (Volumetric lights & particles) */}
+      {/* 1. ATMOSPHERIC VOLUMETRIC CANVAS */}
       <AtmosphereCanvas atmosphere={atmosphere} isPlaying={isPlaying} />
 
-      {/* Top Floating Artist Minimal Bar */}
-      <header className="fixed top-0 left-0 right-0 z-40 px-6 sm:px-12 py-5 flex items-center justify-between pointer-events-auto backdrop-blur-md bg-black/20 border-b border-white/[0.06]">
+      {/* STAGE BACKDROP FULLSCREEN MODE (Cabine / Telão) */}
+      {isStageMode && (
+        <div className="absolute inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300">
+          <button 
+            onClick={() => setIsStageMode(false)}
+            className="absolute top-6 right-6 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono text-white flex items-center gap-2"
+          >
+            <Minimize2 className="w-4 h-4" />
+            <span>Sair do Modo Palco</span>
+          </button>
+
+          <div className="space-y-6 max-w-lg">
+            <div className="w-32 h-32 rounded-full mx-auto p-1 border-2 shadow-[0_0_60px_rgba(255,255,255,0.3)] animate-pulse" style={{ borderColor: atmosphere.accentColor }}>
+              <div className="w-full h-full rounded-full overflow-hidden relative">
+                <Image src={profile.avatarImage} alt="" fill className="object-cover" />
+              </div>
+            </div>
+            <h2 className="text-6xl sm:text-7xl font-black uppercase tracking-tighter text-white">
+              {profile.name}
+            </h2>
+            <p className="text-sm font-mono text-white/60 tracking-widest uppercase">
+              {profile.tagline}
+            </p>
+            <div className="flex items-center justify-center gap-1.5 h-10 pt-4">
+              {[40, 80, 60, 100, 75, 90, 50, 85, 95, 60, 40, 70].map((h, i) => (
+                <span 
+                  key={i} 
+                  className="w-1.5 rounded-full transition-all duration-300"
+                  style={{ 
+                    height: `${h}%`,
+                    backgroundColor: atmosphere.accentColor 
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Top Floating Artist Header with Subtle Micro-Hints */}
+      <header className="fixed top-0 left-0 right-0 z-40 px-6 sm:px-12 py-4 flex items-center justify-between pointer-events-auto backdrop-blur-xl bg-black/30 border-b border-white/[0.06]">
         <div className="flex items-center gap-3">
           <span className="text-sm font-black tracking-widest uppercase text-white">
             {profile.name}
           </span>
-          <span className="hidden sm:inline-block text-[11px] font-mono text-white/40">
-            / {profile.location}
+          <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-mono text-white/40">
+            <span>/ {profile.location}</span>
           </span>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          {/* Subtle Orientation Icon: What is this page */}
+          <div className="relative group hidden md:block">
+            <button 
+              className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-colors"
+              aria-label="Informações sobre a página"
+            >
+              <HelpCircle className="w-3.5 h-3.5" />
+            </button>
+            <div className="absolute top-full right-0 mt-2 w-64 p-3 rounded-xl bg-zinc-900/95 border border-zinc-700/80 shadow-2xl text-[11px] text-zinc-300 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+              <p className="font-bold text-white mb-1">Palco Digital Oficial</p>
+              Este é o endereço oficial de {profile.name} com músicas em alta fidelidade, rider validado e canal direto para contratação.
+            </div>
+          </div>
+
+          {/* QR Code Digital Pass */}
+          <button 
+            onClick={() => setIsQrModalOpen(true)}
+            className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
+            title="Abrir QR Code de Contato"
+          >
+            <QrCode className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Mode Full Screen Backdrop */}
+          <button 
+            onClick={() => setIsStageMode(true)}
+            className="hidden sm:flex p-2 rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
+            title="Modo Telão / Cabine"
+          >
+            <Maximize2 className="w-3.5 h-3.5" />
+          </button>
+
           <button 
             onClick={handleShare}
-            className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer text-xs flex items-center gap-1.5 px-3"
-            title="Compartilhar Perfil"
+            className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-white/80 hover:text-white transition-colors cursor-pointer text-xs flex items-center gap-1.5"
           >
             <Share2 className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">{copiedLink ? "Link copiado!" : "Compartilhar"}</span>
+            <span>{copiedLink ? "Copiado!" : "Compartilhar"}</span>
           </button>
 
           <button 
             onClick={() => setIsBookingModalOpen(true)}
-            className="px-5 py-2 rounded-full text-xs font-bold text-black transition-all hover:scale-105 cursor-pointer shadow-lg"
+            className="px-5 py-1.5 rounded-full text-xs font-bold text-black transition-all hover:scale-105 cursor-pointer shadow-lg"
             style={{ backgroundColor: atmosphere.accentColor }}
           >
             Contratar
@@ -109,18 +203,16 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
       </header>
 
       {/* ---------------------------------------------------- */}
-      {/* 1. ARTIST STAGE / HERO (IMERSIVO & CINEMATOGRÁFICO) */}
+      {/* 1. HERO / ARTIST STAGE */}
       {/* ---------------------------------------------------- */}
       <section className="relative min-h-[92vh] flex flex-col justify-end px-6 sm:px-12 md:px-20 pb-16 pt-32 z-10">
-        
-        {/* Full Viewport Artist Backdrop */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <Image 
             src={profile.heroImage} 
             alt={profile.name} 
             fill 
             priority
-            className="object-cover object-center sm:object-top filter brightness-[0.65] contrast-[1.1] scale-105 transition-transform duration-1000"
+            className="object-cover object-center sm:object-top filter brightness-[0.65] contrast-[1.1]"
           />
           <div 
             className="absolute inset-0"
@@ -130,9 +222,8 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
           />
         </div>
 
-        {/* Hero Content */}
         <div className="relative z-10 max-w-5xl space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[11px] font-mono tracking-widest text-white/80 uppercase">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-[11px] font-mono tracking-widest text-white/80 uppercase">
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: atmosphere.accentColor }} />
             <span>{profile.location}</span>
           </div>
@@ -145,7 +236,6 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
             {profile.tagline}
           </p>
 
-          {/* Direct Stage CTAs */}
           <div className="flex flex-wrap items-center gap-4 pt-4">
             <button 
               onClick={togglePlay}
@@ -165,78 +255,135 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
             </button>
 
             <button 
-              onClick={() => scrollTo('press-kit')}
-              className="h-14 px-6 rounded-full bg-transparent hover:bg-white/5 text-white/70 hover:text-white font-medium text-xs tracking-wider uppercase transition-colors"
+              onClick={() => scrollTo('como-funciona')}
+              className="h-14 px-6 rounded-full bg-transparent hover:bg-white/5 text-white/70 hover:text-white font-medium text-xs tracking-wider uppercase transition-colors flex items-center gap-1.5"
             >
-              Press Kit & Rider
+              <Info className="w-3.5 h-3.5" />
+              <span>Como Funciona</span>
             </button>
           </div>
         </div>
       </section>
 
       {/* ---------------------------------------------------- */}
-      {/* 2. EXPERIÊNCIA SONORA / PLAYER INTEGRADO */}
+      {/* 2. PLAYER DE ÁUDIO COM CUEPOINTS (PULAR PARA O DROP) */}
       {/* ---------------------------------------------------- */}
       <section className="relative z-20 px-6 sm:px-12 md:px-20 -mt-8 mb-20">
-        <div className="max-w-5xl mx-auto p-5 sm:p-6 rounded-3xl bg-black/60 backdrop-blur-2xl border border-white/10 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="max-w-5xl mx-auto p-5 sm:p-6 rounded-3xl bg-black/70 backdrop-blur-2xl border border-white/15 shadow-2xl space-y-4">
           
-          <div className="flex items-center gap-4 w-full sm:w-auto">
-            <div className="relative w-16 h-16 rounded-2xl overflow-hidden shrink-0 border border-white/10">
-              <Image 
-                src={profile.featuredTrack.coverImage} 
-                alt={profile.featuredTrack.title} 
-                fill 
-                className="object-cover"
-              />
-              <button 
-                onClick={togglePlay}
-                className="absolute inset-0 bg-black/40 flex items-center justify-center text-white"
-              >
-                {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-0.5" />}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <div className="relative w-16 h-16 rounded-2xl overflow-hidden shrink-0 border border-white/10">
+                <Image 
+                  src={profile.featuredTrack.coverImage} 
+                  alt={profile.featuredTrack.title} 
+                  fill 
+                  className="object-cover"
+                />
+                <button 
+                  onClick={togglePlay}
+                  className="absolute inset-0 bg-black/40 flex items-center justify-center text-white"
+                >
+                  {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-0.5" />}
+                </button>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/10 text-white/70">
+                    {profile.featuredTrack.bpm} BPM
+                  </span>
+                  <span className="text-[10px] font-mono text-purple-400 border border-purple-500/20 px-1.5 py-0.5 rounded">
+                    Marcador: {currentCuePoint}
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-white mt-1">{profile.featuredTrack.title}</h3>
+                <p className="text-xs text-white/50">{profile.featuredTrack.artist}</p>
+              </div>
+            </div>
+
+            {/* Cuepoints / Droppoints Bar for Instant Contractor Navigation */}
+            <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
+              {cuePoints.map((cue, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleJumpToCue(cue)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-mono transition-all flex items-center gap-1.5 shrink-0 ${
+                    currentCuePoint === cue.label
+                      ? 'bg-white text-black font-bold shadow-md'
+                      : 'bg-white/5 hover:bg-white/15 text-white/70 hover:text-white border border-white/10'
+                  }`}
+                  title={cue.desc}
+                >
+                  <Flame className="w-3 h-3 text-purple-400" />
+                  <span>{cue.label}</span>
+                  <span className="text-[10px] opacity-60">({cue.time})</span>
+                </button>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-4 text-xs font-mono text-white/60">
+              <span>{profile.featuredTrack.duration}</span>
+              <button onClick={() => setIsMuted(!isMuted)} className="p-2 rounded-full hover:bg-white/10 text-white/70">
+                {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
               </button>
             </div>
-
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/10 text-white/70">
-                  {profile.featuredTrack.bpm} BPM
-                </span>
-                <span className="text-xs font-mono text-emerald-400">Hi-Fi Audio</span>
-              </div>
-              <h3 className="text-base font-bold text-white mt-1">{profile.featuredTrack.title}</h3>
-              <p className="text-xs text-white/50">{profile.featuredTrack.artist}</p>
-            </div>
           </div>
 
-          {/* Visual Waveform Bar */}
-          <div className="flex-1 w-full max-w-md flex items-center gap-1.5 h-8">
-            {[40, 70, 45, 90, 60, 100, 75, 40, 85, 95, 50, 70, 30, 80, 100, 60, 40, 90, 75, 50, 30, 85, 60, 40].map((h, i) => (
-              <div 
-                key={i} 
-                className="flex-1 rounded-full transition-all duration-300"
-                style={{ 
-                  height: isPlaying ? `${Math.max(15, (h * (Math.sin(i + Date.now()/300) * 0.3 + 0.7)))}%` : `${h * 0.4}%`,
-                  backgroundColor: i < (trackProgress / 4) ? atmosphere.accentColor : 'rgba(255,255,255,0.15)'
-                }}
-              />
-            ))}
-          </div>
-
-          <div className="flex items-center gap-4 text-xs font-mono text-white/60">
-            <span>{profile.featuredTrack.duration}</span>
-            <button 
-              onClick={() => setIsMuted(!isMuted)} 
-              className="p-2 rounded-full hover:bg-white/10 text-white/70"
-            >
-              {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-            </button>
+          {/* Sutil Micro-Orientação */}
+          <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-white/40 font-mono">
+            <span className="flex items-center gap-1.5">
+              <Sparkles className="w-3 h-3 text-purple-400" />
+              <span>Clique nos botões acima para pular direto para o clímax ou transição do set</span>
+            </span>
+            <span className="hidden sm:inline text-white/30">Áudio Masterizado 24-bit</span>
           </div>
 
         </div>
       </section>
 
       {/* ---------------------------------------------------- */}
-      {/* 3. IDENTIDADE & MANIFESTO ARTÍSTICO */}
+      {/* 3. GUIA SUTIL "COMO FUNCIONA O BOOKING" */}
+      {/* ---------------------------------------------------- */}
+      <section id="como-funciona" className="relative z-10 px-6 sm:px-12 md:px-20 py-12 max-w-5xl mx-auto">
+        <div className="p-6 sm:p-8 rounded-3xl bg-zinc-900/40 border border-white/[0.08] backdrop-blur-md">
+          <div className="flex items-center gap-2 mb-6">
+            <span className="w-2 h-2 rounded-full bg-purple-400" />
+            <span className="text-xs font-mono uppercase tracking-widest text-zinc-400 font-bold">
+              Processo Transparente & Seguro de Contratação
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
+            <div className="space-y-2">
+              <span className="text-sm font-bold font-mono text-purple-400">01. Envie a Data</span>
+              <h4 className="text-sm font-bold text-white">Consulta em 1 Minuto</h4>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Informe o tipo de evento, cidade e data desejada sem precisar preencher cadastros longos.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-sm font-bold font-mono text-purple-400">02. Alinhamento Direto</span>
+              <h4 className="text-sm font-bold text-white">Rider & Proposta</h4>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Você recebe a confirmação de disponibilidade com contrato formal e especificações técnicas.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-sm font-bold font-mono text-purple-400">03. Show Garantido</span>
+              <h4 className="text-sm font-bold text-white">Sinal de 50% & Bloqueio</h4>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Garantia de data na agenda do artista com recibo digital instantâneo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------------- */}
+      {/* 4. MANIFESTO & IDENTIDADE */}
       {/* ---------------------------------------------------- */}
       <section className="relative z-10 px-6 sm:px-12 md:px-20 py-16 max-w-5xl mx-auto">
         <div className="border-l-2 pl-8 space-y-4" style={{ borderColor: atmosphere.accentColor }}>
@@ -250,14 +397,19 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
       </section>
 
       {/* ---------------------------------------------------- */}
-      {/* 4. AGENDA EDITORIAL / TURNÊ */}
+      {/* 5. AGENDA EDITORIAL */}
       {/* ---------------------------------------------------- */}
       <section id="agenda" className="relative z-10 px-6 sm:px-12 md:px-20 py-20 max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-12 pb-4 border-b border-white/10">
           <div>
-            <span className="text-xs font-mono tracking-widest text-white/40 uppercase block mb-1">
-              Próximas Apresentações
-            </span>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-xs font-mono tracking-widest text-white/40 uppercase">
+                Próximas Apresentações
+              </span>
+              <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
+                Live Sync
+              </span>
+            </div>
             <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-white">
               Agenda & Turnê
             </h2>
@@ -266,7 +418,7 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
             onClick={() => setIsBookingModalOpen(true)}
             className="text-xs font-mono uppercase tracking-wider text-white hover:underline flex items-center gap-1"
           >
-            <span>Solicitar Data</span>
+            <span>Consultar Data</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -305,7 +457,7 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
       </section>
 
       {/* ---------------------------------------------------- */}
-      {/* 5. SOBRE O ARTISTA & BIOGRAFIA */}
+      {/* 6. SOBRE O ARTISTA & BIOGRAFIA */}
       {/* ---------------------------------------------------- */}
       <section className="relative z-10 px-6 sm:px-12 md:px-20 py-20 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
         <div className="md:col-span-5 relative aspect-[3/4] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
@@ -337,26 +489,30 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
       </section>
 
       {/* ---------------------------------------------------- */}
-      {/* 6. PRESS KIT / EPK INTEGRADO */}
+      {/* 7. PRESS KIT / EPK & RIDER TÉCNICO */}
       {/* ---------------------------------------------------- */}
       <section id="press-kit" className="relative z-10 px-6 sm:px-12 md:px-20 py-20 max-w-5xl mx-auto border-t border-white/10">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
           <div>
-            <span className="text-xs font-mono tracking-widest text-white/40 uppercase block mb-1">
-              Material para Curadoria & Imprensa
-            </span>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-xs font-mono tracking-widest text-white/40 uppercase">
+                Material para Curadoria & Imprensa
+              </span>
+              <span className="text-[10px] font-mono text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">
+                Homologado
+              </span>
+            </div>
             <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-white">
               Press Kit Oficial (EPK)
             </h2>
           </div>
-          <a 
-            href="#booking"
-            onClick={(e) => { e.preventDefault(); setIsBookingModalOpen(true); }}
+          <button 
+            onClick={() => setIsBookingModalOpen(true)}
             className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono uppercase tracking-wider text-white flex items-center gap-2 transition-colors self-start"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Solicitar Pacote Completo (ZIP)</span>
-          </a>
+          </button>
         </div>
 
         {/* Galeria de Fotos em Alta Resolução */}
@@ -368,22 +524,25 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
               className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 group cursor-pointer"
             >
               <Image src={photo} alt="" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-xs font-mono text-white transition-opacity">
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center text-xs font-mono text-white transition-opacity">
                 Visualizar Hi-Res
               </div>
             </div>
           ))}
         </div>
 
-        {/* Rider Técnico Homologado */}
+        {/* Rider Técnico Homologado com Dica Sutil */}
         <div className="p-8 rounded-3xl bg-black/40 backdrop-blur-xl border border-white/10 space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <Sliders className="w-5 h-5 text-white/70" />
-              <span>Rider Técnico Homologado</span>
-            </h3>
+            <div>
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <Sliders className="w-5 h-5 text-white/70" />
+                <span>Rider Técnico Homologado</span>
+              </h3>
+              <p className="text-xs text-white/40 mt-1">Configuração validada para operadores de áudio e diretores técnicos de eventos.</p>
+            </div>
             <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
-              Validado
+              Validado de Fábrica
             </span>
           </div>
 
@@ -409,7 +568,7 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
       </section>
 
       {/* ---------------------------------------------------- */}
-      {/* 7. BOOKING / CALL TO ACTION FINAL */}
+      {/* 8. BOOKING CTA FINAL */}
       {/* ---------------------------------------------------- */}
       <section id="booking" className="relative z-10 px-6 sm:px-12 md:px-20 py-24 text-center max-w-4xl mx-auto">
         <span className="text-xs font-mono tracking-widest uppercase text-white/40 block mb-3">
@@ -432,7 +591,7 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
       </section>
 
       {/* ---------------------------------------------------- */}
-      {/* 8. RODAPÉ DISCRETO INSTITUCIONAL */}
+      {/* 9. RODAPÉ INSTITUCIONAL DISCRETO */}
       {/* ---------------------------------------------------- */}
       <footer className="relative z-10 py-10 px-6 sm:px-12 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40 font-mono">
         <div>
@@ -445,7 +604,7 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
         </div>
       </footer>
 
-      {/* Lightbox Modal para Fotos Hi-Res */}
+      {/* Lightbox Modal */}
       {selectedPhotoIndex !== null && (
         <LightboxModal 
           photos={profile.pressPhotos} 
@@ -454,7 +613,32 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
         />
       )}
 
-      {/* Fluxo de Booking Conversacional Progressivo */}
+      {/* Modal de QR Code Digital Pass */}
+      {isQrModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="relative w-full max-w-sm rounded-3xl bg-zinc-950 border border-zinc-800 p-6 text-center space-y-5 shadow-2xl">
+            <button 
+              onClick={() => setIsQrModalOpen(false)}
+              className="absolute top-4 right-4 p-2 rounded-full bg-zinc-900 text-zinc-400 hover:text-white"
+            >
+              <X className="w-4 h-4" />
+            </button>
+            <div className="w-16 h-16 rounded-full mx-auto overflow-hidden relative border-2 border-purple-500/40">
+              <Image src={profile.avatarImage} alt="" fill className="object-cover" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-white">{profile.name}</h3>
+              <p className="text-xs text-zinc-400 mt-0.5">Cartão Digital de Contato</p>
+            </div>
+            <div className="p-6 bg-white rounded-2xl mx-auto w-48 h-48 flex items-center justify-center shadow-inner">
+              <QrCode className="w-36 h-36 text-black" />
+            </div>
+            <p className="text-[11px] text-zinc-500 font-mono">Aproxime a câmera para abrir o perfil</p>
+          </div>
+        </div>
+      )}
+
+      {/* Booking Conversacional */}
       {isBookingModalOpen && (
         <ConversationalBookingModal 
           artistName={profile.name}
