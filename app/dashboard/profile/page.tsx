@@ -418,7 +418,7 @@ export default function ProfileSettingsPage() {
                     <div className="grid grid-cols-2 gap-2">
                       {gallery.map((img, i) => (
                         <div key={i} className="aspect-video relative rounded-xl overflow-hidden border border-white/10">
-                          <Image src={img} alt="Live" fill className="object-cover" referrerPolicy="no-referrer" />
+                          <Image src={img} alt="Live" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover" referrerPolicy="no-referrer" />
                         </div>
                       ))}
                     </div>
@@ -1046,7 +1046,7 @@ export default function ProfileSettingsPage() {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {gallery.map((img, idx) => (
                   <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-white/10 group">
-                    <Image src={img} alt={`Gallery ${idx}`} fill className="object-cover" referrerPolicy="no-referrer" />
+                    <Image src={img} alt={`Gallery ${idx}`} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover" referrerPolicy="no-referrer" />
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
                       <button 
                         type="button" 
