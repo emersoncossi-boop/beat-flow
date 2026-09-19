@@ -41,6 +41,7 @@ import {
 import { AtmosphereCanvas } from './AtmosphereCanvas';
 import { ConversationalBookingModal } from './ConversationalBookingModal';
 import { LightboxModal } from './LightboxModal';
+import { writeToNfcTag, downloadVCard } from '@/lib/nfc-card';
 
 export interface ArtistExperienceProps {
   djSlug: string;
@@ -613,9 +614,9 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
         />
       )}
 
-      {/* Modal de QR Code Digital Pass */}
+      {/* Modal de Cartão Digital NFC & QR Pass */}
       {isQrModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in">
           <div className="relative w-full max-w-sm rounded-3xl bg-zinc-950 border border-zinc-800 p-6 text-center space-y-5 shadow-2xl">
             <button 
               onClick={() => setIsQrModalOpen(false)}
@@ -623,17 +624,45 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
             >
               <X className="w-4 h-4" />
             </button>
-            <div className="w-16 h-16 rounded-full mx-auto overflow-hidden relative border-2 border-purple-500/40">
+            <div className="w-16 h-16 rounded-full mx-auto overflow-hidden relative border-2 border-purple-500/40 shadow-lg">
               <Image src={profile.avatarImage} alt="" fill className="object-cover" />
             </div>
             <div>
               <h3 className="text-xl font-bold text-white">{profile.name}</h3>
-              <p className="text-xs text-zinc-400 mt-0.5">Cartão Digital de Contato</p>
+              <p className="text-xs text-zinc-400 mt-0.5">Cartão Digital NFC & Passe de Contato</p>
             </div>
-            <div className="p-6 bg-white rounded-2xl mx-auto w-48 h-48 flex items-center justify-center shadow-inner">
+            <div className="p-4 bg-white rounded-2xl mx-auto w-44 h-44 flex items-center justify-center shadow-inner">
               <QrCode className="w-36 h-36 text-black" />
             </div>
-            <p className="text-[11px] text-zinc-500 font-mono">Aproxime a câmera para abrir o perfil</p>
+
+            <div className="space-y-2 pt-2">
+              <button
+                type="button"
+                onClick={() => downloadVCard({
+                  name: profile.name,
+                  tagline: profile.tagline,
+                  url: typeof window !== 'undefined' ? window.location.href : `https://beatflow.com.br/@${profile.slug}`,
+                  photoUrl: profile.avatarImage
+                })}
+                className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md"
+              >
+                <Download className="w-4 h-4" />
+                <span>Salvar nos Contatos (vCard / iPhone)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={async () => {
+                  const url = typeof window !== 'undefined' ? window.location.href : `https://beatflow.com.br/@${profile.slug}`;
+                  const res = await writeToNfcTag(url);
+                  alert(res.message);
+                }}
+                className="w-full py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
+              >
+                <Radio className="w-4 h-4 text-emerald-400" />
+                <span>Gravar Cartão Físico NFC (Aproximação)</span>
+              </button>
+            </div>
           </div>
         </div>
       )}
