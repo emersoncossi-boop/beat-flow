@@ -64,7 +64,7 @@ export default function ArtistCanvasPage() {
   // 1. ARTISTA State
   const [artistName, setArtistName] = useState(djProfile?.artisticName || 'Emerson Cossi');
   const [artistSlug, setArtistSlug] = useState(djProfile?.slug || 'emerson-cossi');
-  const [artistGenre, setArtistGenre] = useState('Afro House Â· Deep Tech');
+  const [artistGenre, setArtistGenre] = useState('Afro House \u00B7 Deep Tech');
   const [artistPhoto, setArtistPhoto] = useState(
     djProfile?.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200&auto=format&fit=crop'
   );
