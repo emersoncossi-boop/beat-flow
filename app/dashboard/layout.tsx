@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
-import ProtectedDashboardGuard from "@/components/auth/ProtectedDashboardGuard";
+import { ProtectedDashboardGuard } from "@/components/auth/ProtectedDashboardGuard";
 import { Logo } from "@/components/ui/Logo";
 import { 
   Home, 
@@ -28,7 +28,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   
   // Navigation aligned with Beat Flow Canvas Architecture
   const navItems = [
-    { href: "/dashboard", label: "In\u00EDcio", icon: Home },
+    { href: "/dashboard", label: "Início", icon: Home },
     { href: "/dashboard/universo", label: "Meu Universo", icon: Sparkles, highlight: true },
     { href: "/dashboard/oportunidades", label: "Oportunidades", icon: WaveformIcon },
     { href: "/dashboard/propostas", label: "Propostas", icon: FileText, badge: 3 },
@@ -114,7 +114,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               <h4 className="text-xs font-bold text-white leading-tight">
                 Palco Digital Parametrizado
               </h4>
-              <p className="text-[10px] text-white/50 font-mono">Conte\u00FAdo Livre \u00B7 Design Bloqueado</p>
+              <p className="text-[10px] text-white/50 font-mono">Conteúdo Livre · Design Bloqueado</p>
             </div>
           </div>
 
@@ -140,7 +140,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </Link>
             <button 
               onClick={signOut} 
-              title="Encerrar Sess\u00E3o" 
+              title="Encerrar Sessão" 
               className="p-2 text-white/40 hover:text-red-400 transition cursor-pointer"
             >
               <LogOut className="w-4 h-4" />

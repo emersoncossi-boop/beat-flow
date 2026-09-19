@@ -15,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR" className="dark scroll-smooth">
-      <body className="antialiased bg-[#08080F] text-white min-h-screen font-sans selection:bg-[#8A3FFC] selection:text-white pb-16 md:pb-0 overflow-x-hidden">
+      <body className="antialiased bg-[#08080F] text-white min-h-screen font-sans selection:bg-[#8A3FFC] selection:text-white overflow-x-hidden">
         <AppProviders>
           {children}
           <MobileBottomNav />

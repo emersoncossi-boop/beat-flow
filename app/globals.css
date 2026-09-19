@@ -1,6 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @import "../public/assets/beatflow/BF_design-system.css";
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @theme {
   --font-sans: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
@@ -173,4 +173,17 @@ button, a {
 }
 .pt-safe {
   padding-top: env(safe-area-inset-top, 16px);
+}
+
+/* Error Shake Keyframes & Style for Agenda Conflict Detection */
+@keyframes error-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.error-shake, #agenda-lock-date.error-shake {
+  animation: error-shake 0.4s ease-in-out;
+  border-color: #F43F5E !important;
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.4) !important;
 }

@@ -23,18 +23,20 @@ export default function NotFound() {
         </div>
 
         <div className="space-y-3 pt-2">
-          <Link href="/login?mode=signup">
-            <button className="w-full h-12 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-sm flex items-center justify-center gap-2 hover:brightness-110 transition-all cursor-pointer shadow-lg shadow-purple-600/30">
-              <Sparkles className="w-4 h-4" />
-              <span>Criar Meu Perfil Grátis</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+          <Link 
+            href="/login?mode=signup"
+            className="w-full h-12 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-sm flex items-center justify-center gap-2 hover:brightness-110 transition-all cursor-pointer shadow-lg shadow-purple-600/30"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>Criar Meu Perfil Grátis</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
 
-          <Link href="/">
-            <button className="w-full h-11 rounded-xl border border-zinc-700 bg-zinc-800/40 text-zinc-300 hover:text-white text-xs font-medium transition-colors">
-              Ir para a Página Inicial
-            </button>
+          <Link 
+            href="/"
+            className="w-full h-11 rounded-xl border border-zinc-700 bg-zinc-800/40 text-zinc-300 hover:text-white text-xs font-medium transition-colors flex items-center justify-center"
+          >
+            Ir para a Página Inicial
           </Link>
         </div>
       </div>

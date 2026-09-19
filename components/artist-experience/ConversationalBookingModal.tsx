@@ -42,7 +42,7 @@ export const ConversationalBookingModal: React.FC<ConversationalBookingModalProp
 }) => {
   const activeName = profile?.name || djName || 'Artista';
   const activeSlug = profile?.slug || djSlug || 'artista';
-  const activeMinFee = profile ? parseInt(profile.baseFee.replace(/\D/g, '')) || 3500 : minFee;
+  const activeMinFee = profile ? parseInt((profile?.baseFee || '3500').replace(/\D/g, '')) || 3500 : minFee;
 
   const [step, setStep] = useState(1);
   const [contractorName, setContractorName] = useState('');

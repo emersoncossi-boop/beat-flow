@@ -169,7 +169,7 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
                   Beat Flow
                 </span>
                 <span className="block text-[10px] text-white/40 tracking-widest font-mono">
-                  STAGE PRO
+                  PERFIL OFICIAL
                 </span>
               </div>
             </Link>
@@ -177,7 +177,7 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
             <div className="h-4 w-px bg-white/10 hidden sm:block" />
 
             <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
               <span className="font-mono text-white/80 font-medium">@{profile.slug}</span>
             </div>
           </div>
@@ -268,8 +268,8 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
               {/* Availability Chip & Status */}
               <div className="flex flex-wrap items-center gap-2.5">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-medium">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  DISPONÃVEL TURNÃŠ 2026
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  DISPONÍVEL · TURNÊ 2026
                 </span>
                 <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/70 text-xs font-mono">
                   {profile.location}
@@ -297,15 +297,15 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
               {/* Quick Tech & Booking Metrics Bar */}
               <div className="grid grid-cols-3 gap-3 max-w-lg p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-md">
                 <div className="space-y-0.5">
-                  <span className="text-[10px] uppercase font-mono text-white/40 block">CachÃª Base</span>
+                  <span className="text-[10px] uppercase font-mono text-white/40 block">Cachê Base</span>
                   <span className="text-sm sm:text-base font-bold text-white">{profile.baseFee}</span>
                 </div>
                 <div className="space-y-0.5 border-x border-white/10 px-3">
-                  <span className="text-[10px] uppercase font-mono text-white/40 block">BPM MÃ©dio</span>
+                  <span className="text-[10px] uppercase font-mono text-white/40 block">BPM Médio</span>
                   <span className="text-sm sm:text-base font-bold text-white font-mono">{profile.featuredTrack.bpm} BPM</span>
                 </div>
                 <div className="space-y-0.5 pl-1">
-                  <span className="text-[10px] uppercase font-mono text-white/40 block">Rider TÃ©cnico</span>
+                  <span className="text-[10px] uppercase font-mono text-white/40 block">Rider Técnico</span>
                   <span className="text-sm sm:text-base font-bold text-emerald-400 flex items-center gap-1">
                     <ShieldCheck className="w-4 h-4" /> Homologado
                   </span>
@@ -387,9 +387,9 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
 
                   {/* Vinyl/Platter overlay if playing */}
                   {isPlaying && (
-                    <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-xs font-mono text-white/90 animate-pulse">
+                    <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-xs font-mono text-white/90">
                       <Disc3 className="w-4 h-4 animate-spin text-white" />
-                      <span>TOCANDO AO VIVO</span>
+                      <span>Set Oficial em Execução</span>
                     </div>
                   )}
 
@@ -920,12 +920,12 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
             onClick={() => setIsStageMode(false)}
             className="absolute top-6 right-6 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-mono cursor-pointer"
           >
-            Sair do TelÃ£o (ESC)
+            Sair do Telão (ESC)
           </button>
 
           <div className="text-center space-y-6 max-w-3xl">
-            <span className="text-sm font-mono tracking-widest uppercase text-emerald-400 animate-pulse">
-              â— AO VIVO NO PALCO
+            <span className="text-sm font-mono tracking-widest uppercase text-emerald-400">
+              ● NO TELÃO
             </span>
             <h1 className="text-6xl sm:text-9xl font-black tracking-tighter text-white uppercase drop-shadow-[0_0_80px_rgba(255,255,255,0.4)]">
               {profile.name}

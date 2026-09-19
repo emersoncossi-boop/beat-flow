@@ -71,45 +71,45 @@ export default function BeatFlowLandingPage() {
       </header>
 
       {/* ---------------------------------------------------- */}
-      {/* 2. HERO SECTION - ALTA CONVERSAO & ERGONOMIA MOBILE  */}
+      {/* 2. HERO SECTION - EDITORIAL CSS GRID & ERGONOMIA     */}
       {/* ---------------------------------------------------- */}
-      <section className="relative pt-8 pb-14 sm:pt-16 sm:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-[#07080B]">
+      <section className="relative pt-6 pb-10 sm:pt-12 sm:pb-16 lg:py-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-[#07080B]">
         
-        {/* Architectural Chiaroscuro Stage Lighting */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-white/[0.02] rounded-full blur-[140px] pointer-events-none" />
+        {/* Subtle Architectural Lighting */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-white/[0.02] rounded-full blur-[140px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
             
-            {/* Left Column: Direct Value Proposition & Handle Claim */}
-            <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left">
+            {/* Left Column: Direct Value Proposition & Handle Claim (Single column on mobile) */}
+            <div className="col-span-1 lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left">
               
-              {/* Official Tag */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              {/* Official Editorial Tag */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 mb-4 sm:mb-5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-zinc-300 font-bold">
                   PRESS KIT OFICIAL PARA DJS
                 </span>
               </div>
 
-              {/* High-Impact Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1] mb-5">
+              {/* High-Impact Editorial Headline */}
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.08] mb-3.5 sm:mb-4">
                 Seu som abre a porta.<br />
                 O Beat Flow <span className="text-zinc-400 font-extrabold">fecha o show.</span>
               </h1>
 
               {/* Punchy Subtitle */}
-              <p className="text-sm sm:text-base lg:text-lg text-zinc-400 max-w-xl mb-8 leading-relaxed">
+              <p className="text-sm sm:text-base text-zinc-400 max-w-xl mb-6 sm:mb-7 leading-relaxed font-normal">
                 M&uacute;sica com marcadores de drop, rider t&eacute;cnico homologado, agenda sincronizada e propostas formais em um &uacute;nico link profissional de alta autoridade.
               </p>
 
               {/* Mobile-Ergonomic Handle Claim Form (16px font prevents iOS zoom) */}
-              <div className="w-full max-w-lg mb-6">
+              <div className="w-full max-w-md mb-4 sm:mb-5">
                 <form 
                   onSubmit={handleClaimSlug}
-                  className="p-1.5 rounded-2xl bg-[#0F1118] border border-white/15 focus-within:border-white/40 focus-within:bg-white/[0.06] transition-all shadow-xl flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
+                  className="p-1 rounded-2xl bg-[#0E1017] border border-white/15 focus-within:border-white/40 focus-within:bg-white/[0.04] transition-all shadow-lg flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5"
                 >
-                  <div className="flex items-center w-full px-3.5 h-12 bg-white/5 rounded-xl">
+                  <div className="flex items-center w-full px-3.5 h-11 bg-white/5 rounded-xl">
                     <span className="text-zinc-400 font-mono text-xs sm:text-sm select-none shrink-0">
                       beatflow.me/@
                     </span>
@@ -127,15 +127,15 @@ export default function BeatFlowLandingPage() {
                   </div>
                   <button
                     type="submit"
-                    className="h-12 px-6 rounded-xl bg-white hover:bg-zinc-200 active:scale-95 text-black font-bold text-sm tracking-tight flex items-center justify-center gap-2 transition-all shrink-0 cursor-pointer shadow-md"
+                    className="h-11 px-5 rounded-xl bg-white hover:bg-zinc-200 active:scale-95 text-black font-bold text-xs sm:text-sm tracking-tight flex items-center justify-center gap-2 transition-all shrink-0 cursor-pointer shadow-sm"
                   >
                     <span>Reivindicar</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </form>
 
                 {/* Micro-Feedback */}
-                <div className="mt-3 text-left px-2">
+                <div className="mt-2.5 text-left px-1.5">
                   {djHandleInput.trim().length > 0 ? (
                     <div className="inline-flex items-center gap-1.5 text-xs font-mono text-emerald-400">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -144,22 +144,22 @@ export default function BeatFlowLandingPage() {
                   ) : (
                     <span className="text-xs font-mono text-zinc-500 flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-zinc-400" />
-                      <span>Garante seu endere&ccedil;o oficial antes que outro artista registre</span>
+                      <span>Reserve seu endere&ccedil;o oficial antes que outro artista registre</span>
                     </span>
                   )}
                 </div>
               </div>
 
               {/* Trust Indicator */}
-              <div className="flex items-center gap-3 text-xs text-zinc-500 font-medium">
-                <span className="w-2 h-2 rounded-full bg-zinc-700" />
+              <div className="flex items-center gap-2 text-xs text-zinc-500 font-mono">
+                <span className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
                 <span>Utilizado por DJs residentes e headliners em todo o Brasil</span>
               </div>
 
             </div>
 
-            {/* Right Column: Realistic Faithful Stage Mockup */}
-            <div className="lg:col-span-6 w-full mt-4 lg:mt-0">
+            {/* Right Column: Editorial Interactive Stage Mockup (Controlled height, no bloat) */}
+            <div className="col-span-1 lg:col-span-6 w-full flex justify-center mt-2 lg:mt-0">
               <HeroInteractiveStage 
                 djHandle={djHandleInput} 
                 onClaim={() => handleClaimSlug()} 

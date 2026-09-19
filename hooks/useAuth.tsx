@@ -45,8 +45,8 @@ const DEFAULT_DJ_PROFILE: DJProfile = {
   artisticName: 'Emerson Cossi',
   slug: 'emerson-cossi',
   email: 'emerson.cossi@gmail.com',
-  city: 'SÃ£o Paulo - SP',
-  bio: 'DJ & Produtor musical especializado em Afro House, Deep Tech e conexÃµes sonoras imersivas para clubs e festivais.',
+  city: 'São Paulo - SP',
+  bio: 'DJ & Produtor musical especializado em Afro House, Deep Tech e conexões sonoras imersivas para clubs e festivais.',
   genres: ['Afro House', 'Deep House', 'Tech House'],
   rateRange: 'R$ 4.500 - 8.000',
   availability: 'active',
@@ -119,9 +119,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true);
     setError(null);
 
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const cleanPass = pass || '';
+
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+      setIsLoading(false);
+      const err = 'Por favor, insira um endereço de e-mail válido.';
+      setError(err);
+      return { success: false, error: err };
+    }
+
+    if (!cleanPass || cleanPass.length < 6) {
+      setIsLoading(false);
+      const err = 'A senha precisa ter no mínimo 6 caracteres.';
+      setError(err);
+      return { success: false, error: err };
+    }
+
     if (auth) {
       try {
-        const cred = await signInWithEmailAndPassword(auth, email, pass);
+        const cred = await signInWithEmailAndPassword(auth, cleanEmail, cleanPass);
         setUser(cred.user);
         if (typeof window !== 'undefined') {
           localStorage.setItem('bf_session_user', JSON.stringify({ email: cred.user.email, uid: cred.user.uid }));
@@ -129,22 +146,47 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setIsLoading(false);
         return { success: true };
       } catch (fbErr: any) {
-        console.warn('[Auth] Firebase note:', fbErr.message);
+        console.warn('[Auth] Firebase note:', fbErr?.code, fbErr?.message);
+        const code = fbErr?.code;
+        if (code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
+          setIsLoading(false);
+          const err = 'Senha incorreta ou credenciais inválidas.';
+          setError(err);
+          return { success: false, error: err };
+        }
+        if (code === 'auth/user-not-found') {
+          setIsLoading(false);
+          const err = 'Usuário não encontrado. Crie uma conta ou use o acesso demo.';
+          setError(err);
+          return { success: false, error: err };
+        }
+        if (code === 'auth/invalid-email') {
+          setIsLoading(false);
+          const err = 'O formato do e-mail é inválido.';
+          setError(err);
+          return { success: false, error: err };
+        }
+        if (code === 'auth/too-many-requests') {
+          setIsLoading(false);
+          const err = 'Muitas tentativas bloqueadas temporariamente. Tente novamente em instantes.';
+          setError(err);
+          return { success: false, error: err };
+        }
       }
     }
 
-    // Seamless instant login fallback
+    // Fallback authentication for preview/standalone mode
     const fallbackUser: any = {
-      uid: 'dj_' + Math.random().toString(36).substr(2, 9),
-      email: email,
-      displayName: email.split('@')[0]
+      uid: 'dj_' + Math.random().toString(36).substring(2, 11),
+      email: cleanEmail,
+      displayName: cleanEmail.split('@')[0]
     };
 
     const profile: DJProfile = {
       ...DEFAULT_DJ_PROFILE,
-      email: email,
-      artisticName: email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-      slug: email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '')
+      email: cleanEmail,
+      artisticName: cleanEmail.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+      slug: cleanEmail.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '')
     };
 
     setUser(fallbackUser);
@@ -170,7 +212,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       slug: isLuna ? 'luna-martins' : 'dj-skyline',
       email: isLuna ? 'luna@beatflow.art' : 'skyline@beatflow.art',
       genres: isLuna ? ['Melodic Techno', 'Progressive House'] : ['Afro House', 'Tech House'],
-      city: isLuna ? 'Rio de Janeiro - RJ' : 'SÃ£o Paulo - SP'
+      city: isLuna ? 'Rio de Janeiro - RJ' : 'São Paulo - SP'
     };
 
     const demoUser: any = {
@@ -195,17 +237,43 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true);
     setError(null);
 
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const cleanPass = pass || '';
+    const cleanName = (artisticName || '').trim();
+    const cleanCity = (city || 'São Paulo - SP').trim();
+
+    if (!cleanName) {
+      setIsLoading(false);
+      const err = 'Informe seu nome artístico para o palco.';
+      setError(err);
+      return { success: false, error: err };
+    }
+
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+      setIsLoading(false);
+      const err = 'Por favor, insira um e-mail profissional válido.';
+      setError(err);
+      return { success: false, error: err };
+    }
+
+    if (!cleanPass || cleanPass.length < 6) {
+      setIsLoading(false);
+      const err = 'A senha precisa ter no mínimo 6 caracteres.';
+      setError(err);
+      return { success: false, error: err };
+    }
+
     if (auth) {
       try {
-        const cred = await createUserWithEmailAndPassword(auth, email, pass);
+        const cred = await createUserWithEmailAndPassword(auth, cleanEmail, cleanPass);
         setUser(cred.user);
         const newProf: DJProfile = {
           ...DEFAULT_DJ_PROFILE,
           uid: cred.user.uid,
-          email: email,
-          artisticName: artisticName,
-          city: city,
-          slug: artisticName.toLowerCase().replace(/[^a-z0-9]/g, '')
+          email: cleanEmail,
+          artisticName: cleanName,
+          city: cleanCity,
+          slug: cleanName.toLowerCase().replace(/[^a-z0-9]/g, '')
         };
         setDjProfile(newProf);
         if (typeof window !== 'undefined') {
@@ -215,22 +283,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setIsLoading(false);
         return { success: true };
       } catch (fbErr: any) {
-        console.warn('[Auth] Firebase signup note:', fbErr.message);
+        console.warn('[Auth] Firebase signup note:', fbErr?.code, fbErr?.message);
+        const code = fbErr?.code;
+        if (code === 'auth/email-already-in-use') {
+          setIsLoading(false);
+          const err = 'Este e-mail já está cadastrado. Faça login com suas credenciais.';
+          setError(err);
+          return { success: false, error: err };
+        }
+        if (code === 'auth/weak-password') {
+          setIsLoading(false);
+          const err = 'A senha é muito fraca. Use pelo menos 6 caracteres com letras e números.';
+          setError(err);
+          return { success: false, error: err };
+        }
+        if (code === 'auth/invalid-email') {
+          setIsLoading(false);
+          const err = 'O formato do e-mail é inválido.';
+          setError(err);
+          return { success: false, error: err };
+        }
       }
     }
 
     const fallbackUser: any = {
-      uid: 'dj_' + Math.random().toString(36).substr(2, 9),
-      email: email,
-      displayName: artisticName
+      uid: 'dj_' + Math.random().toString(36).substring(2, 11),
+      email: cleanEmail,
+      displayName: cleanName
     };
 
     const newProf: DJProfile = {
       ...DEFAULT_DJ_PROFILE,
-      email: email,
-      artisticName: artisticName,
-      city: city,
-      slug: artisticName.toLowerCase().replace(/[^a-z0-9]/g, '')
+      email: cleanEmail,
+      artisticName: cleanName,
+      city: cleanCity,
+      slug: cleanName.toLowerCase().replace(/[^a-z0-9]/g, '')
     };
 
     setUser(fallbackUser);

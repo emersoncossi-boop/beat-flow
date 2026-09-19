@@ -55,7 +55,7 @@ export function Logo({ className, size = "md", disableLink = false }: LogoProps)
     <Link 
       href="/" 
       className={cn("relative inline-flex items-center group transition-transform duration-300 hover:opacity-95 focus:outline-none select-none", sizes[size].container, className)}
-      aria-label="Beat Flow by Nexora - PÃ¡gina Inicial"
+      aria-label="Beat Flow by Nexora - Página Inicial"
     >
       {content}
     </Link>

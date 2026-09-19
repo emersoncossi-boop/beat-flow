@@ -745,7 +745,7 @@ export function UsersHubModule({ isDarkMode }: UsersHubModuleProps) {
           </div>
         </div>
       )}
-    </div>
+
       {/* Modal de Concessão de Cortesia VIP (Proprietário / Merchan) */}
       {vipModalDj && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
@@ -820,5 +820,6 @@ export function UsersHubModule({ isDarkMode }: UsersHubModuleProps) {
           </div>
         </div>
       )}
+    </div>
   );
 }

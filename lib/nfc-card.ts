@@ -42,13 +42,32 @@ export async function writeToNfcTag(url: string): Promise<{ success: boolean; me
 }
 
 // 2. Universal vCard (.vcf) Generator for Apple iOS & Android Contacts
-export function downloadVCard(contact: DJContactCard) {
+export function downloadVCard(
+  contactOrSlug: DJContactCard | string,
+  name?: string,
+  phone?: string,
+  email?: string,
+  url?: string
+) {
+  if (typeof window === 'undefined') return;
+
+  const contact: DJContactCard = typeof contactOrSlug === 'object' 
+    ? contactOrSlug 
+    : {
+        name: name || contactOrSlug,
+        tagline: 'Artista Oficial Beat Flow',
+        url: url || `https://beatflow.me/${contactOrSlug}`,
+        email: email || `${contactOrSlug}@beatflow.me`,
+        phone: phone || '+55 11 99999-9999',
+      };
+
+  const displayName = contact.name || 'Artista';
   const vcard = [
     'BEGIN:VCARD',
     'VERSION:3.0',
-    `FN:${contact.name}`,
-    `TITLE:${contact.tagline}`,
-    `URL:${contact.url}`,
+    `FN:${displayName}`,
+    `TITLE:${contact.tagline || 'DJ & Produtor'}`,
+    `URL:${contact.url || ''}`,
     contact.email ? `EMAIL;TYPE=INTERNET:${contact.email}` : '',
     contact.phone ? `TEL;TYPE=CELL:${contact.phone}` : '',
     contact.instagram ? `X-SOCIALPROFILE;type=instagram:${contact.instagram}` : '',
@@ -57,11 +76,12 @@ export function downloadVCard(contact: DJContactCard) {
   ].filter(Boolean).join('\r\n');
 
   const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
+  const downloadUrl = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', `${contact.name.toLowerCase().replace(/\s+/g, '_')}_contato.vcf`);
+  link.href = downloadUrl;
+  link.setAttribute('download', `${displayName.toLowerCase().replace(/\s+/g, '_')}_contato.vcf`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  URL.revokeObjectURL(downloadUrl);
 }

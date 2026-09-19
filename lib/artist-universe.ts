@@ -355,7 +355,7 @@ export const ARTIST_PROFILES: Record<string, ArtistProfileData> = {
     baseFee: 'R$ 4.500',
     durationSet: '2h00 Extended Set',
     presetId: 'noir-chrome',
-    heroImage: 'https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?q=80&w=1600&auto=format&fit=crop',
+    heroImage: 'https://images.unsplash.com/photo-1598387993441-a364f854c3e1?q=80&w=1600&auto=format&fit=crop',
     avatarImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop',
     bioShort: 'Elevando pistas de alta moda e clubs conceituais com frequências densas, percussão afro hipnótica e transições cirúrgicas.',
     bioLong: {
@@ -389,7 +389,7 @@ export const ARTIST_PROFILES: Record<string, ArtistProfileData> = {
       'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1200&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?q=80&w=1200&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1598387993441-a364f854c3e1?q=80&w=1200&auto=format&fit=crop'
     ],
     riderTechnical: {
       players: '3x Pioneer CDJ-3000 (Link Pro DJ RJ45 em Switch Gigabit)',
@@ -569,12 +569,35 @@ export const ARTIST_PROFILES: Record<string, ArtistProfileData> = {
   }
 };
 
+export const DEFAULT_ATMOSPHERE_ID: AtmospherePresetId = 'noir-chrome';
+
+export function saveDJAtmosphere(slug: string, presetId: AtmospherePresetId): void {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(`bf_atmosphere_${slug.toLowerCase()}`, presetId);
+    } catch {
+      // Ignore localStorage errors
+    }
+  }
+}
+
 export function getDJAtmosphere(slug: string): AtmosphereConfig {
+  if (typeof window !== 'undefined') {
+    try {
+      const saved = localStorage.getItem(`bf_atmosphere_${slug.toLowerCase()}`) as AtmospherePresetId;
+      if (saved && ATMOSPHERE_PRESETS[saved]) {
+        return ATMOSPHERE_PRESETS[saved];
+      }
+    } catch {
+      // Ignore localStorage errors
+    }
+  }
+
   const profile = ARTIST_PROFILES[slug.toLowerCase()];
   if (profile && ATMOSPHERE_PRESETS[profile.presetId]) {
     return ATMOSPHERE_PRESETS[profile.presetId];
   }
-  return ATMOSPHERE_PRESETS['noir-chrome'];
+  return ATMOSPHERE_PRESETS[DEFAULT_ATMOSPHERE_ID];
 }
 
 export function getArtistProfile(slug: string): ArtistProfileData {

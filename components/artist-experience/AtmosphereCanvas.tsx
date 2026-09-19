@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { AtmosphereConfig } from '@/lib/artist-universe';
+import { AtmosphereConfig, ATMOSPHERE_PRESETS } from '@/lib/artist-universe';
 
 interface AtmosphereCanvasProps {
-  atmosphere: AtmosphereConfig;
+  atmosphere?: AtmosphereConfig;
+  config?: AtmosphereConfig;
   className?: string;
   isAudioPlaying?: boolean;
+  isPlaying?: boolean;
 }
 
 interface Particle {
@@ -22,9 +24,14 @@ interface Particle {
 
 export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({
   atmosphere,
+  config,
   className = '',
-  isAudioPlaying = false,
+  isAudioPlaying,
+  isPlaying,
 }) => {
+  const currentAtmosphere = atmosphere || config || ATMOSPHERE_PRESETS['noir-chrome'];
+  const activePlaying = isAudioPlaying ?? isPlaying ?? false;
+
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animFrameRef = useRef<number | null>(null);
   const particlesRef = useRef<Particle[]>([]);
@@ -46,8 +53,9 @@ export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({
     };
 
     const initParticles = () => {
-      const count = atmosphere.particles.density;
-      const [minSize, maxSize] = atmosphere.particles.sizeRange;
+      const count = currentAtmosphere?.particles?.density || 25;
+      const [minSize, maxSize] = currentAtmosphere?.particles?.sizeRange || [1, 2.5];
+      const speed = currentAtmosphere?.particles?.speed || 0.4;
       const particles: Particle[] = [];
 
       for (let i = 0; i < count; i++) {
@@ -55,8 +63,8 @@ export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * atmosphere.particles.speed * 0.8,
-          vy: -(Math.random() * atmosphere.particles.speed * 0.9 + 0.1), // Gentle upward drift
+          vx: (Math.random() - 0.5) * speed * 0.8,
+          vy: -(Math.random() * speed * 0.9 + 0.1), // Gentle upward drift
           size: minSize + Math.random() * (maxSize - minSize),
           alpha: baseAlpha,
           baseAlpha,
@@ -76,10 +84,11 @@ export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({
       ctx.clearRect(0, 0, width, height);
 
       // 1. Draw Volumetric Light Spotlights
-      const pulseMultiplier = isAudioPlaying ? 1 + Math.sin(tick * 0.08) * 0.25 : 1;
-      const primaryGlow = atmosphere.lighting.primaryGlow;
-      const secondaryGlow = atmosphere.lighting.secondaryGlow;
-      const intensity = atmosphere.lighting.glowIntensity * pulseMultiplier;
+      const pulseMultiplier = activePlaying ? 1 + Math.sin(tick * 0.08) * 0.25 : 1;
+      const primaryGlow = currentAtmosphere?.lighting?.primaryGlow || 'rgba(255, 255, 255, 0.18)';
+      const secondaryGlow = currentAtmosphere?.lighting?.secondaryGlow || 'rgba(148, 163, 184, 0.12)';
+      const accentGlow = currentAtmosphere?.lighting?.accentGlow || 'rgba(255, 255, 255, 0.35)';
+      const intensity = (currentAtmosphere?.lighting?.glowIntensity || 0.8) * pulseMultiplier;
 
       // Primary top spotlight
       const spotGrad1 = ctx.createRadialGradient(
@@ -90,8 +99,8 @@ export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({
         height * 0.45,
         Math.max(width * 0.6, 350)
       );
-      spotGrad1.addColorStop(0, hexToRgba(primaryGlow, 0.4 * intensity));
-      spotGrad1.addColorStop(0.5, hexToRgba(primaryGlow, 0.12 * intensity));
+      spotGrad1.addColorStop(0, safeColor(primaryGlow, 0.4 * intensity));
+      spotGrad1.addColorStop(0.5, safeColor(primaryGlow, 0.12 * intensity));
       spotGrad1.addColorStop(1, 'rgba(0,0,0,0)');
 
       ctx.fillStyle = spotGrad1;
@@ -106,20 +115,20 @@ export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({
         height * 0.7,
         Math.max(width * 0.45, 300)
       );
-      spotGrad2.addColorStop(0, hexToRgba(secondaryGlow, 0.25 * intensity));
-      spotGrad2.addColorStop(0.6, hexToRgba(secondaryGlow, 0.05 * intensity));
+      spotGrad2.addColorStop(0, safeColor(secondaryGlow, 0.25 * intensity));
+      spotGrad2.addColorStop(0.6, safeColor(secondaryGlow, 0.05 * intensity));
       spotGrad2.addColorStop(1, 'rgba(0,0,0,0)');
 
       ctx.fillStyle = spotGrad2;
       ctx.fillRect(0, 0, width, height);
 
       // 2. Volumetric Beam Angle
-      const beamAngleRad = (atmosphere.lighting.beamAngle * Math.PI) / 180;
+      const beamAngleRad = ((currentAtmosphere?.lighting?.beamAngle || 45) * Math.PI) / 180;
       const beamX = width * 0.5 + Math.cos(beamAngleRad) * 120;
       const beamY = height * 0.65;
       
       const beamGrad = ctx.createLinearGradient(width * 0.5, 0, beamX, beamY);
-      beamGrad.addColorStop(0, hexToRgba(atmosphere.lighting.accentGlow, 0.15 * intensity));
+      beamGrad.addColorStop(0, safeColor(accentGlow, 0.15 * intensity));
       beamGrad.addColorStop(1, 'rgba(0,0,0,0)');
       
       ctx.save();
@@ -135,12 +144,12 @@ export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({
 
       // 3. Render Particles
       const particles = particlesRef.current;
-      const particleColor = atmosphere.particles.color;
+      const particleColor = currentAtmosphere?.particles?.color || 'rgba(255, 255, 255, 0.3)';
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
-        p.x += p.vx * (isAudioPlaying ? 1.4 : 1.0);
-        p.y += p.vy * (isAudioPlaying ? 1.4 : 1.0);
+        p.x += p.vx * (activePlaying ? 1.4 : 1.0);
+        p.y += p.vy * (activePlaying ? 1.4 : 1.0);
 
         // Sinusoidal opacity breathing
         p.alpha = p.baseAlpha + Math.sin(tick * p.pulseSpeed) * 0.15;
@@ -156,7 +165,7 @@ export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({
         ctx.save();
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = hexToRgba(particleColor, Math.max(0.05, Math.min(1, p.alpha)));
+        ctx.fillStyle = safeColor(particleColor, Math.max(0.05, Math.min(1, p.alpha)));
         ctx.shadowColor = particleColor;
         ctx.shadowBlur = p.size * 3;
         ctx.fill();
@@ -172,7 +181,7 @@ export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('resize', handleResize);
     };
-  }, [atmosphere, isAudioPlaying]);
+  }, [currentAtmosphere, activePlaying]);
 
   return (
     <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
@@ -180,8 +189,8 @@ export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({
       <div 
         className="absolute inset-0 transition-all duration-700 ease-out"
         style={{
-          backgroundColor: atmosphere.background.baseColor,
-          backgroundImage: atmosphere.background.gradientOverlay,
+          backgroundColor: currentAtmosphere?.background?.baseColor || '#07080B',
+          backgroundImage: currentAtmosphere?.background?.gradientOverlay || 'none',
         }}
       />
       {/* Dynamic Canvas Particles & Light Beams */}
@@ -194,21 +203,31 @@ export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({
         className="absolute inset-0 pointer-events-none transition-opacity duration-700"
         style={{
           background: 'radial-gradient(circle at center, transparent 40%, #000000 100%)',
-          opacity: atmosphere.background.vignetteOpacity,
+          opacity: currentAtmosphere?.background?.vignetteOpacity ?? 0.9,
         }}
       />
     </div>
   );
 };
 
-function hexToRgba(hex: string, alpha: number): string {
-  let c = hex.replace('#', '');
-  if (c.length === 3) {
-    c = c.split('').map((char) => char + char).join('');
+function safeColor(colorStr: string, alpha: number): string {
+  if (!colorStr) return `rgba(255, 255, 255, ${alpha.toFixed(3)})`;
+  if (colorStr.startsWith('rgba(')) {
+    return colorStr.replace(/rgba\(([^)]+),\s*[\d.]+\)/, `rgba($1, ${alpha.toFixed(3)})`);
   }
-  const num = parseInt(c, 16);
-  const r = (num >> 16) & 255;
-  const g = (num >> 8) & 255;
-  const b = num & 255;
-  return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(3)})`;
+  if (colorStr.startsWith('rgb(')) {
+    return colorStr.replace(/rgb\(([^)]+)\)/, `rgba($1, ${alpha.toFixed(3)})`);
+  }
+  if (colorStr.startsWith('#')) {
+    let c = colorStr.replace('#', '');
+    if (c.length === 3) {
+      c = c.split('').map((char) => char + char).join('');
+    }
+    const num = parseInt(c, 16);
+    const r = (num >> 16) & 255;
+    const g = (num >> 8) & 255;
+    const b = num & 255;
+    return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(3)})`;
+  }
+  return colorStr;
 }
