@@ -172,7 +172,7 @@ export default function QuickBookPage() {
                   <Image 
                     src={artist.heroImage}
                     alt={artist.artisticName}
-                    fill
+                    fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover"
                   />
                 </div>
