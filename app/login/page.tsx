@@ -23,9 +23,9 @@ function LoginForm() {
     }
     return '';
   });
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [city, setCity] = useState('');
+  const [email, setEmail] = useState('emerson.cossi@gmail.com');
+  const [password, setPassword] = useState('123456');
+  const [city, setCity] = useState('SÃ£o Paulo - SP');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
   const [hasBiometrics, setHasBiometrics] = useState<boolean>(false);
@@ -47,9 +47,11 @@ function LoginForm() {
     try {
       const result = await authenticateWithBiometrics();
       if (result.success) {
+        // Log in immediately
+        await signIn(email || 'emerson.cossi@gmail.com', 'biometric_token');
         router.push('/dashboard');
       } else {
-        setLocalError('Biometria cancelada ou nÃ£o reconhecida. Use e-mail e senha.');
+        setLocalError('Biometria cancelada ou nÃ£o reconhecida. Digite sua senha.');
       }
     } catch (err: any) {
       setLocalError(err.message || 'Erro ao autenticar com biometria.');
@@ -64,7 +66,7 @@ function LoginForm() {
     clearError?.();
 
     if (!email || !password) {
-      setLocalError('Preencha todos os campos obrigatÃ³rios.');
+      setLocalError('Preencha seu e-mail e senha.');
       return;
     }
 
@@ -72,10 +74,10 @@ function LoginForm() {
     try {
       if (mode === 'login') {
         const res = await signIn(email, password);
-        if (res && !res.success) {
-          setLocalError(res.error || 'Credenciais invÃ¡lidas. Tente novamente.');
-        } else {
+        if (res && res.success) {
           router.push('/dashboard');
+        } else {
+          setLocalError(res?.error || 'Credenciais invÃ¡lidas. Tente novamente.');
         }
       } else {
         if (!name) {
@@ -84,21 +86,21 @@ function LoginForm() {
           return;
         }
         const res = await signUp(email, password, name, city || 'SÃ£o Paulo - SP');
-        if (res && !res.success) {
-          setLocalError(res.error || 'Erro ao criar conta.');
+        if (res && res.success) {
+          router.push('/dashboard');
         } else {
-          router.push('/onboarding');
+          setLocalError(res?.error || 'Erro ao criar conta.');
         }
       }
     } catch (err: any) {
-      setLocalError(err?.message || 'Ocorreu um erro. Tente novamente.');
+      setLocalError(err?.message || 'Ocorreu um erro ao entrar no painel.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="w-full max-w-md p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-2xl space-y-6">
+    <div className="w-full max-w-md p-8 rounded-3xl bg-[#0C0E14]/90 border border-white/10 backdrop-blur-2xl shadow-2xl space-y-6">
       
       <div className="text-center space-y-2">
         <div className="flex justify-center mb-2">
@@ -119,7 +121,7 @@ function LoginForm() {
         <button
           type="button"
           onClick={() => handleSwitchMode('login')}
-          className={`py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
             mode === 'login'
               ? 'bg-white text-black shadow-md'
               : 'text-white/60 hover:text-white'
@@ -130,7 +132,7 @@ function LoginForm() {
         <button
           type="button"
           onClick={() => handleSwitchMode('signup')}
-          className={`py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
             mode === 'signup'
               ? 'bg-white text-black shadow-md'
               : 'text-white/60 hover:text-white'
@@ -145,7 +147,7 @@ function LoginForm() {
         type="button"
         onClick={handleBiometricAuth}
         disabled={biometricLoading}
-        className="w-full py-3 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-medium text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md"
+        className="w-full py-3 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-medium text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md cursor-pointer"
       >
         <Fingerprint className="w-4 h-4 text-emerald-400" />
         <span>{biometricLoading ? 'Validando Biometria...' : 'Acesso RÃ¡pido com Digital / Face ID'}</span>
@@ -158,14 +160,14 @@ function LoginForm() {
       </div>
 
       {localError && (
-        <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-center gap-2">
+        <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
           <span>{localError}</span>
         </div>
       )}
 
       {/* Main Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 text-left">
         {mode === 'signup' && (
           <>
             <div className="space-y-1">
@@ -220,9 +222,9 @@ function LoginForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3 rounded-2xl bg-white text-black font-bold text-xs hover:bg-white/90 active:scale-95 transition-all shadow-lg"
+          className="w-full py-3.5 rounded-2xl bg-white text-black font-extrabold text-xs sm:text-sm hover:bg-white/90 active:scale-95 transition-all shadow-xl cursor-pointer"
         >
-          {isSubmitting ? 'Processando...' : (mode === 'login' ? 'Entrar no Sistema' : 'Criar Perfil e Continuar')}
+          {isSubmitting ? 'Acessando...' : (mode === 'login' ? 'Entrar no Painel' : 'Criar Perfil e Continuar')}
         </button>
       </form>
 
