@@ -1,0 +1,19 @@
+{
+  "name": "Beat Flow — Palco Digital para DJs",
+  "short_name": "BeatFlow",
+  "description": "Presença digital autoral, música, rider técnico, agenda e contratação para DJs e produtores.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08080F",
+  "theme_color": "#8A3FFC",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/beatflow/BF_logo-symbol.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["music", "entertainment", "business"]
+}
