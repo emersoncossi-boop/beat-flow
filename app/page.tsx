@@ -1012,117 +1012,101 @@ export default function BeatFlowLandingPage() {
       {/* ---------------------------------------------------- */}
       <section id="produto-como-prova" className="py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#08080F] relative">
         <div className="max-w-[1440px] mx-auto relative z-10">
+          
+          {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono font-bold tracking-[0.2em] text-[#00D1FF] uppercase mb-4 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-[#00D1FF]" />
+              <span>ARQUITETURA DA EXPERIÃŠNCIA</span>
+            </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-4">
-              Não é uma bio com links.<br/>
-              <span className="text-[#00D1FF]">É uma presença pronta para booking.</span>
+              NÃ£o Ã© uma bio com links.<br/>
+              <span className="text-[#00D1FF]">SÃ£o os 10 acessos essenciais da sua carreira.</span>
             </h2>
             <p className="text-base sm:text-lg text-[rgba(255,255,255,0.72)] leading-relaxed">
-              O Beat Flow conecta descoberta, música, identidade, disponibilidade e contratação na mesma experiência.
+              O perfil pÃºblico do Beat Flow esconde a complexidade operacional sem esconder nenhuma funcionalidade profissional. Tudo em uma experiÃªncia contÃ­nua, elegante e imersiva.
             </p>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center justify-between mb-20">
-            {/* Esquerda: Mockup com hotspots */}
-            <div className="w-full lg:w-1/2 relative">
-              <div className="relative aspect-[3/4] sm:aspect-square lg:aspect-[4/5] max-w-md mx-auto bg-[#10111E] rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
-                <Image 
-                  src="/assets/landing/hero-dj-stage.jpg"
-                  alt="Perfil Beat Flow"
-                  fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover opacity-40 blur-sm"
-                />
-                
-                {/* Labels estilizados */}
-                <div className="absolute inset-0 flex flex-col justify-center gap-6 px-8">
-                  <div className="bg-black/60 backdrop-blur-md border border-white/20 p-4 rounded-xl flex items-center gap-4 text-white shadow-lg ml-0 mr-12 hover:border-[#00D1FF]/50 transition-colors">
-                    <Headphones className="w-6 h-6 text-[#00D1FF]" />
-                    <span className="font-bold text-sm">OUVIR O SET</span>
-                  </div>
-                  <div className="bg-black/60 backdrop-blur-md border border-white/20 p-4 rounded-xl flex items-center gap-4 text-white shadow-lg ml-6 mr-6 hover:border-[#8A3FFC]/50 transition-colors">
-                    <User className="w-6 h-6 text-[#8A3FFC]" />
-                    <span className="font-bold text-sm">CONHECER O ARTISTA</span>
-                  </div>
-                  <div className="bg-black/60 backdrop-blur-md border border-white/20 p-4 rounded-xl flex items-center gap-4 text-white shadow-lg ml-12 mr-0 hover:border-[#FF4DB8]/50 transition-colors">
-                    <Sliders className="w-6 h-6 text-[#FF4DB8]" />
-                    <span className="font-bold text-sm">CONFERIR RIDER</span>
-                  </div>
-                  <div className="bg-[#8A3FFC] border border-white/20 p-4 rounded-xl flex items-center gap-4 text-white shadow-lg ml-0 mr-12 hover:bg-[#8A3FFC]/90 transition-colors">
-                    <Calendar className="w-6 h-6 text-white" />
-                    <span className="font-bold text-sm">PEDIR CONTRATAÇÃO</span>
-                  </div>
+          {/* 10 Functional Access Modules Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-20">
+            {[
+              { num: "01", title: "OUVIR", desc: "Player Master Hi-Fi com marcadores de drop (Cue Points) para audiÃ§Ã£o em 5 segundos.", icon: Headphones, color: "text-[#00D1FF]" },
+              { num: "02", title: "AGENDA", desc: "Datas, eventos, cidades, locais e status de disponibilidade ao vivo.", icon: Calendar, color: "text-emerald-400" },
+              { num: "03", title: "SOBRE", desc: "HistÃ³ria, posicionamento, trajetÃ³ria e universo artÃ­stico do DJ.", icon: User, color: "text-purple-400" },
+              { num: "04", title: "GALERIA", desc: "Fotos de palco, performances e bastidores em 4K com visualizador Lightbox.", icon: Disc3, color: "text-[#FF4DB8]" },
+              { num: "05", title: "PRESS KIT / EPK", desc: "Bio curta, bio longa em 3 idiomas (PT/EN/ES) e download de logos em vetor.", icon: FileText, color: "text-amber-400" },
+              { num: "06", title: "RIDER TÃ‰CNICO", desc: "Setup homologado (CDJs, mixer, monitoraÃ§Ã£o, energia) e exportaÃ§Ã£o em PDF.", icon: Sliders, color: "text-blue-400" },
+              { num: "07", title: "BOOKING / CONTRATAR", desc: "InÃ­cio imediato com formulÃ¡rio contextual, cÃ¡lculo de cachÃª e cauÃ§Ã£o de 50%.", icon: Send, color: "text-[#00D1FF]" },
+              { num: "08", title: "COMPARTILHAR & NFC", desc: "Passe digital Apple/Google Wallet, gravaÃ§Ã£o de tag NFC e link oficial prÃ³prio.", icon: Radio, color: "text-emerald-400" },
+              { num: "09", title: "REDES & PLATAFORMAS", desc: "ConexÃ£o oficial com Spotify, SoundCloud, Instagram e canais autorais.", icon: Music, color: "text-purple-400" },
+              { num: "10", title: "CONTATO PROFISSIONAL", desc: "Acesso seguro a management, equipe de booking e download de vCard para celular.", icon: ShieldCheck, color: "text-white" }
+            ].map((mod, idx) => (
+              <div 
+                key={idx}
+                className="p-5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-white/25 transition-all text-left space-y-2 group"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold text-white/40 group-hover:text-white transition-colors">{mod.num}</span>
+                  <mod.icon className={`w-4 h-4 ${mod.color}`} />
                 </div>
+                <h3 className="text-sm font-black text-white tracking-wide uppercase">{mod.title}</h3>
+                <p className="text-xs text-white/60 leading-relaxed">{mod.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* 3 User Journeys: FÃ£, Contratante, Produtor/Imprensa */}
+          <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 space-y-8">
+            <div className="text-center max-w-2xl mx-auto space-y-2">
+              <span className="text-xs font-mono uppercase text-white/40 tracking-widest">ExperiÃªncia Validada em 3 Pontas</span>
+              <h3 className="text-2xl sm:text-3xl font-black text-white">Projetado para quem consome, contrata e noticia</h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+              {/* Jornada 1 */}
+              <div className="p-6 rounded-2xl bg-black/40 border border-white/10 space-y-3">
+                <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-mono font-bold uppercase border border-emerald-500/20">
+                  Jornada 1 Â· FÃ£
+                </span>
+                <h4 className="text-base font-bold text-white">Descoberta e ConexÃ£o Musical</h4>
+                <p className="text-xs text-white/60 leading-relaxed">
+                  Entra no perfil â†’ Reconhece o artista â†’ Ouve a faixa principal â†’ Explora fotos de shows â†’ Consulta agenda de turnÃª â†’ Segue no Instagram e garante ingresso.
+                </p>
+              </div>
+
+              {/* Jornada 2 */}
+              <div className="p-6 rounded-2xl bg-black/40 border border-white/10 space-y-3">
+                <span className="px-2.5 py-1 rounded-full bg-[#00D1FF]/10 text-[#00D1FF] text-[10px] font-mono font-bold uppercase border border-[#00D1FF]/20">
+                  Jornada 2 Â· Contratante
+                </span>
+                <h4 className="text-base font-bold text-white">ValidaÃ§Ã£o RÃ¡pida & Proposta Formal</h4>
+                <p className="text-xs text-white/60 leading-relaxed">
+                  Entra no link â†’ Entende o posicionamento â†’ Ouve o Drop da faixa em 5 segundos â†’ Confere cachÃª e rider tÃ©cnico â†’ Solicita booking e envia briefing formal.
+                </p>
+              </div>
+
+              {/* Jornada 3 */}
+              <div className="p-6 rounded-2xl bg-black/40 border border-white/10 space-y-3">
+                <span className="px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 text-[10px] font-mono font-bold uppercase border border-purple-500/20">
+                  Jornada 3 Â· Imprensa & Curador
+                </span>
+                <h4 className="text-base font-bold text-white">Press Kit & Material Editorial</h4>
+                <p className="text-xs text-white/60 leading-relaxed">
+                  Acessa o EPK oficial â†’ Copia release em portuguÃªs, inglÃªs ou espanhol â†’ Baixa fotos em alta definiÃ§Ã£o (4K) e logos em vetor â†’ Localiza contato do management.
+                </p>
               </div>
             </div>
 
-            {/* Direita: Benefícios (6 listados na doc) */}
-            <div className="w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {[
-                {
-                  title: "PRESENÇA PROFISSIONAL",
-                  desc: "Seu trabalho apresentado de forma consistente em um único endereço.",
-                  icon: Disc3,
-                  color: "text-[#00D1FF]"
-                },
-                {
-                  title: "SEU SOM EM PRIMEIRO",
-                  desc: "O contratante pode ouvir antes mesmo da primeira conversa.",
-                  icon: Headphones,
-                  color: "text-[#8A3FFC]"
-                },
-                {
-                  title: "MENOS ATRITO",
-                  desc: "As informações importantes já estão organizadas.",
-                  icon: CheckCircle2,
-                  color: "text-[#FF4DB8]"
-                },
-                {
-                  title: "MAIS CONTEXTO",
-                  desc: "Bio, estilos, mídia, agenda, setup e contato no lugar certo.",
-                  icon: FileText,
-                  color: "text-emerald-400"
-                },
-                {
-                  title: "CAMINHO DE CONTRATAÇÃO",
-                  desc: "O interesse pode evoluir para pedido e negociação.",
-                  icon: Calendar,
-                  color: "text-[#00D1FF]"
-                },
-                {
-                  title: "GESTÃO CONECTADA",
-                  desc: "Propostas, mensagens e datas não ficam espalhadas.",
-                  icon: Layers,
-                  color: "text-[#8A3FFC]"
-                }
-              ].map((b, i) => (
-                <motion.div 
-                  key={i} 
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="w-full p-6 rounded-[20px] bg-[#0A0D14]/90 border border-white/5 hover:border-white/20 transition-all duration-300 relative group overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:shadow-[0_15px_40px_rgba(138,63,252,0.15)]"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/5 blur-2xl group-hover:bg-white/10 transition-colors duration-500 pointer-events-none" />
-                  <div className="relative z-10">
-                    <b.icon className={`w-7 h-7 mb-4 ${b.color} group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]`} />
-                    <h3 className="text-[13px] font-black text-white mb-2 uppercase tracking-wider">{b.title}</h3>
-                    <p className="text-xs text-white/60 leading-relaxed font-medium">{b.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="pt-4 text-center">
+              <Link href="/login?mode=signup">
+                <button type="button" className="px-8 py-3.5 rounded-full bg-white text-black font-extrabold text-xs sm:text-sm hover:bg-white/90 transition-all shadow-xl shadow-white/10 active:scale-95 cursor-pointer">
+                  Criar meu Perfil Oficial com os 10 Acessos
+                </button>
+              </Link>
             </div>
           </div>
-          
-          <div className="text-center mt-12">
-            <Link href="/login?mode=signup">
-              <Button size="sm" className="bg-[#8A3FFC] hover:bg-[#8A3FFC]/90 text-white font-bold text-sm px-8 py-3 h-12 rounded-full cursor-pointer shadow-[0_0_20px_rgba(138,63,252,0.4)]">
-                Criar meu Press Kit grátis
-              </Button>
-            </Link>
-          </div>
+
         </div>
       </section>
 
