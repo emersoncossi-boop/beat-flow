@@ -37,6 +37,8 @@ import {
   Check,
   AlertCircle,
   Flame,
+  Crown,
+  Zap,
   MessageSquare,
   Phone,
   Video,
@@ -432,6 +434,7 @@ export default function BeatFlowLandingPage() {
               <a href="#booking-command-center" className="hover:text-white transition-colors">
                 Contratar DJ
               </a>
+              <a href="#precos" className="hover:text-[#00D1FF] transition-colors flex items-center gap-1">Planos</a>
               <a href="#para-quem-e" className="hover:text-white transition-colors">
                 Para quem é
               </a>
@@ -1830,6 +1833,233 @@ export default function BeatFlowLandingPage() {
 
       {/* Luminous Light Beam Divider */}
       <LuminousDivider glow={false} />
+
+      
+      {/* ---------------------------------------------------- */}
+      {/* 11. PLANOS E NÃVEIS DE EXPERIÃŠNCIA BEAT FLOW */}
+      {/* ---------------------------------------------------- */}
+      <section id="precos" className="py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#06060C] relative overflow-hidden">
+        
+        {/* Ambient glow orbs */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-[#8A3FFC]/15 to-[#00D1FF]/10 blur-[140px] pointer-events-none" />
+
+        <div className="max-w-[1440px] mx-auto relative z-10">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#8A3FFC]/10 border border-[#8A3FFC]/30 backdrop-blur-md mb-4">
+              <Crown className="w-4 h-4 text-[#00D1FF]" />
+              <span className="text-xs font-mono uppercase tracking-widest text-[#00D1FF] font-bold">
+                TRANSPARÃŠNCIA RADICAL
+              </span>
+            </div>
+            
+            <h2 className="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight mb-4 leading-tight">
+              Planos e NÃ­veis de ExperiÃªncia
+            </h2>
+            
+            <p className="text-base sm:text-lg text-[rgba(255,255,255,0.72)] leading-relaxed">
+              "Cobrar por profundidade. NÃ£o cobrar por dignidade visual."
+              <br className="hidden sm:inline" />
+              Todos os planos criam pÃ¡ginas pÃºblicas impecÃ¡veis, rÃ¡pidas e profissionais.
+            </p>
+          </div>
+
+          {/* 3 Tier Cards Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+            
+            {/* PLANO 01 â€” ESSENTIAL */}
+            <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between backdrop-blur-xl relative group">
+              <div>
+                <div className="text-xs font-mono text-white/50 uppercase tracking-widest mb-1">PLANO 01</div>
+                <h3 className="text-2xl font-black text-white uppercase tracking-tight">ESSENTIAL</h3>
+                <div className="mt-4 mb-2 flex items-baseline gap-1">
+                  <span className="text-4xl font-black text-white">R$ 49</span>
+                  <span className="text-xs text-white/50 font-mono">/mÃªs</span>
+                </div>
+                <p className="text-xs text-[rgba(255,255,255,0.6)] leading-relaxed mb-6">
+                  PresenÃ§a digital bonita, profissional e funcional para qualquer DJ que valoriza sua imagem.
+                </p>
+
+                <div className="space-y-3 pt-4 border-t border-white/10 text-xs text-[rgba(255,255,255,0.8)]">
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong>4 Cenas Essenciais:</strong> Noir & Chrome, Minimal, Sunset Organic, Dark Club</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong>Tipografia Essencial:</strong> Inter, Syne, Space Grotesk, DM Sans</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong>Motion Essencial:</strong> TransiÃ§Ãµes suaves e iluminaÃ§Ã£o volumÃ©trica</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong>Som & Sets:</strong> 1 Set principal + atÃ© 3 faixas em destaque</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong>Agenda & Rider:</strong> PrÃ³ximas datas e download padrÃ£o de rider PDF</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong>MÃ­dia:</strong> 1 VÃ­deo destaque + atÃ© 6 fotos de alta resoluÃ§Ã£o</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong>SubdomÃ­nio:</strong> beatflow.me/seunome</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-8 mt-6 border-t border-white/10">
+                <Link href="/login?mode=signup&plan=essential">
+                  <button className="w-full py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition cursor-pointer">
+                    ComeÃ§ar com Essential
+                  </button>
+                </Link>
+              </div>
+            </div>
+
+            {/* PLANO 02 â€” PRO (RECOMENDADO) */}
+            <div className="p-8 rounded-3xl bg-gradient-to-b from-[#00D1FF]/10 via-white/[0.03] to-transparent border-2 border-[#00D1FF]/60 shadow-[0_0_50px_rgba(0,209,255,0.15)] flex flex-col justify-between backdrop-blur-xl relative transform lg:-translate-y-2">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#00D1FF] to-[#8A3FFC] text-black text-[10px] font-mono font-black uppercase tracking-widest shadow-md">
+                MAIS POPULAR â€¢ PARA TURNÃŠ
+              </div>
+
+              <div>
+                <div className="text-xs font-mono text-[#00D1FF] uppercase tracking-widest mb-1">PLANO 02</div>
+                <h3 className="text-2xl font-black text-white uppercase tracking-tight">PRO</h3>
+                <div className="mt-4 mb-2 flex items-baseline gap-1">
+                  <span className="text-4xl font-black text-white">R$ 99</span>
+                  <span className="text-xs text-white/50 font-mono">/mÃªs</span>
+                </div>
+                <p className="text-xs text-[rgba(255,255,255,0.7)] leading-relaxed mb-6">
+                  Para DJs profissionais em turnÃª que exigem profundidade estÃ©tica, automaÃ§Ã£o de booking e impacto de palco.
+                </p>
+
+                <div className="space-y-3 pt-4 border-t border-white/10 text-xs text-[rgba(255,255,255,0.85)]">
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
+                    <span><strong>Cenas Expandidas:</strong> Liquid Chrome, Ice Futuristic, Raw, Cosmic Nebula, Deep Aurora</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
+                    <span><strong>Ãudio Reativo:</strong> Luz e atmosfera pulsam com a frequÃªncia sonora do set</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
+                    <span><strong>Motion AvanÃ§ado:</strong> CinemÃ¡tico, lÃ­quido, cinÃ©tico e profundidade 3D</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
+                    <span><strong>Sets Ilimitados:</strong> Com tracklist completa, capÃ­tulos e visualizador de onda</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
+                    <span><strong>1-Click EPK:</strong> Download em alta resoluÃ§Ã£o do kit de imprensa oficial</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
+                    <span><strong>Rider TÃ©cnico Homologado:</strong> Mapa de palco, canalizaÃ§Ã£o e input list</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
+                    <span><strong>NFC + WhatsApp Booking:</strong> Mensagem prÃ©-formatada inteligente</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
+                    <span><strong>Analytics AvanÃ§ados:</strong> RetenÃ§Ã£o sonora, cliques no rider e conversÃ£o</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-8 mt-6 border-t border-white/10">
+                <Link href="/login?mode=signup&plan=pro">
+                  <button className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#00D1FF] to-[#8A3FFC] hover:opacity-95 text-black font-black text-xs uppercase tracking-wider transition shadow-[0_0_30px_rgba(0,209,255,0.4)] cursor-pointer">
+                    Assinar Plano Pro
+                  </button>
+                </Link>
+              </div>
+            </div>
+
+            {/* PLANO 03 â€” SIGNATURE */}
+            <div className="p-8 rounded-3xl bg-gradient-to-b from-amber-500/10 via-white/[0.02] to-transparent border border-amber-500/40 hover:border-amber-500/70 transition-all flex flex-col justify-between backdrop-blur-xl relative">
+              <div className="absolute -top-3.5 right-6 px-3 py-1 rounded-full bg-amber-400 text-black text-[9px] font-mono font-black uppercase tracking-widest shadow-md">
+                MÃXIMA EXCLUSIVIDADE
+              </div>
+
+              <div>
+                <div className="text-xs font-mono text-amber-400 uppercase tracking-widest mb-1">PLANO 03</div>
+                <h3 className="text-2xl font-black text-white uppercase tracking-tight">SIGNATURE</h3>
+                <div className="mt-4 mb-2 flex items-baseline gap-1">
+                  <span className="text-4xl font-black text-white">R$ 249</span>
+                  <span className="text-xs text-white/50 font-mono">/mÃªs</span>
+                </div>
+                <p className="text-xs text-[rgba(255,255,255,0.6)] leading-relaxed mb-6">
+                  DireÃ§Ã£o de arte com IA, cenas generativas WebGL sob medida e presenÃ§a 100% white label.
+                </p>
+
+                <div className="space-y-3 pt-4 border-t border-white/10 text-xs text-[rgba(255,255,255,0.8)]">
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span><strong>Cenas Generativas IA:</strong> Luz Adaptativa, EspaÃ§o Reativo WebGL, MatÃ©ria CinÃ©tica</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span><strong>IA Artistic Direction:</strong> SugestÃµes estÃ©ticas contÃ­nuas baseadas no som do DJ</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span><strong>DomÃ­nio PrÃ³prio White Label:</strong> djemersoncossi.com com SSL e zero menÃ§Ã£o a marca</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span><strong>Multi-Perfil:</strong> Perfil Club vs Perfil Festival vs Evento Privado</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span><strong>Ãudio Espacial:</strong> TransiÃ§Ãµes sonoras suaves entre capÃ­tulos</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span><strong>Contrato em 1 Clique:</strong> Assinatura digital direta e homologaÃ§Ã£o contratual</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span><strong>Curadoria NEXORA:</strong> Suporte VIP prioritÃ¡rio e direÃ§Ã£o visual humana</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-8 mt-6 border-t border-white/10">
+                <Link href="/login?mode=signup&plan=signature">
+                  <button className="w-full py-3.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-black font-black text-xs uppercase tracking-wider transition cursor-pointer">
+                    Solicitar Signature
+                  </button>
+                </Link>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Canvas Experimentation Callout */}
+          <div className="mt-16 p-6 sm:p-8 rounded-3xl bg-white/[0.02] border border-white/10 text-center max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="text-left">
+              <h4 className="text-lg font-bold text-white mb-1">Experimente qualquer recurso no Artist Canvas</h4>
+              <p className="text-xs text-[rgba(255,255,255,0.6)]">
+                VocÃª pode testar todas as cenas Pro e Signature em tempo real no seu estÃºdio antes de assinar.
+              </p>
+            </div>
+            <Link href="/dashboard/universo">
+              <button className="px-6 py-3 rounded-xl bg-white text-black font-bold text-xs uppercase tracking-wider hover:bg-white/90 transition shrink-0 cursor-pointer">
+                Abrir Artist Canvas
+              </button>
+            </Link>
+          </div>
+
+        </div>
+      </section>
 
       {/* ---------------------------------------------------- */}
       {/* OFFICIAL FOOTER */}
