@@ -7,10 +7,10 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/ui/Logo';
 import { ArrowLeft, LogIn, UserPlus, Sparkles, AlertCircle, Fingerprint, ShieldCheck } from 'lucide-react';
-import { isBiometricAvailable, authenticateWithBiometrics, registerBiometricKey } from '@/lib/biometric-auth';
+import { isBiometricAvailable, authenticateWithBiometrics } from '@/lib/biometric-auth';
 
 function LoginForm() {
-  const { signIn, signUp, signInDemo, isAuthenticated, isLoading: authLoading, error: authError, clearError } = useAuth();
+  const { signIn, signUp, isAuthenticated, isLoading: authLoading, error: authError, clearError } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const rawHandle = (searchParams?.get('handle') || searchParams?.get('claimSlug') || '').trim();
@@ -47,11 +47,9 @@ function LoginForm() {
     try {
       const result = await authenticateWithBiometrics();
       if (result.success) {
-        // Authenticated with native device biometric (Face ID / Touch ID / Android Biometric)
-        await signInDemo('luna');
         router.push('/dashboard');
       } else {
-        setLocalError('Biometria cancelada ou não reconhecida. Use e-mail e senha.');
+        setLocalError('Biometria cancelada ou nÃ£o reconhecida. Use e-mail e senha.');
       }
     } catch (err: any) {
       setLocalError(err.message || 'Erro ao autenticar com biometria.');
@@ -66,7 +64,7 @@ function LoginForm() {
     clearError?.();
 
     if (!email || !password) {
-      setLocalError('Preencha todos os campos obrigatórios.');
+      setLocalError('Preencha todos os campos obrigatÃ³rios.');
       return;
     }
 
@@ -75,222 +73,175 @@ function LoginForm() {
       if (mode === 'login') {
         const res = await signIn(email, password);
         if (res && !res.success) {
-          setLocalError(res.error || 'Credenciais inválidas. Tente novamente.');
+          setLocalError(res.error || 'Credenciais invÃ¡lidas. Tente novamente.');
         } else {
-          // Register biometric prompt if available
-          if (hasBiometrics && typeof window !== 'undefined' && !localStorage.getItem('bf_biometric_enabled')) {
-            await registerBiometricKey(email, name || email);
-          }
           router.push('/dashboard');
         }
       } else {
-        const res = await signUp(email, password, {
-          artisticName: name.trim() || email.split('@')[0],
-          city: city.trim(),
-          genres: ['Tech House', 'Melodic Techno'],
-        });
-
+        if (!name) {
+          setLocalError('Informe seu nome artÃ­stico.');
+          setIsSubmitting(false);
+          return;
+        }
+        const res = await signUp(email, password, name, city || 'SÃ£o Paulo - SP');
         if (res && !res.success) {
-          setLocalError(res.error || 'Erro ao criar conta. Tente novamente.');
+          setLocalError(res.error || 'Erro ao criar conta.');
         } else {
-          if (hasBiometrics) {
-            await registerBiometricKey(email, name || email);
-          }
           router.push('/onboarding');
         }
       }
     } catch (err: any) {
-      setLocalError(err.message || 'Ocorreu um erro inesperado.');
+      setLocalError(err?.message || 'Ocorreu um erro. Tente novamente.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleDemoAccess = async (profile: 'luna' | 'skyline') => {
-    setIsSubmitting(true);
-    await signInDemo(profile);
-    router.push('/dashboard');
-  };
-
   return (
-    <div className="w-full max-w-md bg-[#0D0B18]/90 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 shadow-[0_0_50px_rgba(138,63,252,0.2)] relative z-10">
-      <div className="text-center mb-6 flex flex-col items-center">
-        <Logo size="md" className="mb-3" />
-        
-        {/* Toggle Mode */}
-        <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10 w-full mt-4">
-          <button
-            type="button"
-            onClick={() => handleSwitchMode('login')}
-            className={`flex-1 py-2 text-xs font-semibold rounded-xl transition-all ${
-              mode === 'login'
-                ? 'bg-[#8A3FFC] text-white shadow-md'
-                : 'text-white/60 hover:text-white'
-            }`}
-          >
-            Entrar
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSwitchMode('signup')}
-            className={`flex-1 py-2 text-xs font-semibold rounded-xl transition-all ${
-              mode === 'signup'
-                ? 'bg-[#8A3FFC] text-white shadow-md'
-                : 'text-white/60 hover:text-white'
-            }`}
-          >
-            Criar conta
-          </button>
+    <div className="w-full max-w-md p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-2xl space-y-6">
+      
+      <div className="text-center space-y-2">
+        <div className="flex justify-center mb-2">
+          <Logo />
         </div>
-
-        <p className="text-xs text-white/60 mt-3">
+        <h2 className="text-2xl font-black tracking-tight text-white">
+          {mode === 'login' ? 'Acessar seu Painel' : 'Criar seu Perfil Oficial'}
+        </h2>
+        <p className="text-xs text-white/50">
           {mode === 'login' 
-            ? 'Acesse seu painel profissional, agenda e propostas de shows.' 
-            : 'Crie seu perfil profissional de DJ e receba pedidos de contratação.'}
+            ? 'Gerencie sua agenda, rider tÃ©cnico e propostas de shows.' 
+            : 'Junte-se Ã  nova geraÃ§Ã£o de DJs com palco digital inteligente.'}
         </p>
-
-        {rawHandle && mode === 'signup' && (
-          <div className="w-full mt-3 p-3 rounded-2xl bg-gradient-to-r from-[#8A3FFC]/20 to-[#00D1FF]/20 border border-[#00D1FF]/40 flex items-center gap-2.5 text-xs text-white shadow-lg text-left">
-            <Sparkles className="w-4 h-4 text-[#00D1FF] shrink-0" />
-            <span>
-              Endereço <strong>beatflow.me/@{rawHandle}</strong> pré-reservado para o seu cadastro!
-            </span>
-          </div>
-        )}
       </div>
 
-      {/* Biometric Native Access Button (Touch ID / Face ID / Android Biometrics) */}
-      {hasBiometrics && mode === 'login' && (
+      {/* Mode Switcher Tabs */}
+      <div className="grid grid-cols-2 gap-1 p-1 rounded-2xl bg-white/5 border border-white/10">
         <button
           type="button"
-          onClick={handleBiometricAuth}
-          disabled={biometricLoading}
-          className="w-full mb-4 py-3 px-4 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-purple-500/40 text-white text-xs font-bold flex items-center justify-center gap-2.5 transition-all shadow-md active:scale-95 cursor-pointer"
+          onClick={() => handleSwitchMode('login')}
+          className={`py-2 rounded-xl text-xs font-bold transition-all ${
+            mode === 'login'
+              ? 'bg-white text-black shadow-md'
+              : 'text-white/60 hover:text-white'
+          }`}
         >
-          <Fingerprint className="w-4 h-4 text-purple-400" />
-          <span>{biometricLoading ? 'Verificando biometria...' : 'Entrar com Digital / Face ID'}</span>
+          Entrar
         </button>
-      )}
+        <button
+          type="button"
+          onClick={() => handleSwitchMode('signup')}
+          className={`py-2 rounded-xl text-xs font-bold transition-all ${
+            mode === 'signup'
+              ? 'bg-white text-black shadow-md'
+              : 'text-white/60 hover:text-white'
+          }`}
+        >
+          Criar Conta
+        </button>
+      </div>
 
-      {(localError || authError) && (
-        <div className="mb-4 p-3 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-start gap-2.5 text-xs text-red-300">
-          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-400" />
-          <span>{localError || authError}</span>
+      {/* Biometric One-Tap Quick Access */}
+      <button
+        type="button"
+        onClick={handleBiometricAuth}
+        disabled={biometricLoading}
+        className="w-full py-3 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-medium text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md"
+      >
+        <Fingerprint className="w-4 h-4 text-emerald-400" />
+        <span>{biometricLoading ? 'Validando Biometria...' : 'Acesso RÃ¡pido com Digital / Face ID'}</span>
+      </button>
+
+      <div className="flex items-center gap-3">
+        <div className="h-px bg-white/10 flex-1" />
+        <span className="text-[10px] text-white/40 uppercase font-mono">ou com e-mail</span>
+        <div className="h-px bg-white/10 flex-1" />
+      </div>
+
+      {localError && (
+        <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 flex-shrink-0" />
+          <span>{localError}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
+      {/* Main Form */}
+      <form onSubmit={handleSubmit} className="space-y-4">
         {mode === 'signup' && (
-          <div>
-            <label className="block text-xs font-medium text-white/70 mb-1">Nome Artístico ou Nome Completo</label>
-            <input 
-              type="text" 
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full h-11 bg-white/5 border border-white/10 rounded-xl px-3 text-sm text-white focus:outline-none focus:border-[#8A3FFC] transition-colors placeholder:text-white/20"
-              placeholder="Ex: DJ Luna, DJ Vortex"
-              required
-            />
-          </div>
+          <>
+            <div className="space-y-1">
+              <label className="text-xs font-mono text-white/70">Nome ArtÃ­stico / DJ</label>
+              <input
+                type="text"
+                required
+                placeholder="Ex: DJ Alok / Sara Bloom"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-white/40 text-sm text-white outline-none"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-mono text-white/70">Cidade Base</label>
+              <input
+                type="text"
+                placeholder="Ex: SÃ£o Paulo - SP"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-white/40 text-sm text-white outline-none"
+              />
+            </div>
+          </>
         )}
 
-        <div>
-          <label className="block text-xs font-medium text-white/70 mb-1">E-mail</label>
-          <input 
-            type="email" 
+        <div className="space-y-1">
+          <label className="text-xs font-mono text-white/70">E-mail Profissional</label>
+          <input
+            type="email"
+            required
+            placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full h-11 bg-white/5 border border-white/10 rounded-xl px-3 text-sm text-white focus:outline-none focus:border-[#8A3FFC] transition-colors placeholder:text-white/20"
-            placeholder="seu@email.com"
-            required
+            className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-white/40 text-sm text-white outline-none"
           />
         </div>
 
-        <div>
-          <label className="block text-xs font-medium text-white/70 mb-1">Senha</label>
-          <input 
-            type="password" 
+        <div className="space-y-1">
+          <label className="text-xs font-mono text-white/70">Senha</label>
+          <input
+            type="password"
+            required
+            placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full h-11 bg-white/5 border border-white/10 rounded-xl px-3 text-sm text-white focus:outline-none focus:border-[#8A3FFC] transition-colors placeholder:text-white/20"
-            placeholder="••••••••"
-            required
-            minLength={6}
+            className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-white/40 text-sm text-white outline-none"
           />
         </div>
 
-        {mode === 'signup' && (
-          <div>
-            <label className="block text-xs font-medium text-white/70 mb-1">Cidade Principal</label>
-            <input 
-              type="text" 
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              className="w-full h-11 bg-white/5 border border-white/10 rounded-xl px-3 text-sm text-white focus:outline-none focus:border-[#8A3FFC] transition-colors placeholder:text-white/20"
-              placeholder="Ex: São Paulo - SP"
-            />
-          </div>
-        )}
-
-        <Button 
-          type="submit" 
+        <button
+          type="submit"
           disabled={isSubmitting}
-          className="w-full h-12 rounded-xl bg-gradient-to-r from-[#7C3AED] via-[#8A3FFC] to-[#00D1FF] hover:opacity-90 text-white font-bold text-sm shadow-[0_0_25px_rgba(138,63,252,0.4)] mt-2"
+          className="w-full py-3 rounded-2xl bg-white text-black font-bold text-xs hover:bg-white/90 active:scale-95 transition-all shadow-lg"
         >
-          {isSubmitting ? (
-            'Processando...'
-          ) : mode === 'login' ? (
-            <>Entrar no Beat Flow <LogIn className="w-4 h-4 ml-2" /></>
-          ) : (
-            <>Criar Perfil e Continuar <UserPlus className="w-4 h-4 ml-2" /></>
-          )}
-        </Button>
+          {isSubmitting ? 'Processando...' : (mode === 'login' ? 'Entrar no Sistema' : 'Criar Perfil e Continuar')}
+        </button>
       </form>
 
-      {/* Demo shortcuts */}
-      <div className="mt-6 pt-5 border-t border-white/10">
-        <p className="text-[11px] text-white/50 text-center uppercase tracking-wider mb-2.5 font-semibold">
-          Acesso Rápido para Testes (1 Clique)
-        </p>
-        <div className="grid grid-cols-2 gap-2">
-          <Button 
-            type="button"
-            variant="outline" 
-            onClick={() => handleDemoAccess('luna')}
-            className="w-full text-xs rounded-xl bg-white/5 border-white/10 hover:bg-white/10 hover:border-[#8A3FFC]/50 text-white flex items-center justify-center gap-1.5"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-[#00D1FF]" />
-            Luna Martins
-          </Button>
-          <Button 
-            type="button"
-            variant="outline" 
-            onClick={() => handleDemoAccess('skyline')}
-            className="w-full text-xs rounded-xl bg-white/5 border-white/10 hover:bg-white/10 hover:border-[#8A3FFC]/50 text-white flex items-center justify-center gap-1.5"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-[#FF4DB8]" />
-            DJ Skyline
-          </Button>
-        </div>
-      </div>
-
-      <div className="mt-6 text-center">
-        <Link href="/" className="text-xs text-white/50 flex items-center justify-center gap-1 hover:text-white transition">
-          <ArrowLeft className="w-3 h-3" /> Voltar para a página inicial
+      <div className="text-center pt-2">
+        <Link href="/" className="text-xs text-white/40 hover:text-white transition-colors">
+          â† Voltar para a PÃ¡gina Inicial
         </Link>
       </div>
+
     </div>
   );
 }
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-[#08080F] flex flex-col items-center justify-center p-6 relative overflow-hidden text-white">
-      <div className="absolute top-[20%] left-[-10%] w-[40%] h-[40%] bg-[#8A3FFC]/20 blur-[140px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[-10%] w-[40%] h-[40%] bg-[#00D1FF]/15 blur-[140px] rounded-full pointer-events-none" />
-      <Suspense fallback={<div className="text-white text-sm">Carregando autenticação...</div>}>
+    <main className="min-h-screen bg-[#07090E] flex items-center justify-center p-4 relative">
+      <Suspense fallback={<div className="text-white text-xs">Carregando...</div>}>
         <LoginForm />
       </Suspense>
-    </div>
+    </main>
   );
 }
