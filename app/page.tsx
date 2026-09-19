@@ -1029,7 +1029,7 @@ export default function BeatFlowLandingPage() {
                 <Image 
                   src="/assets/landing/hero-dj-stage.jpg"
                   alt="Perfil Beat Flow"
-                  fill
+                  fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover opacity-40 blur-sm"
                 />
                 
@@ -1244,7 +1244,7 @@ export default function BeatFlowLandingPage() {
           <Image 
             src="/assets/beatflow/BF_graphic-glow-orb.svg" 
             alt="" 
-            fill 
+            fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" 
             className="object-contain" 
           />
         </div>
@@ -1303,7 +1303,7 @@ export default function BeatFlowLandingPage() {
                       <Image 
                         src={segment.image}
                         alt={segment.title}
-                        fill
+                        fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         referrerPolicy="no-referrer"
                         className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-75 group-hover:opacity-90"
                       />
