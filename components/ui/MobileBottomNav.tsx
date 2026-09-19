@@ -12,7 +12,8 @@ export function MobileBottomNav() {
   // to avoid distracting contractors while enjoying the artist experience
   const isArtistSlug = pathname && pathname !== '/' && !pathname.startsWith('/dashboard') && !pathname.startsWith('/admin') && !pathname.startsWith('/explorar') && !pathname.startsWith('/login') && !pathname.startsWith('/onboarding') && pathname.split('/').length === 2;
 
-  if (isArtistSlug) {
+  // Hide on public landing page and on artist stage to keep experience focused and high-conversion
+  if (pathname === "/" || isArtistSlug) {
     return null;
   }
 
