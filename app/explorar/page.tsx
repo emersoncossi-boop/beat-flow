@@ -210,7 +210,7 @@ export default function ExplorarPage() {
                   <Image
                     src={artist.cover}
                     alt={artist.name}
-                    fill
+                    fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     referrerPolicy="no-referrer"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
@@ -231,7 +231,7 @@ export default function ExplorarPage() {
                         <Image
                           src={artist.avatar}
                           alt={artist.name}
-                          fill
+                          fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           referrerPolicy="no-referrer"
                           className="object-cover"
                         />
