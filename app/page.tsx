@@ -226,52 +226,52 @@ export default function BeatFlowLandingPage() {
   // 4 Core Value Cards ("Tudo o que um DJ precisa em um só lugar")
   const coreFeatures = [
     {
-      id: "perfil-completo",
-      mod: "MOD.01",
-      tag: "DISCOGRAFIA & BIO",
+      id: "palco-digital",
+      mod: "ESTÉTICA DE LUXO",
+      tag: "PRESETS AUTORAIS",
       icon: Disc3,
-      title: "Seu perfil completo",
-      description: "Música, bio, redes e mais.",
-      color: "text-[#C084FC]",
-      accentGlow: "rgba(138,63,252,0.35)",
-      borderColor: "hover:border-[#8A3FFC]/50",
-      glowColor: "group-hover:bg-[#8A3FFC]/10"
+      title: "Palco Digital Autoral",
+      description: "Universos visuais exclusivos (Noir, Sunset, Ice, Raw) que refletem sua identidade real sem parecer SaaS.",
+      color: "text-purple-400",
+      accentGlow: "rgba(168,85,247,0.35)",
+      borderColor: "hover:border-purple-500/50",
+      glowColor: "group-hover:bg-purple-500/10"
     },
     {
-      id: "novas-oportunidades",
-      mod: "MOD.02",
-      tag: "SMART CALENDAR",
-      icon: Calendar,
-      title: "Novas oportunidades",
-      description: "Eventos, gigs e collabs.",
-      color: "text-[#FF4DDB]",
-      accentGlow: "rgba(255,77,219,0.35)",
-      borderColor: "hover:border-[#FF4DDB]/50",
-      glowColor: "group-hover:bg-[#FF4DDB]/10"
-    },
-    {
-      id: "conexao-real",
-      mod: "MOD.03",
-      tag: "P2P NETWORKING",
-      icon: Users,
-      title: "Conexão real",
-      description: "Com pessoas que vivem música.",
+      id: "player-cuepoints",
+      mod: "EXPERIÊNCIA SONORA",
+      tag: "MARCADORES DE DROP",
+      icon: Headphones,
+      title: "Player com Cue Points",
+      description: "Contratantes pulam direto para o clímax do seu set em 5 segundos, acelerando a decisão de booking.",
       color: "text-[#00D1FF]",
       accentGlow: "rgba(0,209,255,0.35)",
       borderColor: "hover:border-[#00D1FF]/50",
       glowColor: "group-hover:bg-[#00D1FF]/10"
     },
     {
-      id: "mais-alcance",
-      mod: "MOD.04",
-      tag: "GLOBAL INDEX",
-      icon: TrendingUp,
-      title: "Mais alcance",
-      description: "Sua presença para o mundo todo.",
+      id: "cartao-nfc",
+      mod: "CONEXÃO INSTANTÂNEA",
+      tag: "NFC & VCARD",
+      icon: Radio,
+      title: "Cartão NFC & Passe QR",
+      description: "Aproxime o celular na festa e salve seu contato e Press Kit direto na agenda do iPhone ou Android do contratante.",
       color: "text-emerald-400",
       accentGlow: "rgba(52,211,153,0.35)",
       borderColor: "hover:border-emerald-400/50",
       glowColor: "group-hover:bg-emerald-400/10"
+    },
+    {
+      id: "seguranca-biometria",
+      mod: "ACESSO NATIVO",
+      tag: "FACE ID & TOUCH ID",
+      icon: ShieldCheck,
+      title: "Biometria & Segurança",
+      description: "Acesso instantâneo com Face ID e biometria nativa do celular, com regras blindadas e proteção de dados.",
+      color: "text-[#FF4DDB]",
+      accentGlow: "rgba(255,77,219,0.35)",
+      borderColor: "hover:border-[#FF4DDB]/50",
+      glowColor: "group-hover:bg-[#FF4DDB]/10"
     }
   ];
 
