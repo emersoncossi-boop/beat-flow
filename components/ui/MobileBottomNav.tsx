@@ -19,7 +19,7 @@ export function MobileBottomNav() {
 
   const navItems = [
     {
-      label: 'Início',
+      label: 'In?cio',
       href: '/',
       icon: Home,
       isActive: pathname === '/',
@@ -54,7 +54,7 @@ export function MobileBottomNav() {
   return (
     <div className="md:hidden fixed bottom-4 left-4 right-4 z-50 pointer-events-none flex justify-center pb-[env(safe-area-inset-bottom)]">
       <nav 
-        aria-label="Navegação móvel" 
+        aria-label="Navega??o m?vel" 
         className="pointer-events-auto w-full max-w-md bg-zinc-950/90 backdrop-blur-2xl border border-white/15 rounded-full px-3 py-2 flex items-center justify-around shadow-[0_12px_40px_rgba(0,0,0,0.8)]"
       >
         {navItems.map((item) => {
