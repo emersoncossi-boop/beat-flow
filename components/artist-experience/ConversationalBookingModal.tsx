@@ -12,38 +12,46 @@ import {
   MapPin, 
   DollarSign, 
   ShieldCheck, 
-  Lock 
+  Lock,
+  Send,
+  FileText
 } from 'lucide-react';
 import { databaseService } from '@/lib/database-service';
-import { AtmosphereConfig } from '@/lib/artist-universe';
+import { AtmosphereConfig, ArtistProfileData } from '@/lib/artist-universe';
 
 interface ConversationalBookingModalProps {
-  isOpen: boolean;
+  isOpen?: boolean;
   onClose: () => void;
-  djName: string;
-  djSlug: string;
+  profile?: ArtistProfileData;
+  djName?: string;
+  djSlug?: string;
   djId?: string;
   minFee?: number;
-  atmosphere: AtmosphereConfig;
+  atmosphere?: AtmosphereConfig;
 }
 
 export const ConversationalBookingModal: React.FC<ConversationalBookingModalProps> = ({
-  isOpen,
+  isOpen = true,
   onClose,
+  profile,
   djName,
   djSlug,
-  djId = 'dj-luna-001',
+  djId = 'dj-001',
   minFee = 3500,
   atmosphere,
 }) => {
+  const activeName = profile?.name || djName || 'Artista';
+  const activeSlug = profile?.slug || djSlug || 'artista';
+  const activeMinFee = profile ? parseInt(profile.baseFee.replace(/\D/g, '')) || 3500 : minFee;
+
   const [step, setStep] = useState(1);
   const [contractorName, setContractorName] = useState('');
   const [contractorContact, setContractorContact] = useState('');
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [eventCity, setEventCity] = useState('');
-  const [eventDuration, setEventDuration] = useState('3');
-  const [offeredFee, setOfferedFee] = useState(minFee ? minFee.toString() : '4000');
+  const [eventDuration, setEventDuration] = useState('2');
+  const [offeredFee, setOfferedFee] = useState(activeMinFee.toString());
   const [musicReference, setMusicReference] = useState('');
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,7 +60,7 @@ export const ConversationalBookingModal: React.FC<ConversationalBookingModalProp
 
   if (!isOpen) return null;
 
-  const budgetNum = parseFloat(offeredFee) || minFee || 0;
+  const budgetNum = parseFloat(offeredFee) || activeMinFee || 0;
   const depositNum = Math.round(budgetNum * 0.5);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -65,13 +73,13 @@ export const ConversationalBookingModal: React.FC<ConversationalBookingModalProp
         dj_id: djId,
         contractor_name: contractorName || 'Produtor / Contratante',
         contractor_contact: contractorContact || 'contato@evento.com',
-        event_name: eventName || `Show com ${djName}`,
+        event_name: eventName || `Show com ${activeName}`,
         event_date: eventDate || new Date().toISOString().split('T')[0],
-        event_duration_hours: parseInt(eventDuration) || 3,
-        location_city: eventCity || 'São Paulo - SP',
+        event_duration_hours: parseInt(eventDuration) || 2,
+        location_city: eventCity || 'SÃ£o Paulo - SP',
         offered_budget: budgetNum,
-        sound_reference_url: musicReference || 'https://soundcloud.com/curated-track',
-        notes: notes ? `[Atmosfera Solicitada: ${atmosphere.name}] ${notes}` : `[Atmosfera Solicitada: ${atmosphere.name}]`,
+        sound_reference_url: musicReference || 'https://soundcloud.com',
+        notes: notes || 'Proposta submetida via Palco Digital Beat Flow.',
       });
 
       setIsSuccess(true);
@@ -86,303 +94,240 @@ export const ConversationalBookingModal: React.FC<ConversationalBookingModalProp
     }
   };
 
+  const handleWhatsAppDirect = () => {
+    const text = encodeURIComponent(
+      `OlÃ¡ ${activeName}! Gostaria de consultar disponibilidade para o evento *${eventName || 'Evento'}* em *${eventCity || 'Minha Cidade'}* no dia *${eventDate || 'Data a Definir'}*. OrÃ§amento estimado: *R$ ${budgetNum.toLocaleString('pt-BR')}*. Enviado via Beat Flow.`
+    );
+    window.open(`https://wa.me/5511999999999?text=${text}`, '_blank');
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl animate-in fade-in duration-200">
       <div 
-        className="w-full max-w-xl rounded-3xl border border-white/20 shadow-2xl relative overflow-hidden text-white"
-        style={{
-          background: 'linear-gradient(145deg, rgba(15, 17, 26, 0.98) 0%, rgba(9, 11, 18, 0.99) 100%)',
-        }}
+        className="w-full max-w-xl rounded-3xl border border-white/20 shadow-2xl relative overflow-hidden text-white bg-[#0A0D14]"
       >
-        {/* Glow Accent Header */}
-        <div 
-          className="absolute top-0 left-0 right-0 h-1.5"
-          style={{
-            background: `linear-gradient(90deg, ${atmosphere.lighting.primaryGlow}, ${atmosphere.lighting.secondaryGlow})`,
-          }}
-        />
+        {/* Glow Header */}
+        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 via-amber-400 to-purple-500" />
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-xl bg-white/10 hover:bg-white/20 transition text-white/70 hover:text-white"
+          className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
 
         {isSuccess ? (
-          <div className="p-8 sm:p-10 text-center space-y-5">
-            <div 
-              className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center border"
-              style={{
-                borderColor: `${atmosphere.lighting.primaryGlow}60`,
-                backgroundColor: `${atmosphere.lighting.primaryGlow}20`,
-              }}
-            >
-              <CheckCircle2 className="w-8 h-8" style={{ color: atmosphere.lighting.primaryGlow }} />
+          <div className="p-8 sm:p-12 text-center space-y-6">
+            <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-8 h-8" />
             </div>
 
-            <h3 className="text-2xl font-black tracking-tight">
-              Proposta Enviada com Sucesso!
-            </h3>
-
-            <p className="text-sm text-white/70 leading-relaxed max-w-md mx-auto">
-              A produção de <strong className="text-white">{djName}</strong> foi notificada e avaliará sua data para <strong>{eventCity || 'o local'}</strong>. O sinal de custódia (50%) só será acionado após a confirmação direta.
-            </p>
-
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-left space-y-2 text-xs">
-              <div className="flex justify-between">
-                <span className="text-white/50">Cachê Proposto:</span>
-                <span className="font-bold text-white">R$ {budgetNum.toLocaleString('pt-BR')}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/50">Sinal em Custódia (Escrow 50%):</span>
-                <span className="font-bold text-emerald-400">R$ {depositNum.toLocaleString('pt-BR')}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/50">Atmosfera de Palco:</span>
-                <span className="font-bold text-sky-400">{atmosphere.name}</span>
-              </div>
-            </div>
-
-            <button
-              onClick={onClose}
-              className="w-full py-3.5 rounded-xl font-bold text-sm bg-white text-black hover:bg-white/90 transition shadow-lg"
-            >
-              Fechar e Voltar ao Perfil
-            </button>
-          </div>
-        ) : (
-          <div className="p-6 sm:p-8 space-y-6">
-            {/* Header */}
-            <div>
-              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider mb-1" style={{ color: atmosphere.lighting.primaryGlow }}>
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Contratação Direta · Beat Flow Escrow</span>
-              </div>
-              <h2 className="text-2xl font-black">
-                Contratar {djName}
-              </h2>
-              <p className="text-xs text-white/60 mt-1">
-                Etapa {step} de 3 · Configuração de Data, Formato de Palco e Cachê
+            <div className="space-y-2">
+              <h3 className="text-2xl font-bold text-white">Proposta Enviada com Sucesso!</h3>
+              <p className="text-sm text-white/60 max-w-md mx-auto">
+                {activeName} e o Booker receberam os dados do evento. O sinal de 50% (R$ {depositNum.toLocaleString('pt-BR')}) serÃ¡ solicitado apÃ³s a confirmaÃ§Ã£o de data.
               </p>
             </div>
 
-            {errorMessage && (
-              <div className="p-3 rounded-xl bg-red-500/20 border border-red-500/40 text-xs text-red-200">
-                {errorMessage}
-              </div>
-            )}
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs font-mono text-white/70 space-y-1 text-left max-w-sm mx-auto">
+              <div><strong className="text-white">Evento:</strong> {eventName || 'Show'}</div>
+              <div><strong className="text-white">Data:</strong> {eventDate || 'A definir'}</div>
+              <div><strong className="text-white">Cidade:</strong> {eventCity || 'SÃ£o Paulo'}</div>
+              <div><strong className="text-white">CachÃª Proposto:</strong> R$ {budgetNum.toLocaleString('pt-BR')}</div>
+            </div>
 
-            {/* STEP 1: EVENT DETAILS */}
-            {step === 1 && (
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1.5">
-                    Nome do Evento / Club / Festival
-                  </label>
-                  <input
-                    type="text"
-                    value={eventName}
-                    onChange={(e) => setEventName(e.target.value)}
-                    placeholder="Ex: Sunset Rooftop Sessions ou Main Stage Festival"
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-sm focus:border-white/40 focus:outline-none"
-                  />
-                </div>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+              <button
+                onClick={handleWhatsAppDirect}
+                className="flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs shadow-lg transition-all"
+              >
+                <Send className="w-4 h-4" />
+                <span>Abrir WhatsApp do Booker</span>
+              </button>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1.5">
-                      Data Pretendida
-                    </label>
-                    <input
-                      type="date"
-                      value={eventDate}
-                      onChange={(e) => setEventDate(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:border-white/40 focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1.5">
-                      Cidade / Estado
-                    </label>
+              <button
+                onClick={onClose}
+                className="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-medium transition-all"
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="p-6 sm:p-8 space-y-6">
+            
+            {/* Header */}
+            <div>
+              <span className="text-xs font-mono uppercase text-emerald-400 tracking-wider">
+                Etapa {step} de 3 Â· Booking Oficial
+              </span>
+              <h2 className="text-xl sm:text-2xl font-bold text-white mt-1">
+                Contratar {activeName}
+              </h2>
+              <p className="text-xs text-white/50">
+                Preencha os detalhes do evento para gerar a estimativa de proposta formal.
+              </p>
+            </div>
+
+            {/* Form Steps */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {step === 1 && (
+                <div className="space-y-4 animate-in fade-in duration-150">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-mono text-white/70">Nome do Contratante / AgÃªncia</label>
                     <input
                       type="text"
-                      value={eventCity}
-                      onChange={(e) => setEventCity(e.target.value)}
-                      placeholder="Ex: São Paulo - SP"
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-sm focus:border-white/40 focus:outline-none"
+                      required
+                      placeholder="Ex: Club Warung / AgÃªncia Level"
+                      value={contractorName}
+                      onChange={(e) => setContractorName(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/40 text-sm text-white outline-none"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-mono text-white/70">WhatsApp / E-mail de Contato</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="(11) 99999-9999 ou produtor@evento.com"
+                      value={contractorContact}
+                      onChange={(e) => setContractorContact(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/40 text-sm text-white outline-none"
                     />
                   </div>
                 </div>
+              )}
 
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1.5">
-                    Duração do Set
-                  </label>
-                  <select
-                    value={eventDuration}
-                    onChange={(e) => setEventDuration(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:border-white/40 focus:outline-none"
-                  >
-                    <option value="2" className="bg-[#121622]">2 Horas (Peak Time / Abertura)</option>
-                    <option value="3" className="bg-[#121622]">3 Horas (Formato Standard)</option>
-                    <option value="4" className="bg-[#121622]">4 Horas (Extended Set)</option>
-                    <option value="6" className="bg-[#121622]">6+ Horas (All Night Long)</option>
-                  </select>
+              {step === 2 && (
+                <div className="space-y-4 animate-in fade-in duration-150">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono text-white/70">Nome do Evento / Festa</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Ex: Sunset Sessions"
+                        value={eventName}
+                        onChange={(e) => setEventName(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/40 text-sm text-white outline-none"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono text-white/70">Data do Show</label>
+                      <input
+                        type="date"
+                        required
+                        value={eventDate}
+                        onChange={(e) => setEventDate(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/40 text-sm text-white outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono text-white/70">Cidade / Estado</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Ex: SÃ£o Paulo - SP"
+                        value={eventCity}
+                        onChange={(e) => setEventCity(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/40 text-sm text-white outline-none"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono text-white/70">DuraÃ§Ã£o do Set (Horas)</label>
+                      <select
+                        value={eventDuration}
+                        onChange={(e) => setEventDuration(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl bg-neutral-900 border border-white/10 focus:border-white/40 text-sm text-white outline-none"
+                      >
+                        <option value="1.5">1h30 Set</option>
+                        <option value="2">2h00 Extended</option>
+                        <option value="3">3h00 Long Set</option>
+                        <option value="4">4h00 All Night Long</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
+              )}
 
-                <div className="flex justify-end pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setStep(2)}
-                    className="px-6 py-3 rounded-xl font-bold text-sm bg-white text-black hover:bg-white/90 transition flex items-center gap-2 shadow-lg"
-                  >
-                    <span>Próximo: Cachê & Escrow</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* STEP 2: FEE & ESCROW */}
-            {step === 2 && (
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1.5">
-                    Proposta de Cachê Líquido (R$)
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-4 top-3.5 text-sm text-white/50 font-bold">R$</span>
+              {step === 3 && (
+                <div className="space-y-4 animate-in fade-in duration-150">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-mono text-white/70">Proposta de CachÃª (R$)</label>
                     <input
                       type="number"
+                      required
+                      min={activeMinFee}
+                      step="100"
                       value={offeredFee}
                       onChange={(e) => setOfferedFee(e.target.value)}
-                      min={minFee}
-                      step="500"
-                      className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-lg font-bold focus:border-white/40 focus:outline-none"
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/40 text-sm text-white font-mono outline-none"
+                    />
+                    <div className="flex items-center justify-between text-[11px] text-white/50 pt-1">
+                      <span>CachÃª base mÃ­nimo: R$ {activeMinFee.toLocaleString('pt-BR')}</span>
+                      <span className="text-emerald-400 font-bold">Sinal 50%: R$ {depositNum.toLocaleString('pt-BR')}</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-mono text-white/70">ObservaÃ§Ãµes de LogÃ­stica ou Rider</label>
+                    <textarea
+                      rows={2}
+                      placeholder="Ex: Temos CDJ-3000 disponÃ­vel na cabine e translado do aeroporto incluso."
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/40 text-sm text-white outline-none resize-none"
                     />
                   </div>
-                  <p className="text-[11px] text-white/40 mt-1">
-                    Cachê base de referência do artista: a partir de R$ {minFee.toLocaleString('pt-BR')}
-                  </p>
                 </div>
+              )}
 
-                {/* Escrow Breakdown Box */}
-                <div 
-                  className="p-4 rounded-2xl border space-y-2.5"
-                  style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                    borderColor: `${atmosphere.lighting.primaryGlow}30`,
-                  }}
-                >
-                  <div className="flex items-center gap-2 text-xs font-bold" style={{ color: atmosphere.lighting.primaryGlow }}>
-                    <ShieldCheck className="w-4 h-4" />
-                    <span>Garantia de Custódia Beat Flow (50% Escrow)</span>
-                  </div>
-                  <div className="text-xs text-white/70 leading-relaxed">
-                    Você deposita <strong>R$ {depositNum.toLocaleString('pt-BR')}</strong> apenas após o aceite da artista. O valor fica retido com segurança e só é liberado para o artista no dia da apresentação.
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1.5">
-                    Referência Sonora (SoundCloud / Spotify)
-                  </label>
-                  <input
-                    type="url"
-                    value={musicReference}
-                    onChange={(e) => setMusicReference(e.target.value)}
-                    placeholder="https://soundcloud.com/... ou link de set"
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-sm focus:border-white/40 focus:outline-none"
-                  />
-                </div>
-
-                <div className="flex items-center justify-between pt-2">
+              {/* Navigation Actions */}
+              <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                {step > 1 ? (
                   <button
                     type="button"
-                    onClick={() => setStep(1)}
-                    className="px-4 py-2.5 rounded-xl text-xs font-bold text-white/70 hover:text-white flex items-center gap-1.5 transition"
+                    onClick={() => setStep(step - 1)}
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs text-white"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Voltar</span>
                   </button>
+                ) : (
+                  <div />
+                )}
+
+                {step < 3 ? (
                   <button
                     type="button"
-                    onClick={() => setStep(3)}
-                    className="px-6 py-3 rounded-xl font-bold text-sm bg-white text-black hover:bg-white/90 transition flex items-center gap-2 shadow-lg"
+                    onClick={() => {
+                      if (step === 1 && (!contractorName || !contractorContact)) return;
+                      setStep(step + 1);
+                    }}
+                    className="flex items-center gap-1.5 px-6 py-2.5 rounded-full bg-white text-black font-bold text-xs hover:bg-white/90"
                   >
-                    <span>Próximo: Dados de Contato</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <span>PrÃ³ximo</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
-                </div>
-              </div>
-            )}
-
-            {/* STEP 3: CONTACT & SUBMISSION */}
-            {step === 3 && (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1.5">
-                    Seu Nome Completo ou Razão Social
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={contractorName}
-                    onChange={(e) => setContractorName(e.target.value)}
-                    placeholder="Ex: Carlos Eduardo (Diretor Artístico)"
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-sm focus:border-white/40 focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1.5">
-                    WhatsApp ou E-mail para Retorno
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={contractorContact}
-                    onChange={(e) => setContractorContact(e.target.value)}
-                    placeholder="+55 11 99999-8888 ou producao@club.com"
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-sm focus:border-white/40 focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1.5">
-                    Observações / Rider Especial (Opcional)
-                  </label>
-                  <textarea
-                    rows={2}
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Horário previsto da cabine, estrutura de som do local..."
-                    className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-xs focus:border-white/40 focus:outline-none"
-                  />
-                </div>
-
-                <div className="flex items-center justify-between pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setStep(2)}
-                    className="px-4 py-2.5 rounded-xl text-xs font-bold text-white/70 hover:text-white flex items-center gap-1.5 transition"
-                  >
-                    <ArrowLeft className="w-3.5 h-3.5" />
-                    <span>Voltar</span>
-                  </button>
+                ) : (
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-7 py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-400 to-teal-400 text-black hover:opacity-95 transition flex items-center gap-2 shadow-lg disabled:opacity-50"
+                    className="flex items-center gap-2 px-7 py-3 rounded-full bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-xs shadow-lg shadow-emerald-400/20 active:scale-95"
                   >
-                    <Lock className="w-4 h-4" />
-                    <span>{isSubmitting ? 'Enviando...' : 'Enviar Proposta com Escrow'}</span>
+                    {isSubmitting ? 'Enviando...' : 'Enviar Proposta Formal'}
                   </button>
-                </div>
-              </form>
-            )}
+                )}
+              </div>
+
+            </form>
           </div>
         )}
       </div>
