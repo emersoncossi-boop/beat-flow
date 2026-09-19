@@ -362,7 +362,7 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
                   <Image
                     src={profile.heroImage}
                     alt={profile.name}
-                    fill
+                    fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority
                     className={`object-cover object-center transition-transform duration-1000 ${isPlaying ? 'scale-105' : 'scale-100'}`}
                   />
@@ -384,7 +384,7 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
                           <Image
                             src={profile.featuredTrack.coverImage}
                             alt={profile.featuredTrack.title}
-                            fill
+                            fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             className="object-cover"
                           />
                         </div>
@@ -529,7 +529,7 @@ export function ArtistExperience({ djSlug }: ArtistExperienceProps) {
                     <Image
                       src={photoUrl}
                       alt={`${profile.name} Press ${idx + 1}`}
-                      fill
+                      fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
