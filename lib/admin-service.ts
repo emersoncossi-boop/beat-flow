@@ -28,6 +28,9 @@ export interface AdminDjUser {
   showcaseRank?: number; // 1 to 4
   suspensionReason?: string;
   suspendedAt?: string;
+  isVipCourtesy?: boolean;
+  courtesyDaysRemaining?: number;
+  courtesyExpiresAt?: string;
   createdAt: string;
 }
 
