@@ -173,6 +173,7 @@ export function HeroInteractiveStage({ djHandle, onClaim }: HeroInteractiveStage
                 fill
                 priority
                 className="object-cover object-top transition-transform duration-1000 scale-100"
+                sizes="(max-width: 768px) 100vw, 500px"
               />
               {/* Cinematic Vignette & Bottom Stage Gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
