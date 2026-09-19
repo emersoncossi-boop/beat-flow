@@ -13,7 +13,9 @@ import {
   Send,
   Volume2,
   Disc3,
-  ArrowRight
+  ArrowRight,
+  ShieldCheck,
+  QrCode
 } from 'lucide-react';
 
 interface HeroInteractiveStageProps {
@@ -27,9 +29,9 @@ export function HeroInteractiveStage({ djHandle, onClaim }: HeroInteractiveStage
   const [liveTickerIndex, setLiveTickerIndex] = useState<number>(0);
 
   const tickerEvents = [
-    { text: "DJ Camila recebeu proposta para D-EDGE Club", fee: "R$ 4.500", time: "Há 4 min" },
-    { text: "DJ Sara confirmou data em Florianópolis", fee: "R$ 7.200", time: "Há 12 min" },
-    { text: "DJ Luna Bloom teve o Press Kit aberto por Warung", fee: "R$ 5.800", time: "Há 18 min" },
+    { text: "DJ Camila recebeu proposta para D-EDGE Club", fee: "R$ 4.500", time: "HÃ¡ 4 min" },
+    { text: "DJ Sara confirmou data em FlorianÃ³polis", fee: "R$ 7.200", time: "HÃ¡ 12 min" },
+    { text: "DJ Luna Bloom teve o Press Kit aberto por Warung", fee: "R$ 5.800", time: "HÃ¡ 18 min" },
     { text: "@djvictor acabou de registrar seu perfil oficial", fee: "Novo Artista", time: "Agora" }
   ];
 
@@ -48,7 +50,7 @@ export function HeroInteractiveStage({ djHandle, onClaim }: HeroInteractiveStage
       glow: 'rgba(226, 232, 240, 0.25)',
       badge: 'Dark Club / Chrome',
       photo: 'https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?q=80&w=800',
-      genre: 'Afro House · Deep House'
+      genre: 'Afro House Â· Deep House'
     },
     sunset: {
       accent: '#F59E0B',
@@ -56,157 +58,168 @@ export function HeroInteractiveStage({ djHandle, onClaim }: HeroInteractiveStage
       accentText: 'text-black',
       glow: 'rgba(245, 158, 11, 0.3)',
       badge: 'Sunset / Organic',
-      photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800',
-      genre: 'Organic House · Downtempo'
+      photo: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=800',
+      genre: 'Organic House Â· Melodic Afro'
     },
     ice: {
-      accent: '#00D1FF',
-      accentBg: 'bg-[#00D1FF]',
+      accent: '#38BDF8',
+      accentBg: 'bg-sky-400',
       accentText: 'text-black',
-      glow: 'rgba(0, 209, 255, 0.3)',
+      glow: 'rgba(56, 189, 248, 0.3)',
       badge: 'Ice / Futuristic',
-      photo: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800',
-      genre: 'Melodic Techno · Progressive'
+      photo: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800',
+      genre: 'Melodic Techno Â· Progressive'
     },
     raw: {
-      accent: '#A3E635',
-      accentBg: 'bg-lime-400',
-      accentText: 'text-black',
-      glow: 'rgba(163, 230, 53, 0.3)',
+      accent: '#EF4444',
+      accentBg: 'bg-red-500',
+      accentText: 'text-white',
+      glow: 'rgba(239, 68, 68, 0.3)',
       badge: 'Raw / Industrial',
-      photo: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=800',
-      genre: 'Peak Time · Hard Groove'
+      photo: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800',
+      genre: 'Peak Time Techno Â· Hard Groove'
     }
   };
 
-  const current = themeStyles[activeTheme];
-  const displayName = djHandle.trim() ? djHandle.trim() : "seunome";
+  const currentTheme = themeStyles[activeTheme];
+  const displayName = djHandle && djHandle.trim() !== '' ? djHandle.toUpperCase() : 'SEU NOME';
+  const displaySlug = djHandle && djHandle.trim() !== '' ? djHandle.toLowerCase().replace(/[^a-z0-9]/g, '') : 'nomedodj';
 
   return (
-    <div className="relative w-full max-w-[420px] mx-auto [perspective:1200px]">
+    <div className="w-full max-w-[480px] mx-auto flex flex-col items-center select-none">
       
-      {/* Floating Dynamic Social Proof Ticker */}
-      <div className="absolute -top-12 left-0 right-0 z-30 flex justify-center pointer-events-none">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-700/80 backdrop-blur-xl shadow-2xl text-[11px] font-medium text-white transition-all duration-500 animate-in fade-in slide-in-from-top-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-zinc-300">{tickerEvents[liveTickerIndex].text}</span>
-          <span className="font-mono text-emerald-400 font-bold">({tickerEvents[liveTickerIndex].fee})</span>
-        </div>
-      </div>
-
-      {/* Preset Switcher Pills */}
-      <div className="flex items-center justify-center gap-1.5 p-1 rounded-xl bg-zinc-900/80 border border-zinc-800 mb-4 backdrop-blur-md">
-        {(['noir', 'sunset', 'ice', 'raw'] as const).map((t) => (
+      {/* 1. Theme Atmosphere Switcher Pills */}
+      <div className="flex items-center gap-1.5 p-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-4 shadow-lg">
+        {(['noir', 'sunset', 'ice', 'raw'] as const).map(themeKey => (
           <button
-            key={t}
-            type="button"
-            onClick={() => setActiveTheme(t)}
-            className={`flex-1 py-1.5 px-2 rounded-lg text-[11px] font-mono uppercase tracking-wider font-bold transition-all cursor-pointer ${
-              activeTheme === t 
-                ? `${themeStyles[t].accentBg} ${themeStyles[t].accentText} shadow-md` 
-                : 'text-zinc-400 hover:text-white'
+            key={themeKey}
+            onClick={() => setActiveTheme(themeKey)}
+            className={`px-3 py-1 rounded-full text-xs font-mono uppercase transition-all duration-300 ${
+              activeTheme === themeKey
+                ? `${themeStyles[themeKey].accentBg} ${themeStyles[themeKey].accentText} font-bold shadow-md`
+                : 'text-white/60 hover:text-white hover:bg-white/5'
             }`}
           >
-            {t}
+            {themeKey}
           </button>
         ))}
       </div>
 
-      {/* 3D Glass Phone Device Container */}
+      {/* 2. Floating Live Activity Social Proof Ticker */}
+      <div className="w-full mb-3 px-4 py-2 rounded-2xl bg-black/70 border border-white/10 backdrop-blur-xl flex items-center justify-between gap-3 shadow-xl transition-all duration-500">
+        <div className="flex items-center gap-2 overflow-hidden">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping flex-shrink-0" />
+          <span className="text-xs text-white/80 truncate">
+            {tickerEvents[liveTickerIndex].text}
+          </span>
+        </div>
+        <div className="flex items-center gap-2 flex-shrink-0 font-mono text-xs">
+          <span className="text-emerald-400 font-bold">{tickerEvents[liveTickerIndex].fee}</span>
+          <span className="text-white/30 text-[10px]">{tickerEvents[liveTickerIndex].time}</span>
+        </div>
+      </div>
+
+      {/* 3. High-End 3D Smartphone Device Container */}
       <div 
-        className="relative rounded-[36px] p-3 bg-zinc-950 border-[2px] border-zinc-800 shadow-[0_25px_60px_rgba(0,0,0,0.9)] transition-all duration-500 overflow-hidden"
+        className="relative w-full aspect-[9/17] max-w-[340px] rounded-[44px] p-3.5 bg-neutral-950 border-[3px] border-neutral-700/80 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] transition-all duration-500"
         style={{
-          boxShadow: `0 20px 50px -10px ${current.glow}, 0 0 0 1px rgba(255,255,255,0.05)`
+          boxShadow: `0 20px 80px -10px ${currentTheme.glow}, 0 0 0 1px rgba(255,255,255,0.1)`
         }}
       >
-        {/* Device Notch & Status Bar */}
-        <div className="relative rounded-[28px] bg-[#07090E] border border-white/[0.08] overflow-hidden p-5 flex flex-col justify-between min-h-[490px]">
+        {/* Dynamic Island / Camera Notch */}
+        <div className="absolute top-5 left-1/2 -translate-x-1/2 w-24 h-5 rounded-full bg-black border border-white/10 z-30 flex items-center justify-center">
+          <div className="w-2 h-2 rounded-full bg-blue-950/80 mr-4 border border-blue-500/30" />
+          <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+        </div>
+
+        {/* Screen Content */}
+        <div className="relative w-full h-full rounded-[34px] overflow-hidden bg-[#07090E] border border-white/10 flex flex-col justify-between p-4 text-white">
           
-          {/* Background Ambient Art */}
-          <div className="absolute inset-0 z-0">
-            <Image 
-              src={current.photo} 
-              alt="DJ Preview" 
-              fill 
-              className="object-cover opacity-35 filter brightness-90 transition-all duration-700" 
+          {/* Top Hero Photo & Identity */}
+          <div className="relative w-full h-[52%] rounded-2xl overflow-hidden border border-white/10">
+            <Image
+              src={currentTheme.photo}
+              alt="DJ Preview"
+              fill
+              className="object-cover transition-transform duration-700 hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#07090E] via-[#07090E]/80 to-transparent" />
-          </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#07090E] via-transparent to-black/40" />
 
-          {/* Top Bar of the Phone */}
-          <div className="relative z-10 flex items-center justify-between text-[11px] font-mono text-zinc-400">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: current.accent }} />
-              {current.badge}
-            </span>
-            <span className="text-zinc-500">beatflow.me/@{displayName}</span>
-          </div>
-
-          {/* Center Artist Brand */}
-          <div className="relative z-10 my-auto text-center space-y-2 py-6">
-            <div className="w-20 h-20 rounded-full mx-auto p-0.5 border-2 shadow-2xl relative overflow-hidden" style={{ borderColor: current.accent }}>
-              <Image src={current.photo} alt="DJ Avatar" fill className="object-cover" />
+            {/* Live Playing Tag */}
+            <div className="absolute top-7 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[10px] font-mono">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>STAGE LIVE</span>
             </div>
-            
-            <h3 className="text-2xl font-black uppercase tracking-tight text-white drop-shadow-md">
-              DJ {displayName}
-            </h3>
-            
-            <p className="text-xs text-zinc-300 font-medium">
-              {current.genre} • São Paulo
-            </p>
-            
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/50 border border-white/10 text-[10px] font-mono text-emerald-400">
-              <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-              <span>Agenda Aberta 2026</span>
+
+            {/* Theme Badge */}
+            <div className="absolute top-7 right-3 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-[10px] font-mono">
+              {currentTheme.badge}
+            </div>
+
+            {/* Bottom Artist Tag inside Hero */}
+            <div className="absolute bottom-3 left-3 right-3 space-y-0.5">
+              <h3 className="text-2xl font-black tracking-tight text-white uppercase leading-none drop-shadow-md">
+                {displayName}
+              </h3>
+              <p className="text-[11px] text-white/80 font-light truncate">
+                {currentTheme.genre}
+              </p>
             </div>
           </div>
 
-          {/* Mini Interactive Audio Visualizer */}
-          <div className="relative z-10 space-y-3">
-            <div 
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="p-3 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-between cursor-pointer hover:border-white/20 transition-all"
-            >
-              <div className="flex items-center gap-3">
-                <div 
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-black font-bold shadow-md"
-                  style={{ backgroundColor: current.accent }}
-                >
-                  {isPlaying ? <Pause className="w-3.5 h-3.5 fill-black" /> : <Play className="w-3.5 h-3.5 fill-black ml-0.5" />}
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-white">Live Set @ Warung Beach</p>
-                  <p className="text-[10px] text-zinc-400">126 BPM • Hi-Fi Audio</p>
-                </div>
-              </div>
-
-              {/* Animated Waveform bars */}
-              <div className="flex items-center gap-1 h-5">
-                {[30, 80, 50, 100, 60, 90, 40].map((h, i) => (
-                  <span 
-                    key={i} 
-                    className="w-1 rounded-full transition-all duration-300"
-                    style={{ 
-                      height: isPlaying ? `${Math.max(20, h * (Math.sin(i + Date.now()/200)*0.4 + 0.6))}%` : '25%',
-                      backgroundColor: current.accent
-                    }}
-                  />
-                ))}
+          {/* Interactive Mini-Player Bar */}
+          <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <button
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-transform flex-shrink-0"
+              >
+                {isPlaying ? <Pause className="w-3.5 h-3.5 fill-black" /> : <Play className="w-3.5 h-3.5 fill-black ml-0.5" />}
+              </button>
+              <div className="space-y-0.5 min-w-0">
+                <span className="text-[11px] font-bold text-white block truncate">
+                  Extended Set 2026
+                </span>
+                <span className="text-[10px] text-white/40 block font-mono">
+                  126 BPM Â· Hi-Fi Audio
+                </span>
               </div>
             </div>
 
-            {/* Simulated Booking Button */}
-            <button 
-              type="button"
-              onClick={onClaim}
-              className="w-full py-3 rounded-xl font-bold text-xs text-black transition-all hover:scale-[1.02] shadow-lg flex items-center justify-center gap-1.5 cursor-pointer"
-              style={{ backgroundColor: current.accent }}
-            >
-              <span>Reivindicar Este Perfil</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            {/* Waveform Animation Bars */}
+            <div className="flex items-center gap-0.5 h-4">
+              {[40, 90, 60, 100, 75, 45, 85, 30].map((h, i) => (
+                <div
+                  key={i}
+                  className={`w-0.5 rounded-full transition-all duration-300 ${
+                    isPlaying ? 'bg-emerald-400 animate-pulse' : 'bg-white/20'
+                  }`}
+                  style={{ height: isPlaying ? `${h}%` : '25%' }}
+                />
+              ))}
+            </div>
           </div>
+
+          {/* Key Quick Specs Pills */}
+          <div className="grid grid-cols-2 gap-2 text-[10px] font-mono text-white/70">
+            <div className="p-2 rounded-xl bg-white/5 border border-white/5 flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Rider CDJ-3000</span>
+            </div>
+            <div className="p-2 rounded-xl bg-white/5 border border-white/5 flex items-center gap-1.5">
+              <QrCode className="w-3.5 h-3.5 text-blue-400" />
+              <span>Pass NFC Ativo</span>
+            </div>
+          </div>
+
+          {/* Claim Call to Action inside Smartphone */}
+          <button
+            onClick={onClaim}
+            className="w-full py-2.5 rounded-xl bg-white text-black font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-white/90 active:scale-95 transition-all shadow-lg"
+          >
+            <span>Garantir beatflow.me/{displaySlug}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
 
         </div>
       </div>
