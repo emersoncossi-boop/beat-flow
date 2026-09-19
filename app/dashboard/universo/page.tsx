@@ -90,7 +90,7 @@ export default function ArtistCanvasPage() {
     { id: 'epk', name: 'Press Kit / EPK (1-Click Alta ResoluÇÃo)', enabled: true, tier: 'PRO' },
     { id: 'rider', name: 'Rider TÉcnico Homologado & Mapa de Palco', enabled: true, tier: 'PRO' },
     { id: 'booking', name: 'Proposta Formal de Booking / WhatsApp Direto', enabled: true, tier: 'PRO' },
-    { id: 'whitelabel', name: 'DomÍnio PrÓprio White Label (djemersoncossi.com)', enabled: false, tier: 'SIGNATURE' },
+    { id: 'curadoria', name: 'Selo Oficial de Curadoria & Verificacao NEXORA', enabled: true, tier: 'SIGNATURE' },
     { id: 'multiprofile', name: 'Multi-Perfil (Club vs Festival vs Private)', enabled: false, tier: 'SIGNATURE' }
   ]);
 
@@ -1084,7 +1084,7 @@ export default function ArtistCanvasPage() {
                 <ul className="space-y-2 text-xs text-white/80 my-4 flex-1">
                   <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> Cenas Generativas IA & PartÍculas WebGL</li>
                   <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> IA Artistic Direction contÍnua</li>
-                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> DomÍnio prÓprio 100% White Label</li>
+                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> Selo Oficial de Curadoria & Verificacao Beat Flow</li>
                   <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> Multi-Perfil (Club / Festival / Private)</li>
                   <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> Áudio espacial de entrada imersivo</li>
                 </ul>
