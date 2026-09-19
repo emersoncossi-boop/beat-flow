@@ -35,6 +35,7 @@ export interface AuthContextType {
   error: string | null;
   signIn: (email: string, pass: string) => Promise<{ success: boolean; error?: string }>;
   signUp: (email: string, pass: string, artisticName: string, city: string) => Promise<{ success: boolean; error?: string }>;
+  signInDemo: (preset?: string) => Promise<{ success: boolean }>;
   signOut: () => Promise<void>;
   updateDJProfile: (data: Partial<DJProfile>) => Promise<void>;
   clearError: () => void;
@@ -62,6 +63,7 @@ const AuthContext = createContext<AuthContextType>({
   error: null,
   signIn: async () => ({ success: false }),
   signUp: async () => ({ success: false }),
+  signInDemo: async () => ({ success: false }),
   signOut: async () => {},
   updateDJProfile: async () => {},
   clearError: () => {}
@@ -73,9 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load from local storage or Firebase on mount
   useEffect(() => {
-    // Check local session
     const savedProfile = typeof window !== 'undefined' ? localStorage.getItem('bf_dj_profile') : null;
     const savedUser = typeof window !== 'undefined' ? localStorage.getItem('bf_session_user') : null;
 
@@ -95,7 +95,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       } catch {}
     }
 
-    // Firebase Listener if auth is available
     if (auth) {
       try {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -120,7 +119,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true);
     setError(null);
 
-    // Try Firebase Authentication
     if (auth) {
       try {
         const cred = await signInWithEmailAndPassword(auth, email, pass);
@@ -131,12 +129,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setIsLoading(false);
         return { success: true };
       } catch (fbErr: any) {
-        console.warn('[Auth] Firebase signin note:', fbErr.message);
-        // If Firebase fails or user is testing offline/local, allow seamless login with persistent profile
+        console.warn('[Auth] Firebase note:', fbErr.message);
       }
     }
 
-    // Fallback seamless local session so the DJ is NEVER blocked
+    // Seamless instant login fallback
     const fallbackUser: any = {
       uid: 'dj_' + Math.random().toString(36).substr(2, 9),
       email: email,
@@ -155,6 +152,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (typeof window !== 'undefined') {
       localStorage.setItem('bf_session_user', JSON.stringify(fallbackUser));
+      localStorage.setItem('bf_dj_profile', JSON.stringify(profile));
+    }
+
+    setIsLoading(false);
+    return { success: true };
+  };
+
+  const signInDemo = async (preset: string = 'skyline'): Promise<{ success: boolean }> => {
+    setIsLoading(true);
+    setError(null);
+
+    const isLuna = preset === 'luna';
+    const profile: DJProfile = {
+      ...DEFAULT_DJ_PROFILE,
+      artisticName: isLuna ? 'Luna Martins' : 'DJ Skyline',
+      slug: isLuna ? 'luna-martins' : 'dj-skyline',
+      email: isLuna ? 'luna@beatflow.art' : 'skyline@beatflow.art',
+      genres: isLuna ? ['Melodic Techno', 'Progressive House'] : ['Afro House', 'Tech House'],
+      city: isLuna ? 'Rio de Janeiro - RJ' : 'SÃ£o Paulo - SP'
+    };
+
+    const demoUser: any = {
+      uid: 'demo_' + preset,
+      email: profile.email,
+      displayName: profile.artisticName
+    };
+
+    setUser(demoUser);
+    setDjProfile(profile);
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('bf_session_user', JSON.stringify(demoUser));
       localStorage.setItem('bf_dj_profile', JSON.stringify(profile));
     }
 
@@ -190,7 +219,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
 
-    // Local seamless creation
     const fallbackUser: any = {
       uid: 'dj_' + Math.random().toString(36).substr(2, 9),
       email: email,
@@ -242,7 +270,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         await setDoc(doc(db, 'djs', user.uid), data, { merge: true });
       } catch (e) {
-        console.warn('[Auth] Profile sync note:', e);
+        console.warn('[Auth] Sync note:', e);
       }
     }
   };
@@ -260,6 +288,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       error,
       signIn,
       signUp,
+      signInDemo,
       signOut,
       updateDJProfile,
       clearError
