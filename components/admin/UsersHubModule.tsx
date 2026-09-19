@@ -7,7 +7,7 @@ import {
   Users, 
   Search, 
   Filter, 
-  Sparkles, 
+  Sparkles, Gift, Copy, Check, MessageSquare, 
   ShieldAlert, 
   ShieldCheck, 
   MoreVertical, 
@@ -39,6 +39,9 @@ export function UsersHubModule({ isDarkMode }: UsersHubModuleProps) {
   const [filterGenre, setFilterGenre] = useState<string>('all');
   const [sortField, setSortField] = useState<'healthScore' | 'totalGmv' | 'totalBookings'>('healthScore');
   const [sortAsc, setSortAsc] = useState(false);
+  const [vipModalDj, setVipModalDj] = useState<AdminDjUser | null>(null);
+  const [vipDays, setVipDays] = useState<number>(30);
+  const [vipInviteCopied, setVipInviteCopied] = useState(false);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -743,5 +746,79 @@ export function UsersHubModule({ isDarkMode }: UsersHubModuleProps) {
         </div>
       )}
     </div>
+      {/* Modal de Concessão de Cortesia VIP (Proprietário / Merchan) */}
+      {vipModalDj && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
+          <div className="relative w-full max-w-md rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-2xl space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                  <Gift className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">Passe VIP de Cortesia</h3>
+                  <p className="text-xs text-slate-500">Zerar cobrança para marketing / embaixador</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setVipModalDj(null)}
+                className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                Liberar acesso <strong>PRO ilimitado com R$ 0,00 de cobrança</strong> para o artista <strong>{vipModalDj.artisticName}</strong> (slug: <code className="font-mono text-purple-600">@{vipModalDj.slug}</code>).
+              </p>
+
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                Duração da Cortesia (Renovável a qualquer momento):
+              </label>
+              <div className="grid grid-cols-3 gap-2 mb-4">
+                {[7, 15, 30].map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    onClick={() => setVipDays(d)}
+                    className={`py-2 rounded-xl text-xs font-bold transition ${
+                      vipDays === d
+                        ? 'bg-purple-600 text-white shadow-md'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200'
+                    }`}
+                  >
+                    {d} Dias
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-600 dark:text-slate-300 space-y-1">
+              <p className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <MessageSquare className="w-3.5 h-3.5 text-purple-500" />
+                <span>Mensagem de Convite VIP (WhatsApp):</span>
+              </p>
+              <p className="font-mono text-[11px] text-slate-500 italic">
+                "Fala {vipModalDj.artisticName}! 🎧 Liberei {vipDays} dias de Acesso PRO 100% gratuito no Beat Flow para você divulgar seu Press Kit oficial..."
+              </p>
+            </div>
+
+            <div className="flex gap-2 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  handleGrantVip(vipModalDj.id, vipDays);
+                  setVipModalDj(null);
+                }}
+                className="flex-1 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:opacity-95 text-white font-bold text-xs shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2"
+              >
+                <Check className="w-4 h-4" />
+                <span>Ativar {vipDays} Dias VIP & Copiar Convite</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
   );
 }
