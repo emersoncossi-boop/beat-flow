@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "motion/react";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
@@ -11,15 +10,8 @@ import {
   Headphones, 
   Calendar, 
   Sparkles, 
-  Disc3, 
   Check, 
-  Crown, 
-  Sliders, 
-  Clock, 
-  MessageSquare,
-  Lock,
-  ChevronRight,
-  AlertCircle
+  Sliders
 } from 'lucide-react';
 import { Logo } from '@/components/ui/Logo';
 import { HeroInteractiveStage } from '@/components/landing/HeroInteractiveStage';
@@ -41,7 +33,7 @@ export default function BeatFlowLandingPage() {
     <div className="min-h-screen bg-[#07080B] text-white flex flex-col selection:bg-white selection:text-black">
       
       {/* ---------------------------------------------------- */}
-      {/* 1. HEADER EDITORIAL (COMPACTO, FLUIDO & ERGONÃ”MICO) */}
+      {/* 1. HEADER EDITORIAL (COMPACTO, FLUIDO & ERGONOMICO)  */}
       {/* ---------------------------------------------------- */}
       <header className="sticky top-0 z-50 bg-[#07080B]/90 backdrop-blur-xl border-b border-white/[0.08] transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
@@ -79,7 +71,7 @@ export default function BeatFlowLandingPage() {
       </header>
 
       {/* ---------------------------------------------------- */}
-      {/* 2. HERO SECTION â€” ALTA CONVERSÃƒO & ERGONOMIA MOBILE */}
+      {/* 2. HERO SECTION - ALTA CONVERSAO & ERGONOMIA MOBILE  */}
       {/* ---------------------------------------------------- */}
       <section className="relative pt-8 pb-14 sm:pt-16 sm:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-[#07080B]">
         
@@ -100,7 +92,7 @@ export default function BeatFlowLandingPage() {
                 </span>
               </div>
 
-              {/* High-Impact Headline (Zero Word Wrap Breakages on Mobile) */}
+              {/* High-Impact Headline */}
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1] mb-5">
                 Seu som abre a porta.<br />
                 O Beat Flow <span className="text-zinc-400 font-extrabold">fecha o show.</span>
@@ -108,10 +100,10 @@ export default function BeatFlowLandingPage() {
 
               {/* Punchy Subtitle */}
               <p className="text-sm sm:text-base lg:text-lg text-zinc-400 max-w-xl mb-8 leading-relaxed">
-                MÃºsica com marcadores de drop, rider tÃ©cnico homologado, agenda sincronizada e propostas formais em um Ãºnico link profissional de alta autoridade.
+                M&uacute;sica com marcadores de drop, rider t&eacute;cnico homologado, agenda sincronizada e propostas formais em um &uacute;nico link profissional de alta autoridade.
               </p>
 
-              {/* Mobile-Ergonomic Handle Claim Form (16px font to stop iOS zoom) */}
+              {/* Mobile-Ergonomic Handle Claim Form (16px font prevents iOS zoom) */}
               <div className="w-full max-w-lg mb-6">
                 <form 
                   onSubmit={handleClaimSlug}
@@ -147,12 +139,12 @@ export default function BeatFlowLandingPage() {
                   {djHandleInput.trim().length > 0 ? (
                     <div className="inline-flex items-center gap-1.5 text-xs font-mono text-emerald-400">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>beatflow.me/@<strong>{djHandleInput}</strong> disponÃ­vel</span>
+                      <span>beatflow.me/@<strong>{djHandleInput}</strong> dispon&iacute;vel</span>
                     </div>
                   ) : (
                     <span className="text-xs font-mono text-zinc-500 flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-zinc-400" />
-                      <span>Garante seu endereÃ§o oficial antes que outro artista registre</span>
+                      <span>Garante seu endere&ccedil;o oficial antes que outro artista registre</span>
                     </span>
                   )}
                 </div>
@@ -186,13 +178,13 @@ export default function BeatFlowLandingPage() {
           
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-400 uppercase mb-4">
-              EFICIÃŠNCIA & CONVERSÃƒO
+              EFICI&Ecirc;NCIA &amp; CONVERS&Atilde;O
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-4">
-              O fim da bio amadora e dos cachÃªs perdidos.
+              O fim da bio amadora e dos cach&ecirc;s perdidos.
             </h2>
             <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
-              Contratantes e curadores tomam decisÃµes em segundos. Quando o seu material estÃ¡ disperso, a fricÃ§Ã£o destrÃ³i o interesse.
+              Contratantes e curadores tomam decis&otilde;es em segundos. Quando o seu material est&aacute; disperso, a fric&ccedil;&atilde;o destr&oacute;i o interesse.
             </p>
           </div>
 
@@ -211,11 +203,11 @@ export default function BeatFlowLandingPage() {
                 <ul className="space-y-3.5 text-xs sm:text-sm text-zinc-400">
                   <li className="flex items-start gap-2.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 shrink-0" />
-                    <span>Links de Ã¡udio sem indicaÃ§Ã£o de onde o som realmente explode.</span>
+                    <span>Links de &aacute;udio sem indica&ccedil;&atilde;o de onde o som realmente explode.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 shrink-0" />
-                    <span>PDFs pesados de 40MB com riders que nÃ£o abrem no 4G do contratante.</span>
+                    <span>PDFs pesados de 40MB com riders que n&atilde;o abrem no 4G do contratante.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 shrink-0" />
@@ -223,12 +215,12 @@ export default function BeatFlowLandingPage() {
                   </li>
                   <li className="flex items-start gap-2.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 shrink-0" />
-                    <span>InseguranÃ§a do produtor sobre o suporte tÃ©cnico e rider real.</span>
+                    <span>Inseguran&ccedil;a do produtor sobre o suporte t&eacute;cnico e rider real.</span>
                   </li>
                 </ul>
               </div>
               <div className="mt-6 pt-4 border-t border-white/[0.06] text-xs font-mono text-red-400/80">
-                Resultado: NegociaÃ§Ãµes perdidas por demora e amadorismo.
+                Resultado: Negocia&ccedil;&otilde;es perdidas por demora e amadorismo.
               </div>
             </div>
 
@@ -236,23 +228,23 @@ export default function BeatFlowLandingPage() {
             <div className="p-6 sm:p-8 rounded-2xl bg-white/[0.03] border border-white/20 flex flex-col justify-between relative overflow-hidden shadow-2xl">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold uppercase mb-4">
-                  O PadrÃ£o Beat Flow
+                  O Padr&atilde;o Beat Flow
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold text-white mb-4">
-                  PresenÃ§a editorial e fechamento Ã¡gil
+                  Presen&ccedil;a editorial e fechamento &aacute;gil
                 </h3>
                 <ul className="space-y-3.5 text-xs sm:text-sm text-zinc-300">
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                    <span><strong>Cue Points:</strong> O produtor ouve o Ã¡pice do seu set em 5 segundos.</span>
+                    <span><strong>Cue Points:</strong> O produtor ouve o &aacute;pice do seu set em 5 segundos.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                    <span><strong>Rider Homologado:</strong> CDJs, mixers e cabine especificados sem ruÃ­dos.</span>
+                    <span><strong>Rider Homologado:</strong> CDJs, mixers e cabine especificados sem ru&iacute;dos.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                    <span><strong>Agenda Sincronizada:</strong> Cidades e datas disponÃ­veis transparentes.</span>
+                    <span><strong>Agenda Sincronizada:</strong> Cidades e datas dispon&iacute;veis transparentes.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
@@ -261,7 +253,7 @@ export default function BeatFlowLandingPage() {
                 </ul>
               </div>
               <div className="mt-6 pt-4 border-t border-white/[0.06] text-xs font-mono text-emerald-400 font-bold">
-                Resultado: DecisÃµes rÃ¡pidas e cachÃªs valorizados.
+                Resultado: Decis&otilde;es r&aacute;pidas e cach&ecirc;s valorizados.
               </div>
             </div>
 
@@ -278,13 +270,13 @@ export default function BeatFlowLandingPage() {
           
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-400 uppercase mb-4">
-              ARQUITETURA CÃŠNICA
+              ARQUITETURA C&Ecirc;NICA
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-4">
               Tudo o que o contratante precisa em 1 tela.
             </h2>
             <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
-              Criado especificamente para a dinÃ¢mica da mÃºsica eletrÃ´nica, dispensando anexos e arquivos pesados.
+              Criado exclusivamente para a din&acirc;mica da m&uacute;sica eletr&ocirc;nica, dispensando anexos e arquivos pesados.
             </p>
           </div>
 
@@ -298,7 +290,7 @@ export default function BeatFlowLandingPage() {
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">Player com Marcadores de Drop</h3>
                 <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-                  Contratantes nÃ£o ouvem sets de 2 horas. Os cue points levam o ouvinte direto ao momento de Ã¡pice da sua apresentaÃ§Ã£o em segundos.
+                  Contratantes n&atilde;o ouvem sets de 2 horas. Os cue points levam o ouvinte direto ao momento de &aacute;pice da sua apresenta&ccedil;&atilde;o em segundos.
                 </p>
               </div>
             </div>
@@ -309,9 +301,9 @@ export default function BeatFlowLandingPage() {
                 <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 text-white">
                   <Sliders className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">Rider TÃ©cnico Homologado</h3>
+                <h3 className="text-lg font-bold text-white mb-2">Rider T&eacute;cnico Homologado</h3>
                 <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-                  CDJ-3000, mixers rotativos e especificaÃ§Ãµes de cabine descritos com clareza. Zero surpresas tÃ©cnicas no dia do show.
+                  CDJ-3000, mixers rotativos e especifica&ccedil;&otilde;es de cabine descritos com clareza. Zero surpresas t&eacute;cnicas no dia do show.
                 </p>
               </div>
             </div>
@@ -322,9 +314,9 @@ export default function BeatFlowLandingPage() {
                 <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 text-white">
                   <Calendar className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">Agenda & TurnÃªs Sincronizadas</h3>
+                <h3 className="text-lg font-bold text-white mb-2">Agenda &amp; Turn&ecirc;s Sincronizadas</h3>
                 <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-                  Datas livres e cidades em turnÃª sempre atualizadas. Elimina mensagens repetitivas sobre disponibilidade de datas.
+                  Datas livres e cidades em turn&ecirc; sempre atualizadas. Elimina mensagens repetitivas sobre disponibilidade de datas.
                 </p>
               </div>
             </div>
@@ -335,9 +327,9 @@ export default function BeatFlowLandingPage() {
                 <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 text-white">
                   <ShieldCheck className="w-5 h-5 text-emerald-400" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">FormalizaÃ§Ã£o Direta de Propostas</h3>
+                <h3 className="text-lg font-bold text-white mb-2">Formaliza&ccedil;&atilde;o Direta de Propostas</h3>
                 <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-                  Receba solicitaÃ§Ãµes estruturadas com data, formato de apresentaÃ§Ã£o, local e orÃ§amento jÃ¡ preenchidos pelo contratante.
+                  Receba solicita&ccedil;&otilde;es estruturadas com data, formato de apresenta&ccedil;&atilde;o, local e or&ccedil;amento j&aacute; preenchidos pelo contratante.
                 </p>
               </div>
             </div>
@@ -348,20 +340,20 @@ export default function BeatFlowLandingPage() {
       </section>
 
       {/* ---------------------------------------------------- */}
-      {/* 5. PLANOS E NÃVEIS DE EXPERIÃŠNCIA                    */}
+      {/* 5. PLANOS E NIVEIS DE EXPERIENCIA                    */}
       {/* ---------------------------------------------------- */}
       <section id="planos" className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 border-t border-white/[0.08] bg-[#050609] relative">
         <div className="max-w-6xl mx-auto">
           
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-400 uppercase mb-4">
-              TRANSPARÃŠNCIA RADICAL
+              TRANSPAR&Ecirc;NCIA RADICAL
             </div>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-4">
-              Planos & NÃ­veis de PresenÃ§a
+              Planos &amp; N&iacute;veis de Presen&ccedil;a
             </h2>
             <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
-              Cobrar por profundidade. NÃ£o cobrar por dignidade visual. Todos os planos criam uma pÃ¡gina pÃºblica impecÃ¡vel e veloz.
+              Cobrar por profundidade. N&atilde;o cobrar por dignidade visual. Todos os planos criam uma p&aacute;gina p&uacute;blica impec&aacute;vel e veloz.
             </p>
           </div>
 
@@ -374,10 +366,10 @@ export default function BeatFlowLandingPage() {
                 <h3 className="text-xl font-bold text-white mb-2">ESSENTIAL</h3>
                 <div className="flex items-baseline gap-1 my-4">
                   <span className="text-3xl font-black text-white">R$ 0</span>
-                  <span className="text-xs text-zinc-500">/ grÃ¡tis</span>
+                  <span className="text-xs text-zinc-500">/ gr&aacute;tis</span>
                 </div>
                 <p className="text-xs text-zinc-400 mb-6">
-                  Para DJs em inÃ­cio de posicionamento que precisam de presenÃ§a profissional imediata.
+                  Para DJs em in&iacute;cio de posicionamento que precisam de presen&ccedil;a profissional imediata.
                 </p>
                 <ul className="space-y-3 text-xs text-zinc-300">
                   <li className="flex items-center gap-2">
@@ -386,22 +378,22 @@ export default function BeatFlowLandingPage() {
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Player de Ã¡udio com cue points</span>
+                    <span>Player de &aacute;udio com cue points</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Rider tÃ©cnico essencial</span>
+                    <span>Rider t&eacute;cnico essencial</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>BotÃ£o de contato direto</span>
+                    <span>Bot&atilde;o de contato direto</span>
                   </li>
                 </ul>
               </div>
               <div className="pt-6 mt-6 border-t border-white/10">
                 <Link href="/login?mode=signup" className="block w-full">
                   <button className="w-full py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-xs transition cursor-pointer">
-                    ComeÃ§ar Gratuitamente
+                    Come&ccedil;ar Gratuitamente
                   </button>
                 </Link>
               </div>
@@ -410,17 +402,17 @@ export default function BeatFlowLandingPage() {
             {/* PLANO 02 - PRO (DESTAQUE DA CENA) */}
             <div className="p-6 sm:p-8 rounded-2xl bg-white/[0.04] border-2 border-white/30 flex flex-col justify-between relative shadow-2xl">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-white text-black font-mono text-[10px] font-black uppercase tracking-wider shadow-md">
-                O PADRÃƒO DA CENA
+                O PADR&Atilde;O DA CENA
               </div>
               <div>
                 <div className="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-1">PLANO 02</div>
                 <h3 className="text-xl font-bold text-white mb-2">PRO</h3>
                 <div className="flex items-baseline gap-1 my-4">
                   <span className="text-3xl font-black text-white">R$ 39</span>
-                  <span className="text-xs text-zinc-400">/ mÃªs</span>
+                  <span className="text-xs text-zinc-400">/ m&ecirc;s</span>
                 </div>
                 <p className="text-xs text-zinc-300 mb-6">
-                  Para artistas em circulaÃ§Ã£o que demandam formalizaÃ§Ã£o de shows e agenda ativa.
+                  Para artistas em circula&ccedil;&atilde;o que demandam formaliza&ccedil;&atilde;o de shows e agenda ativa.
                 </p>
                 <ul className="space-y-3 text-xs text-zinc-200">
                   <li className="flex items-center gap-2">
@@ -433,11 +425,11 @@ export default function BeatFlowLandingPage() {
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Agenda de turnÃªs sincronizada</span>
+                    <span>Agenda de turn&ecirc;s sincronizada</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>CatÃ¡logo de atmosferas visuais</span>
+                    <span>Cat&aacute;logo de atmosferas visuais</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -445,14 +437,14 @@ export default function BeatFlowLandingPage() {
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>MÃ©tricas de contratantes</span>
+                    <span>M&eacute;tricas de contratantes</span>
                   </li>
                 </ul>
               </div>
               <div className="pt-6 mt-6 border-t border-white/15">
                 <Link href="/login?mode=signup" className="block w-full">
                   <button className="w-full py-3 rounded-xl bg-white hover:bg-zinc-200 active:scale-95 text-black font-bold text-xs transition cursor-pointer shadow-md">
-                    Ativar PadrÃ£o Pro
+                    Ativar Padr&atilde;o Pro
                   </button>
                 </Link>
               </div>
@@ -465,10 +457,10 @@ export default function BeatFlowLandingPage() {
                 <h3 className="text-xl font-bold text-white mb-2">SIGNATURE</h3>
                 <div className="flex items-baseline gap-1 my-4">
                   <span className="text-3xl font-black text-white">R$ 89</span>
-                  <span className="text-xs text-zinc-500">/ mÃªs</span>
+                  <span className="text-xs text-zinc-500">/ m&ecirc;s</span>
                 </div>
                 <p className="text-xs text-zinc-400 mb-6">
-                  PresenÃ§a cÃªnica cinematogrÃ¡fica para headliners e projetos em grande expansÃ£o.
+                  Presen&ccedil;a c&ecirc;nica cinematogr&aacute;fica para headliners e projetos em grande expans&atilde;o.
                 </p>
                 <ul className="space-y-3 text-xs text-zinc-300">
                   <li className="flex items-center gap-2">
@@ -477,15 +469,15 @@ export default function BeatFlowLandingPage() {
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>CartÃ£o NFC FÃ­sico Beat Flow</span>
+                    <span>Cart&atilde;o NFC F&iacute;sico Beat Flow</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Curadoria cÃªnica personalizada</span>
+                    <span>Curadoria c&ecirc;nica personalizada</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Suporte prioritÃ¡rio via WhatsApp</span>
+                    <span>Suporte priorit&aacute;rio via WhatsApp</span>
                   </li>
                 </ul>
               </div>
@@ -510,11 +502,11 @@ export default function BeatFlowLandingPage() {
         <div className="max-w-3xl mx-auto relative z-10">
           
           <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4 leading-tight">
-            O seu prÃ³ximo show comeÃ§a<br />na primeira impressÃ£o.
+            O seu pr&oacute;ximo show come&ccedil;a<br />na primeira impress&atilde;o.
           </h2>
           
           <p className="text-sm sm:text-base text-zinc-400 mb-8 max-w-xl mx-auto">
-            Garanta seu endereÃ§o oficial antes que outro artista registre seu nome artÃ­stico.
+            Garanta seu endere&ccedil;o oficial antes que outro artista registre seu nome art&iacute;stico.
           </p>
 
           <form 
@@ -556,11 +548,11 @@ export default function BeatFlowLandingPage() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span className="font-bold text-white tracking-wider">BEAT FLOW</span>
-            <span>Â·</span>
+            <span>&middot;</span>
             <span>Uma plataforma oficial NEXORA</span>
           </div>
           <div className="flex items-center gap-6">
-            <Link href="/explorar" className="hover:text-white transition-colors">Explorar Artistas</Link>
+            <Link href="/explorar" className="hover:text-white transition-colors">Explorar DJs</Link>
             <Link href="/login" className="hover:text-white transition-colors">Entrar</Link>
             <Link href="/admin" className="hover:text-white transition-colors">Super Admin</Link>
           </div>
