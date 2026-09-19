@@ -81,7 +81,7 @@ export function HeroInteractiveStage({ djHandle, onClaim }: HeroInteractiveStage
       glowColor: 'rgba(0, 209, 255, 0.35)',
       badgeClass: 'bg-[#00D1FF] text-black font-extrabold',
       photo: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop',
-      track: 'Aurora Borealis (Holographic Master)',
+      track: 'Aurora Borealis (Melodic Cut)',
       bpm: 126,
       proposal: 'Press Kit aberto por Warung Beach Club \u00B7 R$ 5.800',
       rider: '3x CDJ-3000 + DJM-V10',
@@ -133,7 +133,7 @@ export function HeroInteractiveStage({ djHandle, onClaim }: HeroInteractiveStage
       />
 
       {/* 2. Top Scene Selector Tabs */}
-      <div className="flex items-center gap-1 p-1 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-2xl mb-3.5 shadow-2xl z-20">
+      <div className="flex items-center gap-1 p-1 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-2xl mb-3.5 shadow-2xl z-20 max-w-full overflow-x-auto no-scrollbar py-1 px-1.5">
         {stages.map((stage, idx) => (
           <button
             key={stage.id}
@@ -376,13 +376,13 @@ export function HeroInteractiveStage({ djHandle, onClaim }: HeroInteractiveStage
         {/* Action Claim Footer */}
         <div className="p-3 bg-[#08090F] border-t border-white/10 flex items-center justify-between gap-3">
           <div className="text-left text-[11px]">
-            <span className="text-white font-bold block">Quer um palco id\u00EAntico a este?</span>
-            <span className="text-white/40 text-[10px] font-mono">Pronto em 2 minutos sem c\u00F3digo</span>
+            <span className="text-white font-bold block">Perfil oficial Beat Flow</span>
+            <span className="text-white/40 text-[10px] font-mono">Ativa\u00E7\u00E3o instant\u00E2nea</span>
           </div>
           <button
             type="button"
             onClick={onClaim}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#00D1FF] to-[#8A3FFC] text-black font-extrabold text-xs flex items-center gap-1.5 hover:opacity-95 active:scale-95 transition shadow-lg cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-xs flex items-center gap-1.5 transition active:scale-95 shadow-md cursor-pointer"
           >
             <span>Ativar Meu Palco</span>
             <ArrowRight className="w-3.5 h-3.5" />
