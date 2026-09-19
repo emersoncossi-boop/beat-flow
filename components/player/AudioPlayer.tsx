@@ -142,7 +142,7 @@ export function AudioPlayer({
     return (
       <div className="h-16 rounded-2xl bg-surface/90 border border-white/10 flex items-center px-4 gap-4 backdrop-blur-xl shadow-2xl">
         <div className="relative w-10 h-10 rounded-lg overflow-hidden shrink-0 border border-white/10">
-          <Image src={coverUrl} alt={title} fill referrerPolicy="no-referrer" className="object-cover" />
+          <Image src={coverUrl} alt={title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" referrerPolicy="no-referrer" className="object-cover" />
         </div>
         <div className="flex-1 min-w-0">
           <div className="text-xs font-bold text-white truncate">{title}</div>
@@ -176,7 +176,7 @@ export function AudioPlayer({
             <Image 
               src={coverUrl} 
               alt={title} 
-              fill 
+              fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" 
               referrerPolicy="no-referrer"
               className="object-cover group-hover:scale-105 transition-transform duration-500" 
             />
