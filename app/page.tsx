@@ -1023,26 +1023,26 @@ export default function BeatFlowLandingPage() {
               <span>ARQUITETURA DA EXPERIÃŠNCIA</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-4">
-              NÃ£o Ã© uma bio com links.<br/>
-              <span className="text-[#00D1FF]">SÃ£o os 10 acessos essenciais da sua carreira.</span>
+              NÃo É uma bio com links.<br/>
+              <span className="text-[#00D1FF]">SÃo os 10 acessos essenciais da sua carreira.</span>
             </h2>
             <p className="text-base sm:text-lg text-[rgba(255,255,255,0.72)] leading-relaxed">
-              O perfil pÃºblico do Beat Flow esconde a complexidade operacional sem esconder nenhuma funcionalidade profissional. Tudo em uma experiÃªncia contÃ­nua, elegante e imersiva.
+              O perfil pÚblico do Beat Flow esconde a complexidade operacional sem esconder nenhuma funcionalidade profissional. Tudo em uma experiÊncia contÍnua, elegante e imersiva.
             </p>
           </div>
 
           {/* 10 Functional Access Modules Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-20">
             {[
-              { num: "01", title: "OUVIR", desc: "Player Master Hi-Fi com marcadores de drop (Cue Points) para audiÃ§Ã£o em 5 segundos.", icon: Headphones, color: "text-[#00D1FF]" },
+              { num: "01", title: "OUVIR", desc: "Player Master Hi-Fi com marcadores de drop (Cue Points) para audiÇÃo em 5 segundos.", icon: Headphones, color: "text-[#00D1FF]" },
               { num: "02", title: "AGENDA", desc: "Datas, eventos, cidades, locais e status de disponibilidade ao vivo.", icon: Calendar, color: "text-emerald-400" },
-              { num: "03", title: "SOBRE", desc: "HistÃ³ria, posicionamento, trajetÃ³ria e universo artÃ­stico do DJ.", icon: User, color: "text-purple-400" },
+              { num: "03", title: "SOBRE", desc: "HistÓria, posicionamento, trajetÓria e universo artÍstico do DJ.", icon: User, color: "text-purple-400" },
               { num: "04", title: "GALERIA", desc: "Fotos de palco, performances e bastidores em 4K com visualizador Lightbox.", icon: Disc3, color: "text-[#FF4DB8]" },
               { num: "05", title: "PRESS KIT / EPK", desc: "Bio curta, bio longa em 3 idiomas (PT/EN/ES) e download de logos em vetor.", icon: FileText, color: "text-amber-400" },
-              { num: "06", title: "RIDER TÃ‰CNICO", desc: "Setup homologado (CDJs, mixer, monitoraÃ§Ã£o, energia) e exportaÃ§Ã£o em PDF.", icon: Sliders, color: "text-blue-400" },
-              { num: "07", title: "BOOKING / CONTRATAR", desc: "InÃ­cio imediato com formulÃ¡rio contextual, cÃ¡lculo de cachÃª e cauÃ§Ã£o de 50%.", icon: Send, color: "text-[#00D1FF]" },
-              { num: "08", title: "COMPARTILHAR & NFC", desc: "Passe digital Apple/Google Wallet, gravaÃ§Ã£o de tag NFC e link oficial prÃ³prio.", icon: Radio, color: "text-emerald-400" },
-              { num: "09", title: "REDES & PLATAFORMAS", desc: "ConexÃ£o oficial com Spotify, SoundCloud, Instagram e canais autorais.", icon: Music, color: "text-purple-400" },
+              { num: "06", title: "RIDER TÃ‰CNICO", desc: "Setup homologado (CDJs, mixer, monitoraÇÃo, energia) e exportaÇÃo em PDF.", icon: Sliders, color: "text-blue-400" },
+              { num: "07", title: "BOOKING / CONTRATAR", desc: "InÍcio imediato com formulÁrio contextual, cÁlculo de cachÊ e cauÇÃo de 50%.", icon: Send, color: "text-[#00D1FF]" },
+              { num: "08", title: "COMPARTILHAR & NFC", desc: "Passe digital Apple/Google Wallet, gravaÇÃo de tag NFC e link oficial prÓprio.", icon: Radio, color: "text-emerald-400" },
+              { num: "09", title: "REDES & PLATAFORMAS", desc: "ConexÃo oficial com Spotify, SoundCloud, Instagram e canais autorais.", icon: Music, color: "text-purple-400" },
               { num: "10", title: "CONTATO PROFISSIONAL", desc: "Acesso seguro a management, equipe de booking e download de vCard para celular.", icon: ShieldCheck, color: "text-white" }
             ].map((mod, idx) => (
               <div 
@@ -1059,10 +1059,10 @@ export default function BeatFlowLandingPage() {
             ))}
           </div>
 
-          {/* 3 User Journeys: FÃ£, Contratante, Produtor/Imprensa */}
+          {/* 3 User Journeys: FÃ, Contratante, Produtor/Imprensa */}
           <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 space-y-8">
             <div className="text-center max-w-2xl mx-auto space-y-2">
-              <span className="text-xs font-mono uppercase text-white/40 tracking-widest">ExperiÃªncia Validada em 3 Pontas</span>
+              <span className="text-xs font-mono uppercase text-white/40 tracking-widest">ExperiÊncia Validada em 3 Pontas</span>
               <h3 className="text-2xl sm:text-3xl font-black text-white">Projetado para quem consome, contrata e noticia</h3>
             </div>
 
@@ -1070,11 +1070,11 @@ export default function BeatFlowLandingPage() {
               {/* Jornada 1 */}
               <div className="p-6 rounded-2xl bg-black/40 border border-white/10 space-y-3">
                 <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-mono font-bold uppercase border border-emerald-500/20">
-                  Jornada 1 Â· FÃ£
+                  Jornada 1 Â· FÃ
                 </span>
-                <h4 className="text-base font-bold text-white">Descoberta e ConexÃ£o Musical</h4>
+                <h4 className="text-base font-bold text-white">Descoberta e ConexÃo Musical</h4>
                 <p className="text-xs text-white/60 leading-relaxed">
-                  Entra no perfil â†’ Reconhece o artista â†’ Ouve a faixa principal â†’ Explora fotos de shows â†’ Consulta agenda de turnÃª â†’ Segue no Instagram e garante ingresso.
+                  Entra no perfil â†’ Reconhece o artista â†’ Ouve a faixa principal â†’ Explora fotos de shows â†’ Consulta agenda de turnÊ â†’ Segue no Instagram e garante ingresso.
                 </p>
               </div>
 
@@ -1083,9 +1083,9 @@ export default function BeatFlowLandingPage() {
                 <span className="px-2.5 py-1 rounded-full bg-[#00D1FF]/10 text-[#00D1FF] text-[10px] font-mono font-bold uppercase border border-[#00D1FF]/20">
                   Jornada 2 Â· Contratante
                 </span>
-                <h4 className="text-base font-bold text-white">ValidaÃ§Ã£o RÃ¡pida & Proposta Formal</h4>
+                <h4 className="text-base font-bold text-white">ValidaÇÃo RÁpida & Proposta Formal</h4>
                 <p className="text-xs text-white/60 leading-relaxed">
-                  Entra no link â†’ Entende o posicionamento â†’ Ouve o Drop da faixa em 5 segundos â†’ Confere cachÃª e rider tÃ©cnico â†’ Solicita booking e envia briefing formal.
+                  Entra no link â†’ Entende o posicionamento â†’ Ouve o Drop da faixa em 5 segundos â†’ Confere cachÊ e rider tÉcnico â†’ Solicita booking e envia briefing formal.
                 </p>
               </div>
 
@@ -1096,7 +1096,7 @@ export default function BeatFlowLandingPage() {
                 </span>
                 <h4 className="text-base font-bold text-white">Press Kit & Material Editorial</h4>
                 <p className="text-xs text-white/60 leading-relaxed">
-                  Acessa o EPK oficial â†’ Copia release em portuguÃªs, inglÃªs ou espanhol â†’ Baixa fotos em alta definiÃ§Ã£o (4K) e logos em vetor â†’ Localiza contato do management.
+                  Acessa o EPK oficial â†’ Copia release em portuguÊs, inglÊs ou espanhol â†’ Baixa fotos em alta definiÇÃo (4K) e logos em vetor â†’ Localiza contato do management.
                 </p>
               </div>
             </div>
@@ -1836,7 +1836,7 @@ export default function BeatFlowLandingPage() {
 
       
       {/* ---------------------------------------------------- */}
-      {/* 11. PLANOS E NÃVEIS DE EXPERIÃŠNCIA BEAT FLOW */}
+      {/* 11. PLANOS E NÍVEIS DE EXPERIÃŠNCIA BEAT FLOW */}
       {/* ---------------------------------------------------- */}
       <section id="precos" className="py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#06060C] relative overflow-hidden">
         
@@ -1854,13 +1854,13 @@ export default function BeatFlowLandingPage() {
             </div>
             
             <h2 className="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight mb-4 leading-tight">
-              Planos e NÃ­veis de ExperiÃªncia
+              Planos e NÍveis de ExperiÊncia
             </h2>
             
             <p className="text-base sm:text-lg text-[rgba(255,255,255,0.72)] leading-relaxed">
-              "Cobrar por profundidade. NÃ£o cobrar por dignidade visual."
+              "Cobrar por profundidade. NÃo cobrar por dignidade visual."
               <br className="hidden sm:inline" />
-              Todos os planos criam pÃ¡ginas pÃºblicas impecÃ¡veis, rÃ¡pidas e profissionais.
+              Todos os planos criam pÁginas pÚblicas impecÁveis, rÁpidas e profissionais.
             </p>
           </div>
 
@@ -1874,10 +1874,10 @@ export default function BeatFlowLandingPage() {
                 <h3 className="text-2xl font-black text-white uppercase tracking-tight">ESSENTIAL</h3>
                 <div className="mt-4 mb-2 flex items-baseline gap-1">
                   <span className="text-4xl font-black text-white">R$ 49</span>
-                  <span className="text-xs text-white/50 font-mono">/mÃªs</span>
+                  <span className="text-xs text-white/50 font-mono">/mÊs</span>
                 </div>
                 <p className="text-xs text-[rgba(255,255,255,0.6)] leading-relaxed mb-6">
-                  PresenÃ§a digital bonita, profissional e funcional para qualquer DJ que valoriza sua imagem.
+                  PresenÇa digital bonita, profissional e funcional para qualquer DJ que valoriza sua imagem.
                 </p>
 
                 <div className="space-y-3 pt-4 border-t border-white/10 text-xs text-[rgba(255,255,255,0.8)]">
@@ -1891,23 +1891,23 @@ export default function BeatFlowLandingPage() {
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>Motion Essencial:</strong> TransiÃ§Ãµes suaves e iluminaÃ§Ã£o volumÃ©trica</span>
+                    <span><strong>Motion Essencial:</strong> TransiÇÕes suaves e iluminaÇÃo volumÉtrica</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>Som & Sets:</strong> 1 Set principal + atÃ© 3 faixas em destaque</span>
+                    <span><strong>Som & Sets:</strong> 1 Set principal + atÉ 3 faixas em destaque</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>Agenda & Rider:</strong> PrÃ³ximas datas e download padrÃ£o de rider PDF</span>
+                    <span><strong>Agenda & Rider:</strong> PrÓximas datas e download padrÃo de rider PDF</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>MÃ­dia:</strong> 1 VÃ­deo destaque + atÃ© 6 fotos de alta resoluÃ§Ã£o</span>
+                    <span><strong>MÍdia:</strong> 1 VÍdeo destaque + atÉ 6 fotos de alta resoluÇÃo</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>SubdomÃ­nio:</strong> beatflow.me/seunome</span>
+                    <span><strong>SubdomÍnio:</strong> beatflow.me/seunome</span>
                   </div>
                 </div>
               </div>
@@ -1915,7 +1915,7 @@ export default function BeatFlowLandingPage() {
               <div className="pt-8 mt-6 border-t border-white/10">
                 <Link href="/login?mode=signup&plan=essential">
                   <button className="w-full py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition cursor-pointer">
-                    ComeÃ§ar com Essential
+                    ComeÇar com Essential
                   </button>
                 </Link>
               </div>
@@ -1932,10 +1932,10 @@ export default function BeatFlowLandingPage() {
                 <h3 className="text-2xl font-black text-white uppercase tracking-tight">PRO</h3>
                 <div className="mt-4 mb-2 flex items-baseline gap-1">
                   <span className="text-4xl font-black text-white">R$ 99</span>
-                  <span className="text-xs text-white/50 font-mono">/mÃªs</span>
+                  <span className="text-xs text-white/50 font-mono">/mÊs</span>
                 </div>
                 <p className="text-xs text-[rgba(255,255,255,0.7)] leading-relaxed mb-6">
-                  Para DJs profissionais em turnÃª que exigem profundidade estÃ©tica, automaÃ§Ã£o de booking e impacto de palco.
+                  Para DJs profissionais em turnÊ que exigem profundidade estÉtica, automaÇÃo de booking e impacto de palco.
                 </p>
 
                 <div className="space-y-3 pt-4 border-t border-white/10 text-xs text-[rgba(255,255,255,0.85)]">
@@ -1945,31 +1945,31 @@ export default function BeatFlowLandingPage() {
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
-                    <span><strong>Ãudio Reativo:</strong> Luz e atmosfera pulsam com a frequÃªncia sonora do set</span>
+                    <span><strong>Áudio Reativo:</strong> Luz e atmosfera pulsam com a frequÊncia sonora do set</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
-                    <span><strong>Motion AvanÃ§ado:</strong> CinemÃ¡tico, lÃ­quido, cinÃ©tico e profundidade 3D</span>
+                    <span><strong>Motion AvanÇado:</strong> CinemÁtico, lÍquido, cinÉtico e profundidade 3D</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
-                    <span><strong>Sets Ilimitados:</strong> Com tracklist completa, capÃ­tulos e visualizador de onda</span>
+                    <span><strong>Sets Ilimitados:</strong> Com tracklist completa, capÍtulos e visualizador de onda</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
-                    <span><strong>1-Click EPK:</strong> Download em alta resoluÃ§Ã£o do kit de imprensa oficial</span>
+                    <span><strong>1-Click EPK:</strong> Download em alta resoluÇÃo do kit de imprensa oficial</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
-                    <span><strong>Rider TÃ©cnico Homologado:</strong> Mapa de palco, canalizaÃ§Ã£o e input list</span>
+                    <span><strong>Rider TÉcnico Homologado:</strong> Mapa de palco, canalizaÇÃo e input list</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
-                    <span><strong>NFC + WhatsApp Booking:</strong> Mensagem prÃ©-formatada inteligente</span>
+                    <span><strong>NFC + WhatsApp Booking:</strong> Mensagem prÉ-formatada inteligente</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-[#00D1FF] shrink-0 mt-0.5" />
-                    <span><strong>Analytics AvanÃ§ados:</strong> RetenÃ§Ã£o sonora, cliques no rider e conversÃ£o</span>
+                    <span><strong>Analytics AvanÇados:</strong> RetenÇÃo sonora, cliques no rider e conversÃo</span>
                   </div>
                 </div>
               </div>
@@ -1986,7 +1986,7 @@ export default function BeatFlowLandingPage() {
             {/* PLANO 03 â€” SIGNATURE */}
             <div className="p-8 rounded-3xl bg-gradient-to-b from-amber-500/10 via-white/[0.02] to-transparent border border-amber-500/40 hover:border-amber-500/70 transition-all flex flex-col justify-between backdrop-blur-xl relative">
               <div className="absolute -top-3.5 right-6 px-3 py-1 rounded-full bg-amber-400 text-black text-[9px] font-mono font-black uppercase tracking-widest shadow-md">
-                MÃXIMA EXCLUSIVIDADE
+                MÁXIMA EXCLUSIVIDADE
               </div>
 
               <div>
@@ -1994,24 +1994,24 @@ export default function BeatFlowLandingPage() {
                 <h3 className="text-2xl font-black text-white uppercase tracking-tight">SIGNATURE</h3>
                 <div className="mt-4 mb-2 flex items-baseline gap-1">
                   <span className="text-4xl font-black text-white">R$ 249</span>
-                  <span className="text-xs text-white/50 font-mono">/mÃªs</span>
+                  <span className="text-xs text-white/50 font-mono">/mÊs</span>
                 </div>
                 <p className="text-xs text-[rgba(255,255,255,0.6)] leading-relaxed mb-6">
-                  DireÃ§Ã£o de arte com IA, cenas generativas WebGL sob medida e presenÃ§a 100% white label.
+                  DireÇÃo de arte com IA, cenas generativas WebGL sob medida e presenÇa 100% white label.
                 </p>
 
                 <div className="space-y-3 pt-4 border-t border-white/10 text-xs text-[rgba(255,255,255,0.8)]">
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span><strong>Cenas Generativas IA:</strong> Luz Adaptativa, EspaÃ§o Reativo WebGL, MatÃ©ria CinÃ©tica</span>
+                    <span><strong>Cenas Generativas IA:</strong> Luz Adaptativa, EspaÇo Reativo WebGL, MatÉria CinÉtica</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span><strong>IA Artistic Direction:</strong> SugestÃµes estÃ©ticas contÃ­nuas baseadas no som do DJ</span>
+                    <span><strong>IA Artistic Direction:</strong> SugestÕes estÉticas contÍnuas baseadas no som do DJ</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span><strong>DomÃ­nio PrÃ³prio White Label:</strong> djemersoncossi.com com SSL e zero menÃ§Ã£o a marca</span>
+                    <span><strong>DomÍnio PrÓprio White Label:</strong> djemersoncossi.com com SSL e zero menÇÃo a marca</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
@@ -2019,15 +2019,15 @@ export default function BeatFlowLandingPage() {
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span><strong>Ãudio Espacial:</strong> TransiÃ§Ãµes sonoras suaves entre capÃ­tulos</span>
+                    <span><strong>Áudio Espacial:</strong> TransiÇÕes sonoras suaves entre capÍtulos</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span><strong>Contrato em 1 Clique:</strong> Assinatura digital direta e homologaÃ§Ã£o contratual</span>
+                    <span><strong>Contrato em 1 Clique:</strong> Assinatura digital direta e homologaÇÃo contratual</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span><strong>Curadoria NEXORA:</strong> Suporte VIP prioritÃ¡rio e direÃ§Ã£o visual humana</span>
+                    <span><strong>Curadoria NEXORA:</strong> Suporte VIP prioritÁrio e direÇÃo visual humana</span>
                   </div>
                 </div>
               </div>
@@ -2048,7 +2048,7 @@ export default function BeatFlowLandingPage() {
             <div className="text-left">
               <h4 className="text-lg font-bold text-white mb-1">Experimente qualquer recurso no Artist Canvas</h4>
               <p className="text-xs text-[rgba(255,255,255,0.6)]">
-                VocÃª pode testar todas as cenas Pro e Signature em tempo real no seu estÃºdio antes de assinar.
+                VocÊ pode testar todas as cenas Pro e Signature em tempo real no seu estÚdio antes de assinar.
               </p>
             </div>
             <Link href="/dashboard/universo">
