@@ -12,12 +12,12 @@ import {
   Disc3, 
   Calendar, 
   CheckCircle2, 
-  ArrowRight,
-  Flame,
-  Radio,
-  Zap,
-  Eye,
-  Music2
+  ArrowRight, 
+  Flame, 
+  Radio, 
+  Zap, 
+  Eye, 
+  Music2 
 } from 'lucide-react';
 import { ATMOSPHERE_PRESETS, AtmospherePresetId, AtmosphereConfig } from '@/lib/artist-universe';
 
@@ -30,13 +30,45 @@ interface AtmosphereDjExample {
   cacheBadge: string;
 }
 
-const ATMOSPHERE_DJ_SAMPLES: Record<AtmospherePresetId, AtmosphereDjExample> = {
+const ATMOSPHERE_DJ_SAMPLES: Record<string, AtmosphereDjExample> = {
+  'noir-chrome': {
+    djName: 'Klaus Richter',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop',
+    stageImage: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop',
+    trackName: 'Kreuzberg Concrete (Original Peak Mix)',
+    city: 'Berlim / SÃ£o Paulo',
+    cacheBadge: 'A partir de R$ 4.500',
+  },
+  'sunset-organic': {
+    djName: 'Maya Sol',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop',
+    stageImage: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop',
+    trackName: 'Cenote Awakening (Afro Drum Journey)',
+    city: 'Tulum / Trancoso',
+    cacheBadge: 'A partir de R$ 6.000',
+  },
+  'ice-futuristic': {
+    djName: 'Ren Cyber',
+    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=400&auto=format&fit=crop',
+    stageImage: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1200&auto=format&fit=crop',
+    trackName: 'Shibuya Night Drive (Melodic Saw VIP)',
+    city: 'TÃ³quio / Curitiba',
+    cacheBadge: 'A partir de R$ 5.000',
+  },
+  'raw-industrial': {
+    djName: 'Nina Roxx',
+    avatar: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=400&auto=format&fit=crop',
+    stageImage: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop',
+    trackName: 'Industrial Warehouse Assault',
+    city: 'Londres / Belo Horizonte',
+    cacheBadge: 'A partir de R$ 5.500',
+  },
   'berlin-warehouse': {
     djName: 'Klaus Richter',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop',
     stageImage: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop',
     trackName: 'Kreuzberg Concrete (Original Peak Mix)',
-    city: 'Berlim / São Paulo',
+    city: 'Berlim / SÃ£o Paulo',
     cacheBadge: 'A partir de R$ 4.500',
   },
   'tulum-organic': {
@@ -52,15 +84,15 @@ const ATMOSPHERE_DJ_SAMPLES: Record<AtmospherePresetId, AtmosphereDjExample> = {
     avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=400&auto=format&fit=crop',
     stageImage: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1200&auto=format&fit=crop',
     trackName: 'Shibuya Night Drive (Melodic Saw VIP)',
-    city: 'Tóquio / Curitiba',
+    city: 'TÃ³quio / Curitiba',
     cacheBadge: 'A partir de R$ 5.000',
   },
   'ibiza-sunset-gold': {
     djName: 'Luna Mar',
     avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=400&auto=format&fit=crop',
     stageImage: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1200&auto=format&fit=crop',
-    trackName: 'Es Vedrà Twilight (Warm Sunset Cut)',
-    city: 'Ibiza / Florianópolis',
+    trackName: 'Es VedrÃ  Twilight (Warm Sunset Cut)',
+    city: 'Ibiza / FlorianÃ³polis',
     cacheBadge: 'A partir de R$ 5.500',
   },
   'deep-abyss': {
@@ -70,26 +102,39 @@ const ATMOSPHERE_DJ_SAMPLES: Record<AtmospherePresetId, AtmosphereDjExample> = {
     trackName: 'Mariana Trench (Hypnotic Sub Pulse)',
     city: 'Londres / Belo Horizonte',
     cacheBadge: 'A partir de R$ 4.000',
-  },
+  }
+};
+
+const DEFAULT_SAMPLE: AtmosphereDjExample = {
+  djName: 'Artista Beat Flow',
+  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop',
+  stageImage: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop',
+  trackName: 'Original Club Mix (Master)',
+  city: 'SÃ£o Paulo - SP',
+  cacheBadge: 'A partir de R$ 5.000'
 };
 
 export function AtmospheresShowcase() {
-  const [selectedId, setSelectedId] = useState<AtmospherePresetId>('tokyo-cyber-neon');
+  const presetsList = Object.values(ATMOSPHERE_PRESETS);
+  const initialPresetId = presetsList[0]?.id || 'noir-chrome';
+  const [selectedId, setSelectedId] = useState<AtmospherePresetId>(initialPresetId);
   const [isPlayingSnippet, setIsPlayingSnippet] = useState<boolean>(false);
 
-  const currentAtmosphere: AtmosphereConfig = ATMOSPHERE_PRESETS[selectedId];
-  const currentDj: AtmosphereDjExample = ATMOSPHERE_DJ_SAMPLES[selectedId];
+  const currentAtmosphere: AtmosphereConfig = ATMOSPHERE_PRESETS[selectedId] || presetsList[0];
+  const currentDj: AtmosphereDjExample = ATMOSPHERE_DJ_SAMPLES[selectedId] || DEFAULT_SAMPLE;
 
-  const presetsList = Object.values(ATMOSPHERE_PRESETS);
+  const glowPrimary = currentAtmosphere?.lighting?.primaryGlow || '#00D1FF';
+  const glowSecondary = currentAtmosphere?.lighting?.secondaryGlow || '#7928CA';
+  const glowAccent = currentAtmosphere?.lighting?.accentGlow || '#FF0080';
 
   return (
     <section id="atmosferas-e-universos" className="py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#07090E] relative overflow-hidden text-left select-none">
       
-      {/* Dynamic Background Glow reacting to the active atmosphere lighting tokens */}
+      {/* Dynamic Background Glow reacting to active atmosphere */}
       <div 
         className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] pointer-events-none rounded-full blur-[140px] opacity-25 transition-all duration-700"
         style={{
-          background: `radial-gradient(ellipse at center, ${currentAtmosphere.lighting.primaryGlow} 0%, ${currentAtmosphere.lighting.secondaryGlow} 50%, transparent 80%)`
+          background: `radial-gradient(ellipse at center, ${glowPrimary} 0%, ${glowSecondary} 50%, transparent 80%)`
         }}
       />
 
@@ -99,28 +144,29 @@ export function AtmospheresShowcase() {
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono font-bold tracking-[0.2em] text-[#00D1FF] uppercase mb-4 shadow-sm">
             <Sparkles className="w-3.5 h-3.5 text-[#00D1FF]" />
-            <span>IDENTIDADE VISUAL & CÊNICA</span>
+            <span>IDENTIDADE VISUAL & CÃŠNICA</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1.08] mb-4">
-            Cada gênero musical tem seu templo.<br className="hidden sm:block" />
+            Cada gÃªnero musical tem seu templo.<br className="hidden sm:block" />
             <span 
               className="transition-colors duration-500"
-              style={{ color: currentAtmosphere.lighting.primaryGlow }}
+              style={{ color: glowPrimary }}
             >
               Escolha a atmosfera do seu palco digital.
             </span>
           </h2>
 
           <p className="text-sm sm:text-base text-white/70 leading-relaxed max-w-2xl mx-auto font-normal">
-            Seu Press Kit não é uma lista cinza e estática. O Beat Flow permite escolher a iluminação, textura, partículas e paleta que dialogam perfeitamente com a frequência sonora do seu set.
+            Seu Press Kit nÃ£o Ã© uma lista cinza e estÃ¡tica. O Beat Flow permite escolher a iluminaÃ§Ã£o, textura, partÃ­culas e paleta que dialogam perfeitamente com a frequÃªncia sonora do seu set.
           </p>
         </div>
 
-        {/* Atmosphere Selector Tabs (Tátil & Responsivo) */}
+        {/* Atmosphere Selector Tabs */}
         <div className="flex items-center justify-start sm:justify-center gap-2.5 overflow-x-auto pb-4 sm:pb-0 mb-12 snap-x snap-mandatory hide-scrollbar -mx-5 px-5 sm:mx-0 sm:px-0">
           {presetsList.map((preset) => {
             const isSelected = preset.id === selectedId;
+            const itemGlow = preset?.lighting?.primaryGlow || '#00D1FF';
             return (
               <button
                 key={preset.id}
@@ -136,28 +182,28 @@ export function AtmospheresShowcase() {
                     : 'bg-black/30 border-white/10 text-white/50 hover:text-white/80 hover:bg-white/5'
                 }`}
                 style={{
-                  borderColor: isSelected ? preset.lighting.primaryGlow : 'rgba(255, 255, 255, 0.1)',
-                  boxShadow: isSelected ? `0 0 20px ${preset.lighting.primaryGlow}33` : 'none'
+                  borderColor: isSelected ? itemGlow : 'rgba(255, 255, 255, 0.1)',
+                  boxShadow: isSelected ? `0 0 20px ${itemGlow}33` : 'none'
                 }}
               >
                 <span 
                   className="w-2.5 h-2.5 rounded-full transition-transform duration-300"
                   style={{ 
-                    backgroundColor: preset.lighting.primaryGlow,
-                    boxShadow: isSelected ? `0 0 10px ${preset.lighting.primaryGlow}` : 'none',
+                    backgroundColor: itemGlow,
+                    boxShadow: isSelected ? `0 0 10px ${itemGlow}` : 'none',
                     transform: isSelected ? 'scale(1.25)' : 'scale(1)'
                   }} 
                 />
-                <span className="whitespace-nowrap">{preset.name.split(' ')[0]} {preset.name.split(' ')[1] || ''}</span>
+                <span className="whitespace-nowrap">{preset.name}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Main Stage Interactive Showcase (Split Columns: Context & Live Stage Mockup) */}
+        {/* Main Stage Interactive Showcase */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Left Column: Atmosphere DNA, Storytelling & Audio Profile (5 cols) */}
+          {/* Left Column */}
           <div className="lg:col-span-5 flex flex-col justify-center">
             <AnimatePresence mode="wait">
               <motion.div
@@ -170,7 +216,7 @@ export function AtmospheresShowcase() {
               >
                 {/* Badge Tagline */}
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs font-mono font-semibold text-white/80">
-                  <Flame className="w-3.5 h-3.5" style={{ color: currentAtmosphere.lighting.primaryGlow }} />
+                  <Flame className="w-3.5 h-3.5" style={{ color: glowPrimary }} />
                   <span>{currentAtmosphere.tagline}</span>
                 </div>
 
@@ -189,49 +235,49 @@ export function AtmospheresShowcase() {
                   <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10">
                     <div className="text-[11px] font-mono text-white/40 uppercase mb-1 flex items-center gap-1.5">
                       <Music2 className="w-3 h-3 text-white/60" />
-                      <span>Gênero Alvo</span>
+                      <span>GÃªnero Alvo</span>
                     </div>
                     <div className="text-xs sm:text-sm font-bold text-white leading-tight">
-                      {currentAtmosphere.audioSignature.genre}
+                      {currentAtmosphere.audioSignature?.genre || 'Electronic'}
                     </div>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10">
                     <div className="text-[11px] font-mono text-white/40 uppercase mb-1 flex items-center gap-1.5">
                       <Radio className="w-3 h-3 text-white/60" />
-                      <span>Cadência & BPM</span>
+                      <span>CadÃªncia & BPM</span>
                     </div>
                     <div className="text-xs sm:text-sm font-bold text-white leading-tight">
-                      ~{currentAtmosphere.audioSignature.suggestedBpm} BPM
+                      ~{currentAtmosphere.audioSignature?.suggestedBpm || 124} BPM
                     </div>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10">
                     <div className="text-[11px] font-mono text-white/40 uppercase mb-1 flex items-center gap-1.5">
                       <Zap className="w-3 h-3 text-white/60" />
-                      <span>Partículas de Palco</span>
+                      <span>PartÃ­culas de Palco</span>
                     </div>
                     <div className="text-xs sm:text-sm font-bold capitalize text-white leading-tight">
-                      {currentAtmosphere.particles.type.replace('-', ' ')}
+                      {currentAtmosphere.particles?.type?.replace('-', ' ') || 'PartÃ­culas'}
                     </div>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10">
                     <div className="text-[11px] font-mono text-white/40 uppercase mb-1 flex items-center gap-1.5">
                       <Sliders className="w-3 h-3 text-white/60" />
-                      <span>Luz Volumétrica</span>
+                      <span>Luz VolumÃ©trica</span>
                     </div>
                     <div className="text-xs sm:text-sm font-bold text-white leading-tight flex items-center gap-2">
                       <span 
                         className="w-3 h-3 rounded-full shrink-0 border border-white/30"
-                        style={{ backgroundColor: currentAtmosphere.lighting.primaryGlow }} 
+                        style={{ backgroundColor: glowPrimary }} 
                       />
-                      <span>Foco {currentAtmosphere.lighting.beamAngle}°</span>
+                      <span>Foco {currentAtmosphere.lighting?.beamAngle || 45}Â°</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Direct CTA carrying the chosen atmosphere */}
+                {/* Direct CTA */}
                 <div className="pt-2 flex flex-col sm:flex-row items-center gap-3.5">
                   <Link 
                     href={`/login?mode=signup&atmosphere=${currentAtmosphere.id}`}
@@ -242,8 +288,8 @@ export function AtmospheresShowcase() {
                       id="btn-claim-atmosphere"
                       className="w-full sm:w-auto h-12 px-6 rounded-xl font-bold text-sm text-black flex items-center justify-center gap-2 shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer"
                       style={{
-                        backgroundColor: currentAtmosphere.lighting.primaryGlow,
-                        boxShadow: `0 0 25px ${currentAtmosphere.lighting.primaryGlow}66`
+                        backgroundColor: glowPrimary,
+                        boxShadow: `0 0 25px ${glowPrimary}66`
                       }}
                     >
                       <span>Usar este universo no meu perfil</span>
@@ -266,7 +312,7 @@ export function AtmospheresShowcase() {
             </AnimatePresence>
           </div>
 
-          {/* Right Column: Live Simulated Artist Stage in Real Atmosphere (7 cols) */}
+          {/* Right Column */}
           <div className="lg:col-span-7 relative">
             <AnimatePresence mode="wait">
               <motion.div
@@ -277,47 +323,48 @@ export function AtmospheresShowcase() {
                 transition={{ duration: 0.4, ease: 'easeOut' }}
                 className="relative rounded-3xl border overflow-hidden shadow-2xl p-5 sm:p-7"
                 style={{
-                  backgroundColor: currentAtmosphere.background.baseColor,
-                  backgroundImage: currentAtmosphere.background.gradientOverlay,
-                  borderColor: `${currentAtmosphere.lighting.primaryGlow}40`,
-                  boxShadow: `0 20px 60px -15px ${currentAtmosphere.lighting.primaryGlow}22`
+                  backgroundColor: currentAtmosphere.background?.baseColor || '#07090E',
+                  backgroundImage: currentAtmosphere.background?.gradientOverlay,
+                  borderColor: `${glowPrimary}40`,
+                  boxShadow: `0 20px 60px -15px ${glowPrimary}22`
                 }}
               >
                 {/* Volumetric Stage Spotlight Beam */}
                 <div 
                   className="absolute -top-12 left-1/2 -translate-x-1/2 w-[340px] sm:w-[480px] h-[360px] pointer-events-none opacity-35 mix-blend-screen transition-all duration-700"
                   style={{
-                    background: `conic-gradient(from 180deg at 50% 0%, transparent 160deg, ${currentAtmosphere.lighting.primaryGlow} 180deg, transparent 200deg)`,
+                    background: `conic-gradient(from 180deg at 50% 0%, transparent 160deg, ${glowPrimary} 180deg, transparent 200deg)`,
                     filter: 'blur(28px)',
-                    transform: `rotate(${currentAtmosphere.lighting.beamAngle - 30}deg)`
+                    transform: `rotate(${(currentAtmosphere.lighting?.beamAngle || 45) - 30}deg)`
                   }}
                 />
 
-                {/* Stage Ambient Floating Motes (Simulated Particles) */}
+                {/* Ambient Particles */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
                   <div 
                     className="w-2 h-2 rounded-full absolute top-12 left-1/4 animate-ping opacity-60"
-                    style={{ backgroundColor: currentAtmosphere.lighting.primaryGlow, animationDuration: '3s' }}
+                    style={{ backgroundColor: glowPrimary, animationDuration: '3s' }}
                   />
                   <div 
                     className="w-1.5 h-1.5 rounded-full absolute top-24 right-1/3 animate-pulse opacity-80"
-                    style={{ backgroundColor: currentAtmosphere.lighting.secondaryGlow }}
+                    style={{ backgroundColor: glowSecondary }}
                   />
                   <div 
                     className="w-1 h-1 rounded-full absolute bottom-20 left-1/3 animate-pulse opacity-70"
-                    style={{ backgroundColor: currentAtmosphere.lighting.accentGlow }}
+                    style={{ backgroundColor: glowAccent }}
                   />
                 </div>
 
                 {/* Profile Header Card */}
                 <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 mb-6 pb-6 border-b border-white/10">
                   <div className="flex items-center gap-4 text-center sm:text-left">
-                    <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 shadow-xl shrink-0"
-                      style={{ borderColor: currentAtmosphere.lighting.primaryGlow }}
+                    <div 
+                      className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 shadow-xl shrink-0"
+                      style={{ borderColor: glowPrimary }}
                     >
                       <Image 
-                        src={currentDj.avatar}
-                        alt={currentDj.djName}
+                        src={currentDj?.avatar || DEFAULT_SAMPLE.avatar}
+                        alt={currentDj?.djName || DEFAULT_SAMPLE.djName}
                         fill
                         referrerPolicy="no-referrer"
                         className="object-cover"
@@ -327,16 +374,16 @@ export function AtmospheresShowcase() {
                     <div>
                       <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
                         <span className="text-lg sm:text-2xl font-black text-white tracking-tight">
-                          {currentDj.djName}
+                          {currentDj?.djName || DEFAULT_SAMPLE.djName}
                         </span>
                         <CheckCircle2 className="w-4 h-4 text-[#00D1FF]" />
                       </div>
                       <p className="text-xs sm:text-sm text-white/60 font-medium">
-                        {currentDj.city} · {currentAtmosphere.audioSignature.genre}
+                        {currentDj?.city || DEFAULT_SAMPLE.city} Â· {currentAtmosphere.audioSignature?.genre || 'House'}
                       </p>
                       <div className="mt-1.5 inline-flex items-center gap-1.5 text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/5 text-emerald-400 border border-emerald-500/30">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        <span>{currentDj.cacheBadge}</span>
+                        <span>{currentDj?.cacheBadge || DEFAULT_SAMPLE.cacheBadge}</span>
                       </div>
                     </div>
                   </div>
@@ -353,26 +400,26 @@ export function AtmospheresShowcase() {
                   </div>
                 </div>
 
-                {/* Stage Photo Banner with Live Neon Waveform */}
+                {/* Stage Photo Banner */}
                 <div className="relative h-44 sm:h-52 w-full rounded-2xl overflow-hidden border border-white/10 mb-5 shadow-inner">
                   <Image 
-                    src={currentDj.stageImage}
-                    alt="Palco e apresentação do DJ"
+                    src={currentDj?.stageImage || DEFAULT_SAMPLE.stageImage}
+                    alt="Palco e apresentaÃ§Ã£o do DJ"
                     fill
                     referrerPolicy="no-referrer"
                     className="object-cover opacity-65"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
-                  {/* Overlaid Audio Player Control */}
+                  {/* Audio Player Control */}
                   <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-black/75 backdrop-blur-md border border-white/15 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 overflow-hidden">
                       <button
                         type="button"
                         onClick={() => setIsPlayingSnippet(!isPlayingSnippet)}
                         className="w-9 h-9 rounded-full flex items-center justify-center text-black shrink-0 transition-transform active:scale-95 cursor-pointer shadow-md"
-                        style={{ backgroundColor: currentAtmosphere.lighting.primaryGlow }}
-                        aria-label={isPlayingSnippet ? "Pausar demonstração" : "Tocar demonstração"}
+                        style={{ backgroundColor: glowPrimary }}
+                        aria-label={isPlayingSnippet ? "Pausar demonstraÃ§Ã£o" : "Tocar demonstraÃ§Ã£o"}
                       >
                         {isPlayingSnippet ? (
                           <Pause className="w-4 h-4 fill-black" />
@@ -383,17 +430,17 @@ export function AtmospheresShowcase() {
 
                       <div className="truncate">
                         <div className="text-xs font-bold text-white truncate">
-                          {currentDj.trackName}
+                          {currentDj?.trackName || DEFAULT_SAMPLE.trackName}
                         </div>
                         <div className="text-[10px] font-mono text-white/50 flex items-center gap-1.5">
                           <span>Set Gravado Ao Vivo</span>
-                          <span>•</span>
-                          <span>{currentAtmosphere.audioSignature.suggestedBpm} BPM</span>
+                          <span>â€¢</span>
+                          <span>{currentAtmosphere.audioSignature?.suggestedBpm || 124} BPM</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Animated Micro Equalizer Bars */}
+                    {/* Equalizer */}
                     <div className="flex items-end gap-1 h-5 shrink-0 px-2" aria-hidden="true">
                       {[35, 75, 45, 95, 60, 85, 40].map((h, i) => (
                         <span 
@@ -401,7 +448,7 @@ export function AtmospheresShowcase() {
                           className="w-1 rounded-full transition-all duration-300"
                           style={{
                             height: isPlayingSnippet ? `${h}%` : '20%',
-                            backgroundColor: currentAtmosphere.lighting.primaryGlow,
+                            backgroundColor: glowPrimary,
                             opacity: isPlayingSnippet ? 1 : 0.4
                           }}
                         />
@@ -410,10 +457,10 @@ export function AtmospheresShowcase() {
                   </div>
                 </div>
 
-                {/* Bottom Status bar inside the mockup */}
+                {/* Bottom Status bar */}
                 <div className="flex items-center justify-between text-[11px] font-mono text-white/50 pt-1">
                   <span className="flex items-center gap-1.5">
-                    <Disc3 className="w-3.5 h-3.5" style={{ color: currentAtmosphere.lighting.primaryGlow }} />
+                    <Disc3 className="w-3.5 h-3.5" style={{ color: glowPrimary }} />
                     <span>Rider: 2x CDJ-3000 + DJM-A9</span>
                   </span>
                   <span className="text-white/70">
