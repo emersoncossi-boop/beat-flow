@@ -83,14 +83,14 @@ export default function ArtistCanvasPage() {
 
   // 4. CONTEÃšDO State (Module Reordering in Zone 3)
   const [contentModules, setContentModules] = useState([
-    { id: 'musica', name: 'MÃºsica em Destaque & Player', enabled: true, tier: 'ESSENTIAL' },
-    { id: 'agenda', name: 'Agenda & PrÃ³ximas Datas', enabled: true, tier: 'ESSENTIAL' },
+    { id: 'musica', name: 'MÚsica em Destaque & Player', enabled: true, tier: 'ESSENTIAL' },
+    { id: 'agenda', name: 'Agenda & PrÓximas Datas', enabled: true, tier: 'ESSENTIAL' },
     { id: 'sobre', name: 'Sobre o Artista & Universo', enabled: true, tier: 'ESSENTIAL' },
     { id: 'galeria', name: 'Galeria de Palco 4K', enabled: true, tier: 'ESSENTIAL' },
-    { id: 'epk', name: 'Press Kit / EPK (1-Click Alta ResoluÃ§Ã£o)', enabled: true, tier: 'PRO' },
-    { id: 'rider', name: 'Rider TÃ©cnico Homologado & Mapa de Palco', enabled: true, tier: 'PRO' },
+    { id: 'epk', name: 'Press Kit / EPK (1-Click Alta ResoluÇÃo)', enabled: true, tier: 'PRO' },
+    { id: 'rider', name: 'Rider TÉcnico Homologado & Mapa de Palco', enabled: true, tier: 'PRO' },
     { id: 'booking', name: 'Proposta Formal de Booking / WhatsApp Direto', enabled: true, tier: 'PRO' },
-    { id: 'whitelabel', name: 'DomÃ­nio PrÃ³prio White Label (djemersoncossi.com)', enabled: false, tier: 'SIGNATURE' },
+    { id: 'whitelabel', name: 'DomÍnio PrÓprio White Label (djemersoncossi.com)', enabled: false, tier: 'SIGNATURE' },
     { id: 'multiprofile', name: 'Multi-Perfil (Club vs Festival vs Private)', enabled: false, tier: 'SIGNATURE' }
   ]);
 
@@ -105,20 +105,20 @@ export default function ArtistCanvasPage() {
   const allScenes: Record<string, { label: string; primary: string; secondary: string; bg: string; desc: string; tier: PlanTier }> = {
     // ESSENTIAL
     noir: { label: 'Noir & Chrome', primary: '#FFFFFF', secondary: '#94A3B8', bg: '#05060A', desc: 'Preto profundo, lasers prata, contraste editorial de alta moda.', tier: 'ESSENTIAL' },
-    minimal: { label: 'Minimal Monochrome', primary: '#E2E8F0', secondary: '#64748B', bg: '#040508', desc: 'Tipografia dominante, precisÃ£o cirÃºrgica e luz direta suave.', tier: 'ESSENTIAL' },
+    minimal: { label: 'Minimal Monochrome', primary: '#E2E8F0', secondary: '#64748B', bg: '#040508', desc: 'Tipografia dominante, precisÃo cirÚrgica e luz direta suave.', tier: 'ESSENTIAL' },
     sunset: { label: 'Sunset Organic', primary: '#F59E0B', secondary: '#D97706', bg: '#0A0704', desc: 'Ã‚mbar quente, flares solares, vibe Tulum e Ibiza Sunset.', tier: 'ESSENTIAL' },
     darkclub: { label: 'Dark Club Red', primary: '#EF4444', secondary: '#991B1B', bg: '#080303', desc: 'Concreto brutalista, strobes vermelhos e atmosfera clubber.', tier: 'ESSENTIAL' },
     // PRO
-    liquid: { label: 'Liquid Chrome', primary: '#A855F7', secondary: '#EC4899', bg: '#07040C', desc: 'Formas orgÃ¢nicas fluidas, refraÃ§Ãµes de luz e brilho sonoro.', tier: 'PRO' },
-    ice: { label: 'Ice Futuristic', primary: '#38BDF8', secondary: '#0284C7', bg: '#03080F', desc: 'Vidro frio, lasers cianos estilo Afterlife e nÃ©voa volumÃ©trica.', tier: 'PRO' },
+    liquid: { label: 'Liquid Chrome', primary: '#A855F7', secondary: '#EC4899', bg: '#07040C', desc: 'Formas orgÂnicas fluidas, refraÇÕes de luz e brilho sonoro.', tier: 'PRO' },
+    ice: { label: 'Ice Futuristic', primary: '#38BDF8', secondary: '#0284C7', bg: '#03080F', desc: 'Vidro frio, lasers cianos estilo Afterlife e nÉvoa volumÉtrica.', tier: 'PRO' },
     raw: { label: 'Raw Industrial', primary: '#F97316', secondary: '#C2410C', bg: '#0A0503', desc: 'Poeira de palco, incandescentes vintage e energia rave visceral.', tier: 'PRO' },
-    cosmic: { label: 'Cosmic Nebula', primary: '#00D1FF', secondary: '#8A3FFC', bg: '#04050A', desc: 'Profundidade celestial, poeira quÃ¢ntica e luas procedurais.', tier: 'PRO' },
-    aurora: { label: 'Deep Aurora', primary: '#10B981', secondary: '#06B6D4', bg: '#020908', desc: 'Cortinas etÃ©reas boreais que ondulam no ritmo da bateria.', tier: 'PRO' },
+    cosmic: { label: 'Cosmic Nebula', primary: '#00D1FF', secondary: '#8A3FFC', bg: '#04050A', desc: 'Profundidade celestial, poeira quÂntica e luas procedurais.', tier: 'PRO' },
+    aurora: { label: 'Deep Aurora', primary: '#10B981', secondary: '#06B6D4', bg: '#020908', desc: 'Cortinas etÉreas boreais que ondulam no ritmo da bateria.', tier: 'PRO' },
     // SIGNATURE
-    adaptive_light: { label: 'Luz Adaptativa IA', primary: '#00F5FF', secondary: '#FF0055', bg: '#030308', desc: 'IluminaÃ§Ã£o generativa sintetizada por IA em tempo real conforme as faixas do set.', tier: 'SIGNATURE' },
-    reactive_space: { label: 'EspaÃ§o Reativo WebGL', primary: '#8B5CF6', secondary: '#3B82F6', bg: '#05020D', desc: 'Cenografia 3D procedural com partÃ­culas gravitacionais e profundidade de campo.', tier: 'SIGNATURE' },
-    kinetic_matter: { label: 'MatÃ©ria CinÃ©tica 3D', primary: '#F43F5E', secondary: '#FB923C', bg: '#0B0205', desc: 'Esculturas digitais vivas que respondem Ã  posiÃ§Ã£o do cursor e transiÃ§Ãµes musicais.', tier: 'SIGNATURE' },
-    generative_universe: { label: 'Universo Generativo Exclusivo', primary: '#EAB308', secondary: '#EC4899', bg: '#080703', desc: 'Design System exclusivo sob medida com direÃ§Ã£o criativa humana NEXORA.', tier: 'SIGNATURE' }
+    adaptive_light: { label: 'Luz Adaptativa IA', primary: '#00F5FF', secondary: '#FF0055', bg: '#030308', desc: 'IluminaÇÃo generativa sintetizada por IA em tempo real conforme as faixas do set.', tier: 'SIGNATURE' },
+    reactive_space: { label: 'EspaÇo Reativo WebGL', primary: '#8B5CF6', secondary: '#3B82F6', bg: '#05020D', desc: 'Cenografia 3D procedural com partÍculas gravitacionais e profundidade de campo.', tier: 'SIGNATURE' },
+    kinetic_matter: { label: 'MatÉria CinÉtica 3D', primary: '#F43F5E', secondary: '#FB923C', bg: '#0B0205', desc: 'Esculturas digitais vivas que respondem à posiÇÃo do cursor e transiÇÕes musicais.', tier: 'SIGNATURE' },
+    generative_universe: { label: 'Universo Generativo Exclusivo', primary: '#EAB308', secondary: '#EC4899', bg: '#080703', desc: 'Design System exclusivo sob medida com direÇÃo criativa humana NEXORA.', tier: 'SIGNATURE' }
   };
 
   const activeScene = allScenes[sceneFamily] || allScenes.cosmic;
@@ -248,7 +248,7 @@ export default function ArtistCanvasPage() {
             className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-blue-500/20 hover:from-purple-500/30 hover:to-blue-500/30 border border-purple-500/30 text-xs text-white font-bold transition-all shadow-sm cursor-pointer"
           >
             <Wand2 className="w-3.5 h-3.5 text-[#00D1FF]" />
-            <span>{isAiGenerating ? 'Sintetizando...' : 'DireÃ§Ã£o de Arte IA'}</span>
+            <span>{isAiGenerating ? 'Sintetizando...' : 'DireÇÃo de Arte IA'}</span>
             <span className="px-1.5 py-0.2 rounded bg-amber-500/20 border border-amber-500/30 text-[9px] font-mono text-amber-300">
               SIGNATURE
             </span>
@@ -361,7 +361,7 @@ export default function ArtistCanvasPage() {
             <div className="absolute top-6 left-1/2 -translate-x-1/2 z-30 px-5 py-2.5 rounded-full bg-amber-500/10 border border-amber-500/30 backdrop-blur-xl flex items-center gap-3 shadow-2xl animate-fade-in">
               <Crown className="w-4 h-4 text-amber-400 shrink-0" />
               <p className="text-xs text-amber-200">
-                <strong className="font-bold text-amber-300">PrÃ©-visualizaÃ§Ã£o {requiredTier}:</strong> VocÃª pode testar e personalizar livremente. FaÃ§a upgrade para publicar.
+                <strong className="font-bold text-amber-300">PrÉ-visualizaÇÃo {requiredTier}:</strong> VocÊ pode testar e personalizar livremente. FaÇa upgrade para publicar.
               </p>
               <button
                 onClick={() => setPlanModalOpen(true)}
@@ -452,7 +452,7 @@ export default function ArtistCanvasPage() {
                     </h1>
 
                     <p className="text-sm font-light text-white/70 leading-relaxed max-w-sm mx-auto">
-                      ExperiÃªncia sonora imersiva. Sets de alta pressÃ£o melÃ³dica e arquitetura rÃ­tmica refinada para pistas exigentes.
+                      ExperiÊncia sonora imersiva. Sets de alta pressÃo melÓdica e arquitetura rÍtmica refinada para pistas exigentes.
                     </p>
                   </div>
 
@@ -496,7 +496,7 @@ export default function ArtistCanvasPage() {
                 <div 
                   className="absolute bottom-6 left-6 right-6 z-20 cursor-pointer"
                   onClick={(e) => { e.stopPropagation(); setActiveConcept('conteudo'); }}
-                  title="Clique para editar MÃ³dulos de Som & ConteÃºdo"
+                  title="Clique para editar MÓdulos de Som & ConteÚdo"
                 >
                   <div className="p-3.5 rounded-2xl bg-black/60 backdrop-blur-2xl border border-white/20 flex items-center justify-between shadow-2xl hover:border-white/40 transition">
                     <div className="flex items-center gap-3">
@@ -534,10 +534,10 @@ export default function ArtistCanvasPage() {
 
               </div>
 
-              {/* MÃ³dulos Funcionais ReordenÃ¡veis (Zone 3 Preview) */}
+              {/* MÓdulos Funcionais ReordenÁveis (Zone 3 Preview) */}
               <div className="p-6 bg-[#07080E] border-t border-white/10 space-y-6">
                 <div className="flex items-center justify-between text-xs font-mono text-white/40 uppercase tracking-wider">
-                  <span>MÃ³dulos Ativos no Universo</span>
+                  <span>MÓdulos Ativos no Universo</span>
                   <span className="text-[#00D1FF]">{contentModules.filter(m => m.enabled).length} Habilitados</span>
                 </div>
 
@@ -573,10 +573,10 @@ export default function ArtistCanvasPage() {
               <span className="text-[10px] font-mono uppercase tracking-widest text-[#00D1FF] font-bold">PARÃ‚METROS</span>
               <h2 className="text-lg font-black uppercase text-white tracking-tight">
                 {activeConcept === 'artista' && '01. Identidade & Foto'}
-                {activeConcept === 'cena' && '02. FamÃ­lias de Cena'}
+                {activeConcept === 'cena' && '02. FamÍlias de Cena'}
                 {activeConcept === 'composicao' && '03. Estrutura do Palco'}
-                {activeConcept === 'conteudo' && '04. MÃ³dulos & Som'}
-                {activeConcept === 'movimento' && '05. DinÃ¢mica & Luz'}
+                {activeConcept === 'conteudo' && '04. MÓdulos & Som'}
+                {activeConcept === 'movimento' && '05. DinÂmica & Luz'}
               </h2>
             </div>
             <span className="px-2 py-1 rounded-md bg-white/5 border border-white/10 text-[10px] font-mono text-white/50">
@@ -588,7 +588,7 @@ export default function ArtistCanvasPage() {
           {activeConcept === 'artista' && (
             <div className="space-y-6 animate-fade-in">
               <div className="space-y-2">
-                <label className="text-xs font-mono uppercase text-white/70">Nome ArtÃ­stico</label>
+                <label className="text-xs font-mono uppercase text-white/70">Nome ArtÍstico</label>
                 <input
                   type="text"
                   value={artistName}
@@ -611,7 +611,7 @@ export default function ArtistCanvasPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-mono uppercase text-white/70">GÃªnero Sonoro Principal</label>
+                <label className="text-xs font-mono uppercase text-white/70">GÊnero Sonoro Principal</label>
                 <input
                   type="text"
                   value={artistGenre}
@@ -630,10 +630,10 @@ export default function ArtistCanvasPage() {
                 />
               </div>
 
-              {/* Slider 1: IntegraÃ§Ã£o */}
+              {/* Slider 1: IntegraÇÃo */}
               <div className="space-y-2 pt-2 border-t border-white/10">
                 <div className="flex justify-between text-xs">
-                  <span className="font-mono text-white/70">IntegraÃ§Ã£o da Foto</span>
+                  <span className="font-mono text-white/70">IntegraÇÃo da Foto</span>
                   <span className="font-mono text-[#00D1FF]">{photoIntegration}%</span>
                 </div>
                 <input
@@ -657,8 +657,8 @@ export default function ArtistCanvasPage() {
             <div className="space-y-6 animate-fade-in">
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <label className="text-xs font-mono uppercase text-white/70">FamÃ­lias de Universos</label>
-                  <span className="text-[10px] font-mono text-white/40">13 Cenas DisponÃ­veis</span>
+                  <label className="text-xs font-mono uppercase text-white/70">FamÍlias de Universos</label>
+                  <span className="text-[10px] font-mono text-white/40">13 Cenas DisponÍveis</span>
                 </div>
 
                 {/* Categorized Scenes */}
@@ -808,10 +808,10 @@ export default function ArtistCanvasPage() {
               
               <div className="space-y-3">
                 {[
-                  { id: 'cinematic-center', title: 'Cinematic Center', desc: 'Artista monumental no centro com atmosfera simÃ©trica e equilÃ­brio monumental.' },
-                  { id: 'editorial-left', title: 'Editorial Left', desc: 'Tipografia dominante Ã  esquerda, artista imersivo Ã  direita estilo revista e alta moda.' },
-                  { id: 'artist-right', title: 'Artist Right', desc: 'Foco visual lateral com painel de dados, mÃºsica e booking Ã  esquerda.' },
-                  { id: 'full-bleed', title: 'Full Bleed Immersive', desc: 'O artista se funde ao fundo com iluminaÃ§Ã£o volumÃ©trica envolvente de ponta a ponta.' }
+                  { id: 'cinematic-center', title: 'Cinematic Center', desc: 'Artista monumental no centro com atmosfera simÉtrica e equilÍbrio monumental.' },
+                  { id: 'editorial-left', title: 'Editorial Left', desc: 'Tipografia dominante à esquerda, artista imersivo à direita estilo revista e alta moda.' },
+                  { id: 'artist-right', title: 'Artist Right', desc: 'Foco visual lateral com painel de dados, mÚsica e booking à esquerda.' },
+                  { id: 'full-bleed', title: 'Full Bleed Immersive', desc: 'O artista se funde ao fundo com iluminaÇÃo volumÉtrica envolvente de ponta a ponta.' }
                 ].map((comp) => (
                   <button
                     key={comp.id}
@@ -835,8 +835,8 @@ export default function ArtistCanvasPage() {
           {activeConcept === 'conteudo' && (
             <div className="space-y-6 animate-fade-in">
               <div className="flex justify-between items-center">
-                <label className="text-xs font-mono uppercase text-white/70">MÃ³dulos Profissionais</label>
-                <span className="text-[10px] font-mono text-white/40">ReordenaÃ§Ã£o</span>
+                <label className="text-xs font-mono uppercase text-white/70">MÓdulos Profissionais</label>
+                <span className="text-[10px] font-mono text-white/40">ReordenaÇÃo</span>
               </div>
 
               <div className="space-y-2.5">
@@ -849,7 +849,7 @@ export default function ArtistCanvasPage() {
                       <GripVertical className="w-4 h-4 text-white/20 group-hover:text-white/60 cursor-grab" />
                       <div>
                         <div className="text-xs font-semibold text-white">{module.name}</div>
-                        <div className="text-[10px] font-mono text-white/40">PosiÃ§Ã£o #{idx + 1}</div>
+                        <div className="text-[10px] font-mono text-white/40">PosiÇÃo #{idx + 1}</div>
                       </div>
                     </div>
 
@@ -927,7 +927,7 @@ export default function ArtistCanvasPage() {
                       <span>Profundidade 3D & Parallax</span>
                       <span className="px-1.5 py-0.2 rounded bg-[#00D1FF]/20 text-[#00D1FF] text-[8px] font-mono">PRO</span>
                     </div>
-                    <div className="text-[10px] text-white/40">Camadas se movem suavemente ao rolar a pÃ¡gina</div>
+                    <div className="text-[10px] text-white/40">Camadas se movem suavemente ao rolar a pÁgina</div>
                   </div>
                   <input
                     type="checkbox"
@@ -940,10 +940,10 @@ export default function ArtistCanvasPage() {
                 <label className="flex items-center justify-between p-3.5 rounded-xl bg-white/[0.03] border border-white/10 cursor-pointer">
                   <div>
                     <div className="text-xs text-white font-bold flex items-center gap-2">
-                      <span>PartÃ­culas WebGL Procedurais</span>
+                      <span>PartÍculas WebGL Procedurais</span>
                       <span className="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 text-[8px] font-mono">SIGNATURE</span>
                     </div>
-                    <div className="text-[10px] text-white/40">Efeito de poeira e distorÃ§Ã£o quÃ¢ntica sob medida</div>
+                    <div className="text-[10px] text-white/40">Efeito de poeira e distorÇÃo quÂntica sob medida</div>
                   </div>
                   <input
                     type="checkbox"
@@ -956,10 +956,10 @@ export default function ArtistCanvasPage() {
                 <label className="flex items-center justify-between p-3.5 rounded-xl bg-white/[0.03] border border-white/10 cursor-pointer">
                   <div>
                     <div className="text-xs text-white font-bold flex items-center gap-2">
-                      <span>Ãudio Espacial de Entrada</span>
+                      <span>Áudio Espacial de Entrada</span>
                       <span className="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 text-[8px] font-mono">SIGNATURE</span>
                     </div>
-                    <div className="text-[10px] text-white/40">TransiÃ§Ãµes sonoras orgÃ¢nicas entre capÃ­tulos</div>
+                    <div className="text-[10px] text-white/40">TransiÇÕes sonoras orgÂnicas entre capÍtulos</div>
                   </div>
                   <input
                     type="checkbox"
@@ -984,12 +984,12 @@ export default function ArtistCanvasPage() {
             {/* Modal Header */}
             <div className="flex items-center justify-between pb-6 border-b border-white/10">
               <div>
-                <span className="text-xs font-mono uppercase tracking-widest text-[#00D1FF] font-bold">NÃVEIS DE EXPERIÃŠNCIA</span>
+                <span className="text-xs font-mono uppercase tracking-widest text-[#00D1FF] font-bold">NÍVEIS DE EXPERIÃŠNCIA</span>
                 <h3 className="text-2xl font-black text-white uppercase tracking-tight mt-1">
                   Planos Beat Flow Artist
                 </h3>
                 <p className="text-xs text-white/60 mt-1">
-                  "Cobrar por profundidade. NÃ£o cobrar por dignidade visual."
+                  "Cobrar por profundidade. NÃo cobrar por dignidade visual."
                 </p>
               </div>
               <button
@@ -1011,14 +1011,14 @@ export default function ArtistCanvasPage() {
               }`}>
                 <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest">PLANO 01</div>
                 <h4 className="text-lg font-black text-white uppercase mt-1">ESSENTIAL</h4>
-                <div className="text-2xl font-black text-white mt-2">R$ 49<span className="text-xs font-normal text-white/50">/mÃªs</span></div>
-                <p className="text-[11px] text-white/60 mt-1">PresenÃ§a bonita, digna e profissional para qualquer DJ.</p>
+                <div className="text-2xl font-black text-white mt-2">R$ 49<span className="text-xs font-normal text-white/50">/mÊs</span></div>
+                <p className="text-[11px] text-white/60 mt-1">PresenÇa bonita, digna e profissional para qualquer DJ.</p>
                 
                 <ul className="space-y-2 text-xs text-white/80 my-4 flex-1">
                   <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> 4 Cenas essenciais (Noir, Sunset, etc.)</li>
                   <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> 1 Set principal + 3 destaques</li>
                   <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> Agenda essencial & Rider PDF</li>
-                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> SubdomÃ­nio beatflow.me/dj</li>
+                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> SubdomÍnio beatflow.me/dj</li>
                 </ul>
 
                 <button
@@ -1044,15 +1044,15 @@ export default function ArtistCanvasPage() {
                 </div>
                 <div className="text-[10px] font-mono text-[#00D1FF] uppercase tracking-widest">PLANO 02</div>
                 <h4 className="text-lg font-black text-white uppercase mt-1">PRO</h4>
-                <div className="text-2xl font-black text-white mt-2">R$ 99<span className="text-xs font-normal text-white/50">/mÃªs</span></div>
-                <p className="text-[11px] text-white/60 mt-1">Para DJs em turnÃª, com impacto visual e ferramentas completas.</p>
+                <div className="text-2xl font-black text-white mt-2">R$ 99<span className="text-xs font-normal text-white/50">/mÊs</span></div>
+                <p className="text-[11px] text-white/60 mt-1">Para DJs em turnÊ, com impacto visual e ferramentas completas.</p>
                 
                 <ul className="space-y-2 text-xs text-white/80 my-4 flex-1">
                   <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-[#00D1FF] shrink-0" /> Cenas expandidas (Liquid, Ice, Raw, etc.)</li>
-                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-[#00D1FF] shrink-0" /> Reatividade Sonora & Motion AvanÃ§ado</li>
+                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-[#00D1FF] shrink-0" /> Reatividade Sonora & Motion AvanÇado</li>
                   <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-[#00D1FF] shrink-0" /> Sets Ilimitados & Tracklist detalhada</li>
-                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-[#00D1FF] shrink-0" /> 1-Click EPK & Rider TÃ©cnico Homologado</li>
-                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-[#00D1FF] shrink-0" /> CartÃ£o NFC & WhatsApp Booking Direto</li>
+                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-[#00D1FF] shrink-0" /> 1-Click EPK & Rider TÉcnico Homologado</li>
+                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-[#00D1FF] shrink-0" /> CartÃo NFC & WhatsApp Booking Direto</li>
                 </ul>
 
                 <button
@@ -1078,15 +1078,15 @@ export default function ArtistCanvasPage() {
                 </div>
                 <div className="text-[10px] font-mono text-amber-400 uppercase tracking-widest">PLANO 03</div>
                 <h4 className="text-lg font-black text-white uppercase mt-1">SIGNATURE</h4>
-                <div className="text-2xl font-black text-white mt-2">R$ 249<span className="text-xs font-normal text-white/50">/mÃªs</span></div>
-                <p className="text-[11px] text-white/60 mt-1">MÃ¡xima exclusividade, direÃ§Ã£o com IA e experiÃªncias sob medida.</p>
+                <div className="text-2xl font-black text-white mt-2">R$ 249<span className="text-xs font-normal text-white/50">/mÊs</span></div>
+                <p className="text-[11px] text-white/60 mt-1">MÁxima exclusividade, direÇÃo com IA e experiÊncias sob medida.</p>
                 
                 <ul className="space-y-2 text-xs text-white/80 my-4 flex-1">
-                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> Cenas Generativas IA & PartÃ­culas WebGL</li>
-                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> IA Artistic Direction contÃ­nua</li>
-                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> DomÃ­nio prÃ³prio 100% White Label</li>
+                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> Cenas Generativas IA & PartÍculas WebGL</li>
+                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> IA Artistic Direction contÍnua</li>
+                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> DomÍnio prÓprio 100% White Label</li>
                   <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> Multi-Perfil (Club / Festival / Private)</li>
-                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> Ãudio espacial de entrada imersivo</li>
+                  <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-amber-400 shrink-0" /> Áudio espacial de entrada imersivo</li>
                 </ul>
 
                 <button
@@ -1104,7 +1104,7 @@ export default function ArtistCanvasPage() {
             </div>
 
             <div className="text-center text-xs text-white/40 pt-2">
-              VocÃª pode alternar entre os planos a qualquer momento. Nenhum artista terÃ¡ sua pÃ¡gina bloqueada ou visualmente inferior.
+              VocÊ pode alternar entre os planos a qualquer momento. Nenhum artista terÁ sua pÁgina bloqueada ou visualmente inferior.
             </div>
 
           </div>
