@@ -10,7 +10,6 @@ interface LogoProps {
 }
 
 export function Logo({ className, size = "md", disableLink = false }: LogoProps) {
-  // Production asset ratio: 2172 x 724 (exactly 3:1)
   const sizes = {
     sm: {
       width: 195,
@@ -36,7 +35,8 @@ export function Logo({ className, size = "md", disableLink = false }: LogoProps)
       width={sizes[size].width}
       height={sizes[size].height}
       priority
-      className="w-full h-full object-contain object-left drop-shadow-[0_0_18px_rgba(138,63,252,0.45)] group-hover:drop-shadow-[0_0_26px_rgba(138,63,252,0.8)] transition-all duration-300"
+      style={{ width: 'auto', height: 'auto' }}
+      className="max-w-full max-h-full object-contain object-left drop-shadow-[0_0_18px_rgba(138,63,252,0.45)] group-hover:drop-shadow-[0_0_26px_rgba(138,63,252,0.8)] transition-all duration-300"
     />
   );
 
@@ -55,7 +55,7 @@ export function Logo({ className, size = "md", disableLink = false }: LogoProps)
     <Link 
       href="/" 
       className={cn("relative inline-flex items-center group transition-transform duration-300 hover:opacity-95 focus:outline-none select-none", sizes[size].container, className)}
-      aria-label="Beat Flow by Nexora - Página Inicial"
+      aria-label="Beat Flow by Nexora - PÃ¡gina Inicial"
     >
       {content}
     </Link>
