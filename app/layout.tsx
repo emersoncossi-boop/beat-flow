@@ -4,11 +4,11 @@ import { AppProviders } from "@/components/providers/AppProviders";
 import { MobileBottomNav } from "@/components/ui/MobileBottomNav";
 
 export const metadata = {
-  title: "Beat Flow — O primeiro link inteligente para DJs",
-  description: "Crie um perfil profissional para DJ com música, agenda, disponibilidade e pedidos de proposta em um único link.",
+  title: "Beat Flow \u2014 O primeiro link inteligente para DJs",
+  description: "Crie um perfil profissional para DJ com m\u00fasica, agenda, disponibilidade e pedidos de proposta em um \u00fanico link.",
   openGraph: {
-    title: "Beat Flow — O primeiro link inteligente para DJs",
-    description: "Crie um perfil profissional para DJ com música, agenda, disponibilidade e pedidos de proposta em um único link.",
+    title: "Beat Flow \u2014 O primeiro link inteligente para DJs",
+    description: "Crie um perfil profissional para DJ com m\u00fasica, agenda, disponibilidade e pedidos de proposta em um \u00fanico link.",
   },
 };
 
